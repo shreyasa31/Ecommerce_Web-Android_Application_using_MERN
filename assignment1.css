@@ -63,6 +63,11 @@ button{
     box-sizing: border-box;
 
 } */
+#one::after
+{
+      content: "*";
+      color: red;
+}
 .images1 img{
     
     height: 400px;
@@ -117,7 +122,6 @@ button{
     src: url(wiblz-serif.rar);
 
 }
-
 .image
 {
     /* width:100%;

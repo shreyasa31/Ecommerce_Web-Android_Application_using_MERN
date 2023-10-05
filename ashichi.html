@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <title>ebay</title> -->
+    <style>
+        #ebaylogo{
+            height: 50px;
+            width: 100px;
+        }
+
+        .heading
+        {
+            display: flex;
+            flex-direction:row;
+            margin-left: 530px;
+        }
+        #shopping
+        {
+            font-weight: bold;
+            font-size: 25px;
+            margin-top: 15px;
+        }
+        label{
+            font-weight: bold;
+        }
+        .one::after
+        {
+              content: "*";
+              color: red;
+        }
+       .colon
+       {
+        font-weight: bold;
+       }
+       .forms
+       {
+        width: 470px;
+        height: 250px;
+        padding: 20px;
+        border: 1px solid black;
+        margin-left: 380px;
+       }
+       input[type="number"]{
+        width:60px;
+       }
+      
+       
+    </style>
+</head>
+<body>
+    
+
+    
+    <div class="heading">
+       <a href="https://www.ebay.com/" target="_blank"><img id="ebaylogo" src="eBayLogo.png" alt="error"></a> 
+        <p id="shopping">Shopping</p>
+    </div>
+        <div class="forms">
+            <form>
+                <label for="keywords" class="one">Keywords</label>
+                <label for="keywords" class="colon">:</label>
+                <input type="text" name="keywords"><br><br>
+
+                <label for="price" class="two">Price Range:</label>
+                <span for="price1">From:</span>
+                <input type="number" name="price1" class="numeber1">
+                <span for="price2">to:</span>
+                <input type="number" name="price2" class="numeber1"><br><br>
+
+                <label for="condition" class="three">Condition:</label>
+                <input type="checkbox" name="condition">
+                <span id="new">New</span>
+                <input type="checkbox" name="condition">
+                <span id="used">Used</span>
+                <input type="checkbox" name="condition">
+                <span id="good">Good</span>
+                <input type="checkbox" name="condition">
+                <span id="very">Very Good</span>
+                <input type="checkbox" name="condition">
+                <span id="acc">Acceptable</span><br><br>
+
+                <label for="seller" class="three">Seller:</label>
+                <input type="checkbox" name="seller">
+                <span id="return">Return Accepted</span><br><br>
+
+                <label for="ship" class="three">Shipping:</label>
+                <input type="checkbox" name="ship">
+                <span id="free">Free</span>
+                <input type="checkbox" name="ship">
+                <span id="exp">Expedited</span><br><br>
+                <!-- Best Match - THIS IS THE DEFAULT
+                b. Price: highest first
+                c. Price + Shipping: highest first
+                d. Price + Shipping: lowest first -->
+                <label for="sort">Sort By:</label>
+                <Select id="selection">
+                    <option value="bestmatch" selected>Best Match</option>
+                    <option value="price1">Price: highest first</option>
+                    <option value="price2">Price + Shipping: highest first</option>
+                    <option value="price3">Price + Shipping: lowest first</option>
+                </Select>
+
+            </form>
+        </div>
+  
+ 
+</body>
+</html>
