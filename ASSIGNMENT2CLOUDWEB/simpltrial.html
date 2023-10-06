@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+    // Your code here
+
+    var items = [
+    { name: 'Item 1', description: 'Description for Item 1', image: 'item1.jpg' },
+    { name: 'Item 2', description: 'Description for Item 2', image: 'item2.jpg' },
+    // Add more items as needed
+    function createCard(item) {
+    var card = document.createElement('div');
+    card.classList.add('card');
+
+    var image = document.createElement('img');
+    image.src = item.image;
+    card.appendChild(image);
+
+    var name = document.createElement('h2');
+    name.textContent = item.name;
+    card.appendChild(name);
+
+    var description = document.createElement('p');
+    description.textContent = item.description;
+    card.appendChild(description);
+
+    return card;
+    var cardContainer = document.getElementById('card-container');
+
+    items.forEach(function (item) {
+    var card = createCard(item);
+    cardContainer.appendChild(card);
+});
+
+}
+
+];
+});
+    </script>
+    <style>
+        .card {
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin: 10px;
+    text-align: center;
+    background-color: #f9f9f9;
+}
+
+.card img {
+    max-width: 100%;
+    height: auto;
+}
+
+.card h2 {
+    font-size: 18px;
+    margin: 10px 0;
+}
+
+.card p {
+    font-size: 14px;
+}
+
+    </style>
+</head>
+<body>
+    <div id="card-container"></div>
+
+</body>
+</html>
