@@ -1,0 +1,167 @@
+
+table {
+    border-collapse: collapse;
+    width: 500px;
+    /* border:1px solid black; */
+    margin: auto;
+   
+}
+
+th, td {
+    padding: 8px;
+    text-align: center;
+    border:1px solid black;
+}
+
+tr {
+    border-bottom: 1px solid #ccc; 
+}
+
+tr:last-child {
+    border-bottom: none; 
+}
+input[type="number"]{
+width:60px;
+}
+label{
+    font-weight: bold;
+}
+#one::after
+{
+      content: "*";
+      color: red;
+}
+.colon
+{
+font-weight: bold;
+}
+#ebaylogo{
+    height: 50px;
+    width: 100px;
+}
+ caption
+{
+    display: flex;
+    flex-direction:row;
+    margin-left: 160px;
+    
+}
+#shopping
+{
+    font-weight: bold;
+    font-size: 25px;
+    margin-top: 15px;
+    
+}
+#clear:hover, #search:hover
+{
+    background-color: #26db26;
+}
+
+
+ .search-result {
+    /* border: 1px solid #ccc;
+    border-radius: 5px; */
+    padding: 10px;
+    margin: 10px;
+    width: 650px;
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); */
+    /* background-color: #e7e6e6; */
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5px;
+} 
+
+.search-result-item {
+    padding: 2rem;
+    display: grid;
+    grid-template-columns: .315fr .5fr;
+    background-color: #f5f5f5;
+   
+    border: 1px solid black ;
+    margin-bottom: .25rem;
+}
+
+.item-detail-table {
+    margin: 0;
+}
+
+.item-detail-table td {
+    text-align: left;
+    padding: 0;
+    margin: 0;
+}
+.item-detail-table{
+    margin-left: 70px;
+    margin-top: 10px;
+}
+#ItemDetails{
+    margin-left: 220px;
+}
+#searchbutton button{
+    margin-left: 232px;
+}
+#searchbutton button:hover{
+    background-color: #26db26;
+}
+.search-result-page-count
+{
+    margin-left: 170px;
+ 
+}
+.search-result-page-count h3{
+    margin-top: 1px;
+}
+#search-result-list-more-toggle{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+  }
+  .search-result-item{
+    padding-bottom:1px;
+    height:180px
+    
+}
+#categorycss, #urlcss{
+    display: inline;
+}
+/* #titlecard{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 540px;
+} */
+.search-result-item-image img{
+    border:3px solid lightgray;
+    
+}
+.search-result-item-image{
+    text-align:center;
+}
+.search-result-item-image img:hover{
+    transition: transform 1.6s ease;
+   transform:scale(1.55);
+}
+.search-result-item:hover{
+    box-shadow: 0 4px 4px 4px rgba(0, 0, 0, 0.1)
+}
+hr{
+    width:650px;
+    
+}
+.item-detail-table td{
+    padding-left:10px;
+}
+
+#A h1{
+    margin-top:1px;
+    margin-bottom:1px;
+}
+
+    .search-result-item-info-title{
+
+        width:350px;
+        overflow:hidden;
+        white-space:nowrap;
+        text-overflow:ellipsis
+        }

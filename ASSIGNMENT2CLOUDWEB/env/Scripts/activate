@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\Users\HP\Documents\GitHub\python-docs-samples\appengine\standard_python3\hello_world\env"
+VIRTUAL_ENV="C:\Users\HP\Documents\GitHub\python-docs-samples\env"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

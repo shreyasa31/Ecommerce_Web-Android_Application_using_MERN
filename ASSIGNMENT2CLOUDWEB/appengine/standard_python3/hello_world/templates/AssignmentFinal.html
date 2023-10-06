@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HomeWork 6</title>
+    <link rel="stylesheet" href="/static/Assignment2.css">
+    <!-- <script src="Assignment2.js">  </script> -->
+    <!-- <script src="assignmentfinal2.js"> -->
+    <!-- </script> -->
+</head>
+<body>
+
+    <div class="main" id="main">
+    
+    <table>
+
+     <caption><a href="https://www.ebay.com/" target="_blank"><img id="ebaylogo" src="/static/eBayLogo.png" alt="error"></a> 
+        <p id="shopping">Shopping</p></caption>
+        <form onsubmit="return false">
+        <tbody>
+            <tr>
+                <td><label for="keywords" id="one">Keywords</label>
+                  <!-- <td> -->
+                    <label for="keywords" class="colon">:</label>
+                    <input type="text" name="keywords" id="keywords" required></td>
+                  <!-- </td>   -->
+            </tr>
+            <tr>
+                <td><label for="price" id="two">Price Range:</label>
+                    <span for="price1">From</span>
+                    <input type="number" name="price1" id="price1" class="numeber1">
+                    <span for="price2">to</span>
+                    <input type="number" name="price2" id="price2" class="numeber1"></td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="condition" id="three">Condition:</label>
+                    <input type="checkbox" id="new" name="condition">
+                    <span id="newlabel">New</span>
+                    <input type="checkbox"  id="used" name="condition">
+                    <span id="usedlabel">Used</span>
+                    <input type="checkbox" id="good" name="condition">
+                    <span id="goodlabel">Good</span>
+                    <input type="checkbox" id="very"  name="condition">
+                    <span id="verylabel">Very Good</span>
+                    <input type="checkbox" id="acc" name="condition">
+                    <span id="acclabel">Acceptable</span>
+                </td>
+                
+   
+            </tr>
+            <tr>
+                <td>
+                    <label for="seller" id="four">Seller:</label>
+                    <input type="checkbox" name="seller" id="seller">
+                    <span id="returnlabel">Return Accepted</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="ship" id="five">Shipping:</label>
+                <input type="checkbox" id="free" name="ship">
+                <span id="freelabel">Free</span>
+                <input type="checkbox" id="exp" name="ship">
+                <span id="explabel">Expedited</span>
+                <!-- Best Match - THIS IS THE DEFAULT
+                b. Price: highest first
+                c. Price + Shipping: highest first
+                d. Price + Shipping: lowest first -->
+                </td>
+            </tr>
+            <tr>
+                <td> <label for="sort" id="six">Sort By:</label>
+                    <Select id="selection">
+                        <option selected value="BestMatch" id="bestmatch" value="default">Best Match</option>
+                        <option value="CurrentPriceHighest" id="pricehigh">Price: highest first</option>
+                        <option value="PricePlusShippingHighest" id="priceshipping">Price + Shipping: highest first</option>
+                        <option value="PricePlusShippingLowest" id="priceshippinglow">Price + Shipping: lowest first</option>
+                    </Select></td>
+            </tr>
+            <tr>
+                <td><button id="clear">Clear</button>
+               <!-- <button onclick="checkPriceRange()" id="search">search</button></td> -->
+               <button id="search" >Search</button>
+               
+                
+            </tr>
+        </tbody>
+    </form>
+    </table>
+ 
+  <div id="countdisplay">
+
+  </div>
+
+    <div class="container search-result" id="search-result">
+        <div class="search-fail" id="search-fail">
+            <!-- <p>No Results found</p> -->
+        </div>
+        <div class="card-container" id="card-container">
+            <!-- Search results cards will be dynamically added here -->
+        </div>
+
+        <div class="search-result-body" id="search-result-body">
+            <div class="search-result-list" id="search-result-list">
+                <!-- Search results cards will be dynamically added here -->
+            </div>
+    
+            <div class="search-result-list-more" id="search-result-list-more">
+                <!-- Search results cards will be dynamically added here -->
+            </div>
+        </div>
+        
+
+        <div class="search-result-detail" id="search-result-detail">
+            <!-- Search results cards will be dynamically added here -->
+        </div>
+
+
+        
+    </div>
+    <div class="container detail-result" id="detail-result">
+    <div class="result-card"></div>
+    </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="/static/assignmentfinal2.js"></script>
+
+</body>
+</html>
