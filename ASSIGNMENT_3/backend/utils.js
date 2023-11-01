@@ -22,15 +22,28 @@ module.exports = {
                             itemDict.image = i.galleryURL && i.galleryURL.length > 0 ? i.galleryURL[0] : null;  // Image
                             itemDict.zipcode = i.postalCode && i.postalCode.length > 0 ? i.postalCode[0] : null; // Zipcode
                             let itemPrice = i.sellingStatus && i.sellingStatus.length > 0 && i.sellingStatus[0].convertedCurrentPrice && i.sellingStatus[0].convertedCurrentPrice.length > 0 ? i.sellingStatus[0].convertedCurrentPrice[0]["__value__"] : null;
-                            let shippingPrice = i.shippingInfo && i.shippingInfo.length > 0 && i.shippingInfo[0].shippingServiceCost && i.shippingInfo[0].shippingServiceCost.length > 0 ? i.shippingInfo[0].shippingServiceCost[0]["__value__"] : null;
-
-                            itemDict.price = `$${itemPrice}`;
-                            if (shippingPrice !== null && parseFloat(shippingPrice) >= 0.01) {
-                                itemDict.price += ` (+ $${shippingPrice} for shipping)`;
+                            // let shippingPrice = i.shippingInfo && i.shippingInfo.length > 0 && i.shippingInfo[0].shippingServiceCost && i.shippingInfo[0].shippingServiceCost.length > 0 ? i.shippingInfo[0].shippingServiceCost[0]["__value__"] : null;
+                            if (i.shippingInfo && i.shippingInfo.length > 0 && i.shippingInfo[0].shippingType) {
+                                if (i.shippingInfo[0].shippingType.includes("Free")) {
+                                    itemDict.shippingType = "Free Shipping";
+                                } else if (i.shippingInfo[0].shippingType.includes("Pickup")) {
+                                    itemDict.shippingType = "Local Pickup";
+                                } else {
+                                    // handle other types or set to a default value if needed
+                                    itemDict.shippingType = "Unknown";
+                                }
                             }
+                            itemDict.price = `$${itemPrice}`;
+                            // if (shippingPrice !== null && parseFloat(shippingPrice) >= 0.01) {
+                            //     itemDict.price += ` (+ $${shippingPrice} for shipping)`;
+                            // }
                             itemDict.wishlist = {
                                 // added: false, // Placeholder; this should be determined from the user's actual wishlist
-                                icon: "🖤"    // Using a heart emoji as a placeholder for the wishlist icon; replace with the actual icon in your frontend
+                                // icon: "🖤"    // Using a heart emoji as a placeholder for the wishlist icon; replace with the actual icon in your frontend
+
+                                icon: "cart_icon"
+
+                            
                             };
                             items.push(itemDict);
                         }

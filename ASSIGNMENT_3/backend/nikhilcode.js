@@ -62,8 +62,13 @@ async function ebayfunc() {
 
 app.get("/search", (request, response) => {
     // console.log(request.query);
-    urlQuery = `&keywords=${request.query.keyword || ''}` //keyword
-    if(request.query.category !== "All Category") {  
+    const keyword = request.query.keyword;
+    if (!keyword) {
+        return response.status(400).json({ error: 'Keyword is required.' });
+    }
+    urlQuery = `&keywords=${keyword}`;
+     //keyword
+    if(request.query.category && request.query.category !== "All Categories") {  
        urlQuery += `&categoryId=${categoryId[request.query.category]}`//category
    }
   
