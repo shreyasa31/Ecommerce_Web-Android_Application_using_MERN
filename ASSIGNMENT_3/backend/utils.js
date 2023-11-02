@@ -55,5 +55,46 @@ module.exports = {
         return {
             items: items
         };
+    },
+
+
+    processItemDetailData: function(data) {
+        if (!data || !data.Item) return null;
+    
+        let item = {};
+    
+        if (data.Item.PictureURL && Array.isArray(data.Item.PictureURL)) {
+            item.photo = data.Item.PictureURL;
+        }
+        if (data.Item.CurrentPrice && data.Item.CurrentPrice.Value) {
+            item.price = data.Item.CurrentPrice.Value;
+        }
+        if (data.Item.Location) {
+            item.location = data.Item.Location;
+        }
+        if (data.Item.ReturnPolicy) {
+            item.returnPolicy = data.Item.ReturnPolicy;
+        }
+    
+        let itemSpecifics = [];
+        if (data.Item.ItemSpecifics && data.Item.ItemSpecifics.NameValueList) {
+            for (let i of data.Item.ItemSpecifics.NameValueList) {
+                if (i.Name && i.Value && i.Value.length > 0) {
+                    itemSpecifics.push({
+                        name: i.Name,
+                        value: i.Value[0]
+                    });
+                }
+            }
+        }
+    
+        // Only add itemSpecifics to the item if there's any specifics to add
+        if (itemSpecifics.length > 0) {
+            item.itemSpecifics = itemSpecifics;
+        }
+    
+        return item;
     }
-}
+    };
+    
+

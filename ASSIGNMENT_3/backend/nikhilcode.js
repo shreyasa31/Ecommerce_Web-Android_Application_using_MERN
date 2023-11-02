@@ -156,7 +156,10 @@ app.get('/getItem', async (req, res) => {
     request({url:getItemBaseUrl, headers}, (error, response, body) => {
         
         if (!error && response.statusCode === 200) {
-            res.json(JSON.parse(body));
+            // res.json(JSON.parse(body));
+            const parsedBody = JSON.parse(body);
+        const processedItem = utils.processItemDetailData(parsedBody);
+        res.json(processedItem);
         } else {
             res.status(500).send('Error');
         }
