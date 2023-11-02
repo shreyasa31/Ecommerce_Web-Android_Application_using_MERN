@@ -5,7 +5,16 @@
 /* @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap'); */
 
 
-
+@media (min-width: 768px) {
+  .btn-md-inline-block {
+      display: inline-block;
+      width: auto;
+  }
+}
+.custom-hover:hover{
+  background-color: black;
+  color:white;
+}
 .search_container{
   margin-top: 2rem!important;
   margin-left: 10rem!important;
