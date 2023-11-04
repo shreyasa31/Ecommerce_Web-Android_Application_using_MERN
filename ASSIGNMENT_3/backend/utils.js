@@ -72,9 +72,15 @@ module.exports = {
         if (data.Item.Location) {
             item.location = data.Item.Location;
         }
-        if (data.Item.ReturnPolicy) {
-            item.returnPolicy = data.Item.ReturnPolicy;
-        }
+     
+        if (data.Item.ReturnPolicy && data.Item.ReturnPolicy.ReturnsAccepted) {
+            item.returnPolicy = {
+              returnsAccepted: true,
+              returnsWithinDays: data.Item.ReturnPolicy.ReturnsWithinDays || false
+            };
+          } else {
+            item.returnPolicy = { returnsAccepted: false };
+          }
     
         let itemSpecifics = [];
         if (data.Item.ItemSpecifics && data.Item.ItemSpecifics.NameValueList) {

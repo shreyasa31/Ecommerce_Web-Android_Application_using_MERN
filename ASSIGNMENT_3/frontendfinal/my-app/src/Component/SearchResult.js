@@ -3,9 +3,11 @@ import Table from 'react-bootstrap/Table';
 import { useState, useEffect } from 'react'
 import Pagination from 'react-bootstrap/Pagination';
 import axios from "axios";
+import styles from './styles/Home.module.css'
+
 
 const ITEMS_PER_PAGE = 10;
-export default function ResultTable({tableData,setDetails}){
+export default function ResultTable({tableData,setDetails,setIndiDetail}){
   console.log("Inside search table",tableData, typeof tableData);
   
   const [currentPage, setCurrentPage] = useState(1);
@@ -37,6 +39,7 @@ export default function ResultTable({tableData,setDetails}){
       const response=await axios.get(`http://localhost:8080/getItem?ItemID=${ItemID}`)
       console.log("Response",response);
       setDetails(response.data);
+      setIndiDetail(true);
   }
   console.log("Inside search Result", tableData)
     const getIconDisplay = (iconType) => {
