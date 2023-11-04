@@ -74,9 +74,11 @@ module.exports = {
         }
      
         if (data.Item.ReturnPolicy && data.Item.ReturnPolicy.ReturnsAccepted) {
+            console.log(data.Item)
             item.returnPolicy = {
+
               returnsAccepted: true,
-              returnsWithinDays: data.Item.ReturnPolicy.ReturnsWithinDays || false
+              returnsWithin: data.Item.ReturnPolicy.ReturnsWithin
             };
           } else {
             item.returnPolicy = { returnsAccepted: false };

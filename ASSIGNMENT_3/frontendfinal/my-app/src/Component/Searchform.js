@@ -3,7 +3,7 @@ import styles from './styles/Home.module.css'
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css'; 
 import ResultTable from './SearchResult';
-import ItemsTable from './Items';
+
 
 
 export default function Home() {
@@ -15,8 +15,7 @@ export default function Home() {
     const [fromOption, setFromOption] = useState(null);
     const [zipCode, setZipCode] = useState('');
     const [products, setProducts] = useState([]);
-    const [details,setDetails]=useState({});
-    const [indiDetail,setIndiDetail]=useState(false);
+
 
     // const [isWishlist, setWishlist] = useState(false);
   
@@ -305,8 +304,8 @@ export default function Home() {
     {/* </div> */}
     {/* get detail button from result table here */}
     
-    {showTableHeaders==true && showDetail === true &&!indiDetail && <ResultTable tableData={products} setDetails={setDetails}  setIndiDetail={setIndiDetail}/> }
-    {Object.keys(details).length > 0 && <ItemsTable items={details} setIndiDetail={setIndiDetail}/>}
+    {showTableHeaders===true && showDetail === true  && <ResultTable tableData={products}/> }
+   
     
    
             </>

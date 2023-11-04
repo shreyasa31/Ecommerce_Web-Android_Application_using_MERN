@@ -3,11 +3,12 @@ import Table from 'react-bootstrap/Table';
 import { useState, useEffect } from 'react'
 import Pagination from 'react-bootstrap/Pagination';
 import axios from "axios";
-import styles from './styles/Home.module.css'
+import styles from './styles/Home.module.css';
+import ItemsTable from './Items';
 
 
 const ITEMS_PER_PAGE = 10;
-export default function ResultTable({tableData,setDetails,setIndiDetail}){
+export default function ResultTable({tableData}){
   console.log("Inside search table",tableData, typeof tableData);
   
   const [currentPage, setCurrentPage] = useState(1);
@@ -24,7 +25,7 @@ export default function ResultTable({tableData,setDetails,setIndiDetail}){
     (currentPage - 1) * ITEMS_PER_PAGE,
     currentPage * ITEMS_PER_PAGE
   );
-
+  const [details,setDetails]=useState({});
 
   const paginationItems = [];
   for (let number = 1; number <= pageCount; number++) {
@@ -34,6 +35,7 @@ export default function ResultTable({tableData,setDetails,setIndiDetail}){
       </Pagination.Item>
     );
   }
+  const [indiDetail, setIndiDetail] = useState(false);
   const getItems=async (ItemID)=>{
       console.log("Item ID",ItemID);
       const response=await axios.get(`http://localhost:8080/getItem?ItemID=${ItemID}`)
@@ -52,9 +54,14 @@ export default function ResultTable({tableData,setDetails,setIndiDetail}){
           return iconType; // or some default display, like a placeholder text or icon
         }
       }
+      const handleBack = () => {
+        setDetails(null);
+        setIndiDetail(false);
+      };
     return(
         <>
-        <div className="container mt-3">
+         { indiDetail &&  <ItemsTable items={details} handleBack={handleBack}/>}
+        {!indiDetail && <div className="container mt-3">
         <div class="row mb-3">
           <div class="col">
           </div>
@@ -140,7 +147,7 @@ export default function ResultTable({tableData,setDetails,setIndiDetail}){
 
 
 </div>
-</div>
+</div>}
         </>
     )
 

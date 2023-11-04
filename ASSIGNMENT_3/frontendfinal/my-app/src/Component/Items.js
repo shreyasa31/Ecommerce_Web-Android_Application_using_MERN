@@ -1,10 +1,4 @@
-
-
-
-
-
-
-const ItemsTable = (items,setIndiDetail) => {
+const ItemsTable = ({items,handleBack}) => {
     console.log("Inside Items Table",items);
     // console.log(items?.items?.photo)
     // console.log(items.items.price)
@@ -41,55 +35,58 @@ const ItemsTable = (items,setIndiDetail) => {
     // if (error) {
     //   return <div>Error: {error}</div>;
     // }
+    const traverseCallback = () => {
+      handleBack();
+    };
     
   return (
     <>
     {/* */}
     <div className="container mt-5">
-    {/* <h2 onClick={()=> setIndiDetail(true)}> List</h2> */}
+    <h2 onClick={traverseCallback }> List</h2>
       {(
        <table>
           <tbody>
-            {items?.items?.photo && (
+            {items?.photo && (
               <tr>
                 <td>Photo</td>
                 <td>
-                  {items?.items?.photo.map((url, index) => (
+                  {items?.photo.map((url, index) => (
                     <img key={index} src={url} alt="Item" width="50" />
                   ))}
                 </td>
               </tr>
             )}
-            {items?.items?.price && (
+            {items?.price && (
               <tr>
                 <td>Price</td>
-                <td>{items.items.price}</td>
+                <td>{items.price}</td>
               </tr>
             )}
-            {items?.items?.location && (
+            {items?.location && (
               <tr>
                 <td>Location</td>
-                <td>{items.items.location}</td>
+                <td>{items.location}</td>
               </tr>
             )}
-            {items?.items?.returnPolicy && (
+             {items?.returnPolicy && (
               <tr>
                 <td>Return Policy</td>
-                <td>{items.returnPolicy}</td>
+                <td>{items?.returnPolicy?.returnsAccepted ? `Returns Accepted within ${items?.returnPolicy?.returnsWithin}` : "Returns Not Accepted"} </td>
               </tr>
             )}
-            {items?.items?.itemSpecifics && items?.items?.itemSpecifics.length > 0 && (
-              <tr>
-                <td>Item Specifics</td>
-                <td>
-                  {items?.items?.itemSpecifics.map((specific, index) => (
-                    <div key={index}>
-                      {specific.name}: {specific.value}
-                    </div>
-                  ))}
-                </td>
-              </tr>
-            )}
+            {items?.itemSpecifics && items?.itemSpecifics.length > 0 && (
+        <tr>
+          <td>Item Specifics</td>
+          <td>
+            {items.itemSpecifics.map((specific, index) => (
+              <div key={index}>
+                <strong>{specific.name}:</strong> {specific.value}
+              </div>
+            ))}
+          </td>
+        </tr>
+      )}
           </tbody>
         </table>
       )}
