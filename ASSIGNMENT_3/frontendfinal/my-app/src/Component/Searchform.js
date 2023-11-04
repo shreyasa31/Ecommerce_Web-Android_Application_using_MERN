@@ -3,6 +3,7 @@ import styles from './styles/Home.module.css'
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css'; 
 import ResultTable from './SearchResult';
+import ItemsTable from './Items';
 
 
 export default function Home() {
@@ -14,6 +15,7 @@ export default function Home() {
     const [fromOption, setFromOption] = useState(null);
     const [zipCode, setZipCode] = useState('');
     const [products, setProducts] = useState([]);
+    const [details,setDetails]=useState({})
   
     // const [isWishlist, setWishlist] = useState(false);
   
@@ -24,6 +26,13 @@ export default function Home() {
     // // const { wishlist_products, loading, error } = useFetchProducts('/api/wishlist');
     const [showTableHeaders, setShowTableHeaders] = useState(false);
     const [showDetail, setShowDetail] = useState(false);
+    // const[showSearchTable,setshowSearchTable]=useState(false);
+
+    
+
+
+
+
 
   
     
@@ -60,6 +69,7 @@ export default function Home() {
           const response = await axios.get(url);
           console.log(response.data);  // Handle response data as needed
           setShowTableHeaders(true);
+
           setShowDetail(true);
           setProducts(response.data.message.items);
           console.log("GETTING TABLE DATA",(response.data.message.items));
@@ -299,8 +309,8 @@ export default function Home() {
     {/* </div> */}
     {/* get detail button from result table here */}
     
-    {showTableHeaders==true && showDetail === true && <ResultTable tableData={products}/> }
-    
+    {showTableHeaders==true && showDetail === true && <ResultTable tableData={products} setDetails={setDetails}/> }
+    {Object.keys(details).length > 0 && <ItemsTable items={details}/>}
     
    
             </>

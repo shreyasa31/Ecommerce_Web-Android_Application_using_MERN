@@ -2,9 +2,12 @@ import React from "react";
 import Table from 'react-bootstrap/Table';
 import { useState, useEffect } from 'react'
 import Pagination from 'react-bootstrap/Pagination';
+import axios from "axios";
 
-
-export default function ResultTable( tableData){
+const ITEMS_PER_PAGE = 10;
+export default function ResultTable({tableData,setDetails}){
+  console.log("Inside search table",tableData, typeof tableData);
+  
   const [currentPage, setCurrentPage] = useState(1);
 
   // Function to calculate the number of pages
@@ -14,6 +17,27 @@ export default function ResultTable( tableData){
   const handlePageClick = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
+
+  const itemsForCurrentPage = tableData.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+
+
+  const paginationItems = [];
+  for (let number = 1; number <= pageCount; number++) {
+    paginationItems.push(
+      <Pagination.Item key={number} active={number === currentPage} onClick={() => handlePageClick(number)}>
+        {number}
+      </Pagination.Item>
+    );
+  }
+  const getItems=async (ItemID)=>{
+      console.log("Item ID",ItemID);
+      const response=await axios.get(`http://localhost:8080/getItem?ItemID=${ItemID}`)
+      console.log("Response",response);
+      setDetails(response.data);
+  }
   console.log("Inside search Result", tableData)
     const getIconDisplay = (iconType) => {
         if (iconType === "cart_icon") {
@@ -59,9 +83,10 @@ export default function ResultTable( tableData){
               <tbody >
                 {
     //               
-                       tableData.map((element, index) => (
+                      itemsForCurrentPage.map((element, index) => (
                         <tr key={index}>
-                          <td class=" bg-dark text-white" scope="row">{index + 1}</td>
+                          {/* <td class=" bg-dark text-white" scope="row">{index + 1}</td> */}
+                          <td class="bg-dark text-white" scope="row">{(currentPage - 1) * ITEMS_PER_PAGE + index + 1}</td>
                           {/* <td class=" bg-dark text-white" ><img src={element.image} alt="" width='100' height='100'/></td> */}
 
                           <td className="bg-dark text-white">
@@ -69,7 +94,7 @@ export default function ResultTable( tableData){
                               <img src={element.image} alt="error" width='100' height='100' />
                             </a>
                           </td>
-                          <td className="bg-dark text-white text-truncate" style={{ maxWidth: "150px" }}> <a href="http://www.google.com" className="d-block text-truncate always-blue">{element.title}</a></td>
+                          <td className="bg-dark text-white text-truncate" style={{ maxWidth: "150px" }}><span onClick={()=>getItems(element.itemId)}>{element.title}</span></td>
                           <td class=" bg-dark text-white" >{element.price}</td>
                           <td class=" bg-dark text-white" >{element.shippingType}</td>
                           <td class=" bg-dark text-white" >{element.zipcode}</td>
