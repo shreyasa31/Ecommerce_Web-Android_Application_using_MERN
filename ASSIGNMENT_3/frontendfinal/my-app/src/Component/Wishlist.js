@@ -1,11 +1,11 @@
 // Function to add an item to the wishlist
-function addToWishlist(userId, productId, title, price, shipping) {
+function addToWishlist(productId, title, price, shipping) {
     fetch('/wishlist/add', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ userId, productId, title, price, shipping })
+      body: JSON.stringify({productId,image, title, price, shipping })
     })
     .then(response => response.json())
     .then(data => {

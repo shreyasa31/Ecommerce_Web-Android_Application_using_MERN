@@ -4,10 +4,10 @@ const mongoose = require('mongoose');
 const wishlistSchema = new mongoose.Schema({
 //   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   items: [{
-    productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
+    productId: String,
     image:String,
     title: String,
-    price: Number,
+    price: String,
     shipping: String,
     // Assuming you have an index or id to identify each product
    

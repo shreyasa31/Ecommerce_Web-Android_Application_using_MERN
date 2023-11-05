@@ -1,5 +1,5 @@
 const express = require('express');
-const Wishlist = require('./wishlistModel'); // Import your wishlist model
+const Wishlist = require('./models/wishlistModel'); // Import your wishlist model
 const router = express.Router();
 
 // Endpoint to add an item to the wishlist

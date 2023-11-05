@@ -1,3 +1,6 @@
+import { Tab, Nav, Row, Col } from 'react-bootstrap';
+import facebookImage from './facebook.png';
+
 const ItemsTable = ({items,handleBack}) => {
     console.log("Inside Items Table",items);
     // console.log(items?.items?.photo)
@@ -96,6 +99,59 @@ const ItemsTable = ({items,handleBack}) => {
   ); */} 
   <div className="container mt-5">
   <h2 onClick={traverseCallback}>List</h2>
+  <div className="d-flex justify-content-end">
+        {/* <a href="/facebook" className="me-2">
+          <i className="fab fa-facebook-f"><img></img></i> {/* Font Awesome Icon */}
+        {/* </a> */}
+        {/* <a href="/wishlist">
+          <i className="fas fa-heart"> </i> {/* Font Awesome Icon */}
+        {/* </a> */} 
+
+        <button  className="me-2">
+    {/* Using an img tag directly instead of the i tag */}
+    <img src={facebookImage} alt="Facebook" style={{ width: '24px', height: '24px' }} />
+  </button>
+  
+  <button>
+    {/* Using Google Material Icons for the cart */}
+    <span className="material-icons">add_shopping_cart</span>
+  </button>
+      </div>
+      
+      <Tab.Container id="list-tabs" defaultActiveKey="product">
+        <Nav variant="tabs" className="mb-3 justify-content-end">
+          <Nav.Item>
+            <Nav.Link eventKey="product">Product</Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link eventKey="photos">Photos</Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link eventKey="shipping">Shipping</Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link eventKey="seller">Seller</Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link eventKey="similar-products">Similar Products</Nav.Link>
+          </Nav.Item>
+        </Nav>
+
+        {/* <Tab.Content>
+          <Tab.Pane eventKey="product"> */}
+            {/* Table code goes here */}
+            {/* <div className="table-responsive">
+              <table className="table table-dark table-striped"> */}
+                {/* ... rest of your table code ... */}
+              {/* </table> */}
+            {/* </div> */}
+          {/* </Tab.Pane>
+          <Tab.Pane eventKey="photos"> */}
+            {/* Content for Photos tab */}
+          {/* </Tab.Pane> */}
+          {/* ... Other tabs content ... */}
+        {/* </Tab.Content> */}
+      </Tab.Container>
   <div className="table-responsive">
     <table className="table table-dark table-striped">
       <tbody>

@@ -58,6 +58,20 @@ export default function ResultTable({tableData}){
         setDetails(null);
         setIndiDetail(false);
       };
+
+    const addToWishlist = async (e) => {
+      console.log(e)
+      const url = `http://localhost:8080/addToWishlist`;
+    
+      try {
+        const response = await axios.get(`http://localhost:8080/addToWishlist?ItemID=${e.itemId}&image=${e.image}&title=${e.title}&price=${e.price}&shipping=${e.shippingType}`);
+        console.log(response.data);  // Handle response data as needed
+  
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+
     return(
         <>
          { indiDetail &&  <ItemsTable items={details} handleBack={handleBack}/>}
@@ -122,7 +136,7 @@ export default function ResultTable({tableData}){
                                   (element.wishlist.icon)}</button>
                               ) : ( */}
                                 {/* <button onClick={() => addToWishlist(element)}> */}
-                                <button>
+                                <button onClick={() => addToWishlist(element)}>
                                   {getIconDisplay
                                     (element.wishlist.icon)}
                                 </button>
