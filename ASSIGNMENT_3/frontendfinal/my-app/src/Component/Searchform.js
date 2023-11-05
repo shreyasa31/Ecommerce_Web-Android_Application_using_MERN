@@ -3,9 +3,10 @@ import styles from './styles/Home.module.css'
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css'; 
 import ResultTable from './SearchResult';
+import WishlistTable from './Wishlist';
 
 
-
+//changed
 export default function Home() {
     const [keyword, setKeyword] = useState('');
     const [category, setCategory] = useState('All Categories');
@@ -27,7 +28,20 @@ export default function Home() {
     const [showTableHeaders, setShowTableHeaders] = useState(false);
     const [showDetail, setShowDetail] = useState(false);//button detail
     // const[showSearchTable,setshowSearchTable]=useState(false);
+    const [wishlistItems, setWishlistItems] = useState([]);
+    const [showWishlist, setShowWishlist] = useState(false);
 
+    // ... other functions ...
+
+    const handleWishlistClick = async () => {
+        try {
+            const response = await axios.get('http://localhost:8080/getWishlist');
+            setWishlistItems(response.data);
+            setShowWishlist(true); // Show wishlist table
+        } catch (error) {
+            console.error("Error fetching wishlist data:", error);
+        }
+    };
   
   
     
@@ -274,14 +288,14 @@ export default function Home() {
               {/* <button class="btn btn-outline-dark me-2 mr-2" onClick={toggleWishList}>
                 Results
               </button> */}
-               <button class="btn btn-outline-dark me-2 mr-2">
+               <button class="btn btn-outline-dark me-2 mr-2" onClick={() => setShowWishlist(false)}>
                 Results
               </button>
     
               {/* <button class="btn btn-outline-dark" onClick={toggleWishList}>
                 Wish List
               </button> */}
-              <button class="btn btn-outline-dark">
+              <button class="btn btn-outline-dark" onClick={handleWishlistClick}>
                 Wish List
               </button>
     
@@ -304,7 +318,10 @@ export default function Home() {
     {/* </div> */}
     {/* get detail button from result table here */}
     
-    {showTableHeaders===true && showDetail === true  && <ResultTable tableData={products}/> }
+    {/* {showTableHeaders===true && showDetail === true  && <ResultTable tableData={products}/> } */}
+    {!showWishlist && showTableHeaders && showDetail && <ResultTable tableData={products}/>}
+
+    {showWishlist && <WishlistTable wishlistProducts={wishlistItems} />}
    
     
    

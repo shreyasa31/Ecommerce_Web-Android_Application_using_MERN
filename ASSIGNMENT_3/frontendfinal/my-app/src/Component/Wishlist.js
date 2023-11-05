@@ -1,53 +1,90 @@
-// Function to add an item to the wishlist
-function addToWishlist(productId, title, price, shipping) {
-    fetch('/wishlist/add', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({productId,image, title, price, shipping })
-    })
-    .then(response => response.json())
-    .then(data => {
-      console.log('Item added to wishlist:', data);
-    })
-    .catch(error => {
-      console.error('Error adding item to wishlist:', error);
-    });
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+
+const WishlistTable = ({wishlistProducts}) => {
+  const [items, setItems] = useState([]);
+
+  useEffect(() => {
+    const fetchItems = async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/getWishlist'); // Replace with your API endpoint
+        setItems(response.data);
+      } catch (error) {
+        console.error('Error fetching wishlist data:', error);
+      }
+    };
+
+    fetchItems();
+  }, []);
+  function manualDecode(str) {
+    if (typeof str !== 'string') {
+      console.error('The input is not a string:', str);
+      return ''; // Or handle the non-string case as appropriate for your use case.
+    }
+    
+    console.log('Original Encoded Title:', str);
+  
+    // Decoding common percent-encoded characters manually
+    // ... (same replacement code)
+  
+    // Attempt to decode the rest using decodeURIComponent
+    let decodedStr=str;
+    try {
+      decodedStr = decodeURIComponent(decodedStr);
+      console.log('Decoded with decodeURIComponent:', decodedStr);
+    } catch (e) {
+      console.error('Error decoding URI component:', e);
+    }
+  
+    // If still not decoded, try to decode once more
+    try {
+      decodedStr = decodeURIComponent(decodedStr);
+      console.log('Decoded with double decodeURIComponent:', decodedStr);
+    } catch (e) {
+      console.error('Error on second decode:', e);
+    }
+  
+    return decodedStr;
   }
   
-  // Function to get the wishlist and display it
-  function displayWishlist(userId) {
-    fetch(`/wishlist/${userId}`)
-    .then(response => response.json())
-    .then(items => {
-      // Here you would create the HTML table and fill it with the items
-      const wishlistTable = document.getElementById('wishlistTable');
-      wishlistTable.innerHTML = ''; // Clear the table first
-      items.forEach(item => {
-        wishlistTable.innerHTML += `
-          <tr>
-            <td>${item.title}</td>
-            <td>${item.price}</td>
-            <td>${item.shipping}</td>
-          </tr>
-        `;
-      });
-    })
-    .catch(error => {
-      console.error('Error retrieving wishlist:', error);
-    });
-  }
-  
-  // Event listeners for wishlist buttons
-  document.querySelectorAll('.wishlist-button').forEach(button => {
-    button.addEventListener('click', function() {
-      const itemData = this.dataset; // Assuming you store item data in data-* attributes
-      addToWishlist(itemData.userId, itemData.productId, itemData.title, itemData.price, itemData.shipping);
-    });
-  });
-  
-  // Event listener for displaying wishlist
-  document.getElementById('showWishlist').addEventListener('click', function() {
-    const userId = this.dataset.userId; // Set the
-  
+  return (
+    <div className="container mt-3">
+      <h2>Wishlist</h2>
+      <div className="table-responsive">
+        <table className="table table-striped">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Image</th>
+              <th>Title</th>
+              <th>Price</th>
+              <th>Shipping</th>
+              <th>Favourite</th>
+            </tr>
+          </thead>
+          <tbody>
+            {items.map((item, index) => (
+             
+              <tr key={item.productId}>
+                <td>{index + 1}</td>
+                <td><img src={item.image} className="img-fluid" alt={item.title} style={{ maxWidth: '70px' }} /></td>
+                <td>{manualDecode(item.title)}</td>
+                
+                <td>${item.price}</td>
+                <td>{item.shipping}</td>
+                <td>
+                  {/* You can implement adding to wishlist or any other action here */}
+                  <button className="btn btn-primary btn-sm">Add to Wishlist</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+};
+
+
+
+export default WishlistTable;

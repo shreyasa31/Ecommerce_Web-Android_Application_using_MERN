@@ -216,8 +216,8 @@ app.get('/addToWishlist', async (req, res) => {
         });
         const result = await wishlistAdd.save();
         console.log(result)    
-        const wishlist = await Wishlist.find();
-        res.json(wishlist);
+        // const wishlist = await Wishlist.find();
+        // res.json(wishlist);
         }
     }
     catch (e) {
@@ -225,6 +225,37 @@ app.get('/addToWishlist', async (req, res) => {
     }
 });
 
+app.get('/getWishlist', async (req, res) => {
+    try {
+        // Assuming you want to fetch the wishlist for a specific user,
+        // you might pass a userId as a query parameter or extract it from a session or token.
+        // For example: const userId = req.query.userId;
+        // Here, I am fetching all wishlists for simplicity.
+        const wishlist = await Wishlist.find();
+        //write a code  to fetch image title price shipping from mongodb
+        let response=[];
+        wishlist.forEach((item)=>{
+            let itemDict={};
+            itemDict.productId=item.items[0].productId;
+            itemDict.image=item.items[0].image;
+            itemDict.title=item.items[0].title;
+            itemDict.price=item.items[0].price;
+            itemDict.shipping=item.items[0].shipping;
+            response.push(itemDict);
+        })
+        res.json(response);
+
+        
+
+
+    }
+       catch(e){
+        console.error(e);
+        res.status(500).send('An error occurred while fetching the wishlist');
+    }
+       
+        
+});
 
 
 
