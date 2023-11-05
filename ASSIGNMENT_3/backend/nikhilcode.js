@@ -7,9 +7,10 @@ const express = require('express');
 // const geohash = require('ngeohash');
 const utils = require('./utils');
 const OAuthToken=require('./ebay_oauth_token')
-
-
+const connectDB=require('./database/dbConnect')
+const Wishlist=require('./models/wishlistModel')
 dotenv.config();
+connectDB();
 const app = express();
 const port = parseInt(process.env.PORT) || 8080;
 // const buildPath = path.join(__dirname, "./build");
@@ -20,6 +21,7 @@ const defaultOptions = {
         "Authorization": `Bearer ${process.env.EBAY_API_ID}`
     }
 };
+
 
 
 const categoryId={
@@ -139,6 +141,7 @@ if (request.query.localpickuponly) {
 // console.log("***********************************************")
 app.get('/getItem', async (req, res) => {
     
+    console.log("i am here");
     let getItemBaseUrl = "https://open.api.ebay.com/shopping?callname=GetSingleItem&responseencoding=JSON&appid=ShreyaSa-dummy-PRD-5932e5ad5-579e0f09&siteid=0&version=967&IncludeSelector=Description,Details,ItemSpecifics";
     const itemID = req.query.ItemID || "335007021375";
     if (itemID) {
@@ -185,6 +188,45 @@ app.get('/getPostalCode', (req, res) => {
         }
     });
 });
+
+app.get('/addToWishlist', async (req, res) => {
+    console.log("backend wl");
+    console.log(req.query.ItemID);
+    console.log(req.query.image);
+    console.log(req.query.title);
+    console.log(req.query.price);
+    console.log(req.query.shipping);
+    try { 
+    const itemExists = await Wishlist.findOne({
+        'items.productId': req.query.ItemID // Assuming ItemID is unique for each product
+    });
+    
+    if (itemExists) {
+        // The item already exists in the wishlist, handle accordingly
+        console.log('Item already in wishlist.'); // 409 Conflict
+    } else{
+        const wishlistAdd = new Wishlist({
+            items: [{
+                productId: req.query.ItemID,
+                image: req.query.image,
+                title: req.query.title,
+                price: req.query.price,
+                shipping: req.query.shipping
+            }]
+        });
+        const result = await wishlistAdd.save();
+        console.log(result)    
+        const wishlist = await Wishlist.find();
+        res.json(wishlist);
+        }
+    }
+    catch (e) {
+        console.log(e);
+    }
+});
+
+
+
 
 app.listen(port, (error) => {
     if (!error)
