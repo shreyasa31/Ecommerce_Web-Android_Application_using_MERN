@@ -11,6 +11,7 @@ const connectDB=require('./database/dbConnect')
 const Wishlist=require('./models/wishlistModel')
 dotenv.config();
 connectDB();
+//newcommit
 const app = express();
 const port = parseInt(process.env.PORT) || 8080;
 // const buildPath = path.join(__dirname, "./build");
@@ -164,6 +165,7 @@ app.get('/getItem', async (req, res) => {
         const processedItem = utils.processItemDetailData(parsedBody);
         res.json(processedItem);
         } else {
+
             res.status(500).send('Error');
         }
     });
@@ -233,14 +235,21 @@ app.get('/getWishlist', async (req, res) => {
         // Here, I am fetching all wishlists for simplicity.
         const wishlist = await Wishlist.find();
         //write a code  to fetch image title price shipping from mongodb
+        
         let response=[];
         wishlist.forEach((item)=>{
             let itemDict={};
             itemDict.productId=item.items[0].productId;
             itemDict.image=item.items[0].image;
+            // itemDict.title=item.items[0].title;
             itemDict.title=item.items[0].title;
+         
             itemDict.price=item.items[0].price;
             itemDict.shipping=item.items[0].shipping;
+            // itemDict.favourites={
+            //     icon: "cart_icon"
+
+            // }
             response.push(itemDict);
         })
         res.json(response);

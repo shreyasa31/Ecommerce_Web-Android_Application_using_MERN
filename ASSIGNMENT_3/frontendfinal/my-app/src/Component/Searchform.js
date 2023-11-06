@@ -6,7 +6,7 @@ import ResultTable from './SearchResult';
 import WishlistTable from './Wishlist';
 
 
-//changed
+//newcommit
 export default function Home() {
     const [keyword, setKeyword] = useState('');
     const [category, setCategory] = useState('All Categories');

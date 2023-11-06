@@ -1,6 +1,7 @@
 import { Tab, Nav, Row, Col } from 'react-bootstrap';
+import { useState, useEffect } from 'react'
 import facebookImage from './facebook.png';
-
+//newcommit
 const ItemsTable = ({items,handleBack}) => {
     console.log("Inside Items Table",items);
     // console.log(items?.items?.photo)
@@ -38,6 +39,30 @@ const ItemsTable = ({items,handleBack}) => {
     // if (error) {
     //   return <div>Error: {error}</div>;
     // }
+    const [images, setImages] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [ItemID, setItemID] = useState('');
+  const fetchImages = async (ItemID) => {
+    try {
+      // Replace with your actual fetch request
+      const response = await fetch(`http://localhost:8080/getItem?ItemID=${ItemID}`)
+      const data = await response.json();
+      if (data && data.images) {
+        setImages(data.images);
+      } else {
+        // Handle the case where data is not in the expected format
+        console.error('Received data is not in expected format:', data);
+        setImages([]); // Reset images state to empty if data is incorrect
+      }
+    } catch (error) {
+      console.error('Error fetching images:', error);
+    }
+  }
+
+  useEffect(() => {
+    // Assuming 'ItemID' is a prop or state
+    fetchImages(ItemID);
+}, [ItemID]);
     const traverseCallback = () => {
       handleBack();
     };
@@ -152,19 +177,54 @@ const ItemsTable = ({items,handleBack}) => {
           {/* ... Other tabs content ... */}
         {/* </Tab.Content> */}
       </Tab.Container>
-  <div className="table-responsive">
-    <table className="table table-dark table-striped">
-      <tbody>
-        {items?.photo && (
+      <div className="table-responsive">
+      <table className="table table-dark table-striped">
+        <tbody>
           <tr>
-            <td>Photo</td>
+            <td>Photos</td>
             <td>
-              {items?.photo.map((url, index) => (
-                <img key={index} src={url} alt="Item" width="50" />
-              ))}
+              <a href="#imageModal" role="button" onClick={(e) => { e.preventDefault(); setShowModal(true); }}>
+                View Product Images
+              </a>
+              <div className={showModal ? "modal fade show d-block" : "modal fade"} id="imageModal" tabIndex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+                <div className="modal-dialog modal-xl modal-dialog-centered">
+                  <div className="modal-content">
+                    <div className="modal-header">
+                      <h5 className="modal-title" id="imageModalLabel">Product Images</h5>
+                      <button type="button" className="btn-close" onClick={() => setShowModal(false)}></button>
+                    </div>
+                    <div className="modal-body">
+                      {/* Carousel */}
+                      <div id="carouselExampleControls" className="carousel slide" data-bs-ride="carousel">
+                        <div className="carousel-inner">
+                          {images.map((image, index) => (
+                            <div key={index} className={`carousel-item ${index === 0 ? 'active' : ''}`}>
+                              <img src={image.url} className="d-block w-100" alt={`Item ${index}`} style={{ height: '500px', objectFit: 'contain' }} />
+                            </div>
+                          ))}
+                        </div>
+                        {images.length > 1 && (
+                          <>
+                            <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                              <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                            </button>
+                            <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                              <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                            </button>
+                          </>
+                        )}
+                      </div>
+                    </div>
+                    <div className="modal-footer">
+                      <button type="button" className="btn btn-secondary" onClick={() => setShowModal(false)}>Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {showModal ? <div className="modal-backdrop fade show"></div> : null}
             </td>
           </tr>
-        )}
+    
         {items?.price && (
           <tr>
             <td>Price</td>

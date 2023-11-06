@@ -1,4 +1,4 @@
-// 
+//newcommit
 module.exports = {
     processSearchData: function(data) {
         if (!data) return data;
@@ -23,14 +23,53 @@ module.exports = {
                             itemDict.zipcode = i.postalCode && i.postalCode.length > 0 ? i.postalCode[0] : null; // Zipcode
                             let itemPrice = i.sellingStatus && i.sellingStatus.length > 0 && i.sellingStatus[0].convertedCurrentPrice && i.sellingStatus[0].convertedCurrentPrice.length > 0 ? i.sellingStatus[0].convertedCurrentPrice[0]["__value__"] : null;
                             // let shippingPrice = i.shippingInfo && i.shippingInfo.length > 0 && i.shippingInfo[0].shippingServiceCost && i.shippingInfo[0].shippingServiceCost.length > 0 ? i.shippingInfo[0].shippingServiceCost[0]["__value__"] : null;
-                            if (i.shippingInfo && i.shippingInfo.length > 0 && i.shippingInfo[0].shippingType) {
-                                if (i.shippingInfo[0].shippingType.includes("Free")) {
-                                    itemDict.shippingType = "Free Shipping";
-                                } else if (i.shippingInfo[0].shippingType.includes("Pickup")) {
-                                    itemDict.shippingType = "Local Pickup";
-                                } else {
-                                    // handle other types or set to a default value if needed
-                                    itemDict.shippingType = "Unknown";
+                            // if (i.shippingInfo && i.shippingInfo.length > 0 && i.shippingInfo[0].shippingType) {
+                            //     if (i.shippingInfo[0].shippingType.includes("Free")) {
+                            //         itemDict.shippingType = "Free Shipping";
+                            //     } else if (i.shippingInfo[0].shippingType.includes("Pickup")) {
+                            //         itemDict.shippingType = "Local Pickup";
+                            //     } else {
+                            //         // handle other types or set to a default value if needed
+                            //         itemDict.shippingType = "Unknown";
+                            //     }
+                            // }
+                            if (i.shippingInfo && i.shippingInfo.length > 0) {
+                                let shippingInfo = i.shippingInfo[0];
+    
+                                itemDict.shippingCost = shippingInfo.shippingServiceCost &&
+                                                        shippingInfo.shippingServiceCost.length > 0 ?
+                                                        shippingInfo.shippingServiceCost[0]["__value__"] : 'Not Available';
+    
+                                itemDict.shippingLocation = shippingInfo.shipToLocations &&
+                                                            shippingInfo.shipToLocations.length > 0 ?
+                                                            shippingInfo.shipToLocations : 'Not Available';
+    
+                                itemDict.handlingTime = shippingInfo.handlingTime &&
+                                                        shippingInfo.handlingTime.length > 0 ?
+                                                        `${shippingInfo.handlingTime[0]} day(s)` : 'Not Available';
+    
+                                itemDict.expeditedShipping = shippingInfo.expeditedShipping &&
+                                                             shippingInfo.expeditedShipping.length > 0 ?
+                                                             shippingInfo.expeditedShipping[0] : 'Not Available';
+    
+                                itemDict.oneDayShipping = shippingInfo.oneDayShippingAvailable &&
+                                                          shippingInfo.oneDayShippingAvailable.length > 0 ?
+                                                          shippingInfo.oneDayShippingAvailable[0] : 'Not Available';
+    
+                                itemDict.returnsAccepted = shippingInfo.returnsAccepted &&
+                                                           shippingInfo.returnsAccepted.length > 0 ?
+                                                           shippingInfo.returnsAccepted[0] : 'Not Available';
+    
+                                // Free shipping and Local pickup handling
+                                if (shippingInfo.shippingType) {
+                                    if (shippingInfo.shippingType.includes("Free")) {
+                                        itemDict.shippingType = "Free Shipping";
+                                    } else if (shippingInfo.shippingType.includes("Pickup")) {
+                                        itemDict.shippingType = "Local Pickup";}
+                                    // } else {
+                                    //     // handle other types or set to a default value if needed
+                                    //     itemDict.shippingType = "Unknown";
+                                    // }
                                 }
                             }
                             itemDict.price = `$${itemPrice}`;

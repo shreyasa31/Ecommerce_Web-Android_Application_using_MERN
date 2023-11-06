@@ -6,7 +6,7 @@ import axios from "axios";
 import styles from './styles/Home.module.css';
 import ItemsTable from './Items';
 
-
+//newcommit
 const ITEMS_PER_PAGE = 10;
 export default function ResultTable({tableData}){
   console.log("Inside search table",tableData, typeof tableData);
@@ -108,6 +108,7 @@ export default function ResultTable({tableData}){
                 {
     //               
                       itemsForCurrentPage.map((element, index) => (
+                        element.shippingType &&(
                         <tr key={index}>
                           {/* <td class=" bg-dark text-white" scope="row">{index + 1}</td> */}
                           <td class="bg-dark text-white" scope="row">{(currentPage - 1) * ITEMS_PER_PAGE + index + 1}</td>
@@ -118,6 +119,7 @@ export default function ResultTable({tableData}){
                               <img src={element.image} alt="error" width='100' height='100' />
                             </a>
                           </td>
+                          {console.log(element.title)}
                           <td className="bg-dark text-white text-truncate" style={{ maxWidth: "150px" }}><span onClick={()=>getItems(element.itemId)}>{element.title}</span></td>
                           <td class=" bg-dark text-white" >{element.price}</td>
                           <td class=" bg-dark text-white" >{element.shippingType}</td>
@@ -149,6 +151,8 @@ export default function ResultTable({tableData}){
 
                         </tr>
                       )) 
+                      )
+
                 }
 
 
