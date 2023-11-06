@@ -6,7 +6,7 @@ import axios from "axios";
 import styles from './styles/Home.module.css';
 import ItemsTable from './Items';
 
-//newcommit
+
 const ITEMS_PER_PAGE = 10;
 export default function ResultTable({tableData}){
   console.log("Inside search table",tableData, typeof tableData);
@@ -64,7 +64,7 @@ export default function ResultTable({tableData}){
       const url = `http://localhost:8080/addToWishlist`;
     
       try {
-        const response = await axios.get(`http://localhost:8080/addToWishlist?ItemID=${e.itemId}&image=${e.image}&title=${e.title}&price=${e.price}&shipping=${e.shippingType}`);
+        const response = await axios.get(`http://localhost:8080/addToWishlist?ItemID=${e.itemId}&image=${e.image}&title=${e.title}&price=${e.price}&shipping=${e.shippingType}&shippingCost=${e.shippingCost}&shippingLocation=${e.shippingLocation}&handlingTime=${e.handlingTime}&expeditedShipping=${e.expeditedShipping}&oneDayShipping=${e.oneDayShipping}&returnsAccepted=${e.returnsAccepted}`);
         console.log(response.data);  // Handle response data as needed
   
       } catch (error) {
@@ -110,8 +110,8 @@ export default function ResultTable({tableData}){
                       itemsForCurrentPage.map((element, index) => (
                         element.shippingType &&(
                         <tr key={index}>
-                          {/* <td class=" bg-dark text-white" scope="row">{index + 1}</td> */}
-                          <td class="bg-dark text-white" scope="row">{(currentPage - 1) * ITEMS_PER_PAGE + index + 1}</td>
+                          <td class=" bg-dark text-white" scope="row">{index + 1}</td>
+                          {/* <td class="bg-dark text-white" scope="row">{(currentPage - 1) * ITEMS_PER_PAGE + index + 1}</td> */}
                           {/* <td class=" bg-dark text-white" ><img src={element.image} alt="" width='100' height='100'/></td> */}
 
                           <td className="bg-dark text-white">

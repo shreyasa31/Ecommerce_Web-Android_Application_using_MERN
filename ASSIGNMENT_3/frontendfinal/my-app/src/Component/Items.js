@@ -1,6 +1,9 @@
 import { Tab, Nav, Row, Col } from 'react-bootstrap';
 import { useState, useEffect } from 'react'
 import facebookImage from './facebook.png';
+import TabsComponent from './TabsComponent';
+
+import ShippingTab from './Shipping';
 //newcommit
 const ItemsTable = ({items,handleBack}) => {
     console.log("Inside Items Table",items);
@@ -42,6 +45,12 @@ const ItemsTable = ({items,handleBack}) => {
     const [images, setImages] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [ItemID, setItemID] = useState('');
+  const [activeTab, setActiveTab] = useState('product');
+
+  // Callback function to update active tab
+  const handleSelectTab = (key) => {
+    setActiveTab(key);
+  };
   const fetchImages = async (ItemID) => {
     try {
       // Replace with your actual fetch request
@@ -66,6 +75,8 @@ const ItemsTable = ({items,handleBack}) => {
     const traverseCallback = () => {
       handleBack();
     };
+    // const selectedItem = items && items.length > 0 ? items[0] : null;
+
     
   return (
     <>
@@ -122,6 +133,8 @@ const ItemsTable = ({items,handleBack}) => {
     </div>
     </>
   ); */} 
+
+  
   <div className="container mt-5">
   <h2 onClick={traverseCallback}>List</h2>
   <div className="d-flex justify-content-end">
@@ -143,7 +156,7 @@ const ItemsTable = ({items,handleBack}) => {
   </button>
       </div>
       
-      <Tab.Container id="list-tabs" defaultActiveKey="product">
+      {/* <Tab.Container id="list-tabs" defaultActiveKey="product">
         <Nav variant="tabs" className="mb-3 justify-content-end">
           <Nav.Item>
             <Nav.Link eventKey="product">Product</Nav.Link>
@@ -160,7 +173,7 @@ const ItemsTable = ({items,handleBack}) => {
           <Nav.Item>
             <Nav.Link eventKey="similar-products">Similar Products</Nav.Link>
           </Nav.Item>
-        </Nav>
+        </Nav> */}
 
         {/* <Tab.Content>
           <Tab.Pane eventKey="product"> */}
@@ -176,8 +189,14 @@ const ItemsTable = ({items,handleBack}) => {
           {/* </Tab.Pane> */}
           {/* ... Other tabs content ... */}
         {/* </Tab.Content> */}
-      </Tab.Container>
-      <div className="table-responsive">
+      {/* </Tab.Container> */}
+      <TabsComponent onSelectTab={handleSelectTab} />
+      <Tab.Content>
+        <Tab.Pane eventKey="product" active={activeTab === 'product'}>
+          {/* Your table component or its content should be here */}
+          {activeTab === 'product' && (
+            // ... Table code ...
+            <div className="table-responsive">
       <table className="table table-dark table-striped">
         <tbody>
           <tr>
@@ -282,6 +301,25 @@ const ItemsTable = ({items,handleBack}) => {
       </tbody>
     </table>
   </div>
+          )}
+        </Tab.Pane>
+        <Tab.Pane eventKey="photos" active={activeTab === 'photos'}>
+          {activeTab === 'photos' && <p>Hello</p>}
+    
+        </Tab.Pane>
+        <Tab.Pane eventKey="shipping" active={activeTab === 'shipping'}>
+         {/* {activeTab === 'shipping' && <ShippingTab />}</Tab.Pane> */}
+            {activeTab === 'shipping' && <ShippingTab prodcutID={ItemID} wishlistProducts={items} />}</Tab.Pane>
+        
+
+{/* <Tab.Pane eventKey="shipping" active={activeTab === 'shipping'}>
+  {activeTab === 'shipping' && selectedItem && <ShippingTab itemId={selectedItem.id} />}
+</Tab.Pane> */}
+            
+        </Tab.Content> 
+
+
+      
 </div>
 </>
 );                  }

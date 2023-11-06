@@ -63,7 +63,7 @@ const WishlistTable = ({wishlistProducts}) => {
                 <td>{index + 1}</td>
                 <td><img src={item.image} className="img-fluid" alt={item.title} style={{ maxWidth: '70px' }} /></td>
                 {console.log(item.title)}
-                <td className="text-truncate" style={{ maxWidth: "150px" }}><DecodedText encodedText={item.title} /></td>
+                <td className="text-truncate" style={{ maxWidth: "150px" }}>{item.title}</td>
                
                 <td>{item.price}</td>
                 <td>{item.shipping}</td>

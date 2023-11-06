@@ -9,6 +9,13 @@ const wishlistSchema = new mongoose.Schema({
     title: String,
     price: String,
     shipping: String,
+    shippingCost:String,
+    shippingLocation:String,
+    handlingTime:String,
+    expeditedShipping:String,
+    oneDayShipping:String,
+    returnsAccepted:String,
+
     // Assuming you have an index or id to identify each product
    
   }]

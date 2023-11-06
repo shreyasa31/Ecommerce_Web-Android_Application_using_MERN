@@ -9,6 +9,7 @@ const utils = require('./utils');
 const OAuthToken=require('./ebay_oauth_token')
 const connectDB=require('./database/dbConnect')
 const Wishlist=require('./models/wishlistModel')
+const { ObjectId } = require('mongodb');
 dotenv.config();
 connectDB();
 //newcommit
@@ -191,6 +192,101 @@ app.get('/getPostalCode', (req, res) => {
     });
 });
 
+app.get("/googlesearch", async (req, res) => {
+    const productTitle = req.query.q; // The search expression
+    if (!productTitle) {
+      return res.status(400).json({ error: 'Search expression (q) is required.' });
+    }
+  
+    const cx = 'b2bd2d95401f24d5a'; // The custom search engine ID
+    const key = 'AIzaSyDoqE_GEhIWoCZ4I7ZUCPTSawyNO4mbIJE'; // Your application's API key
+    const imgSize = req.query.imgSize || 'large'; // Image size (optional parameter, defaults to 'large')
+    const num = req.query.num || 10; // Number of search results to return (optional parameter, defaults to 10)
+    const searchType = 'image'; // Specifies the search type
+  
+    const googleSearchURL = `https://www.googleapis.com/customsearch/v1?q=${encodeURIComponent(productTitle)}&cx=${cx}&imgSize=${imgSize}&num=${num}&searchType=${searchType}&key=${key}`;
+   console.log(googleSearchURL);
+
+   
+
+    request(googleSearchURL, (error, response, body) => {
+        if (!error && response.statusCode === 200) {
+            res.json(JSON.parse(body));
+        } else {
+            res.status(500).send('Error');
+        }
+    });
+
+
+
+   
+    // try {
+    // const googleResponse = await makeAPICall(googleSearchURL);
+    // console.log(googleResponse)
+    //   res.json(googleResponse);
+    // } catch (error) {
+    //   res.status(500).json({
+    //     message: 'Error occurred while fetching photos from Google Custom Search',
+    //     error: error.message
+    //   });
+    // }
+  });
+
+
+//   app.get('/getSimilarItems', async (req, res) => {
+//     const itemID = req.query.itemID || '335007021375';
+  
+//     const merchandisingApiUrl = 'https://svcs.ebay.com/MerchandisingService';
+//     const params = {
+//       'OPERATION-NAME': 'getSimilarItems',
+//       'SERVICE-NAME': 'MerchandisingService',
+//       'SERVICE-VERSION': '1.1.0',
+//       'CONSUMER-ID': 'ShreyaSa-dummy-PRD-5932e5ad5-579e0f09',
+//       'RESPONSE-DATA-FORMAT': 'JSON',
+//       'REST-PAYLOAD': '',
+//       'itemId': itemID,
+//       'maxResults': 20
+//     };
+//     console.log(merchandisingApiUrl)
+//     try {
+//       const response = await axios.get(merchandisingApiUrl, {
+//         params: params,
+//         headers: {
+//           "X-EBAY-API-IAF-TOKEN": await ebayfunc()
+//         }
+//       });
+//       // If utils.processItemDetailData is a function you have to process the data, use it
+//       // Otherwise, just return the response data
+//       const processedItem = utils.processItemDetailData ? utils.processItemDetailData(response.data) : response.data;
+//       res.json(processedItem);
+//     } catch (error) {
+//       console.error('Error fetching data from eBay Merchandising API:', error);
+//       res.status(500).send('Error fetching data');
+//     }
+//   });
+  
+
+app.get('/getSimilarItems', async (req, res) => {
+    const itemID = req.query.itemID || '';
+
+    const merchandisingApiUrl = `https://svcs.ebay.com/MerchandisingService?OPERATION-NAME=getSimilarItems&SERVICE-NAME=MerchandisingService&SERVICE-VERSION=1.1.0&CONSUMER-ID=ShreyaSa-dummy-PRD-5932e5ad5-579e0f09&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&itemId=${itemID}&maxResults=20`;
+
+    console.log(merchandisingApiUrl);
+
+    request(merchandisingApiUrl, (error, response, body) => {
+        if (!error && response.statusCode === 200) {
+            res.json(JSON.parse(body));
+        } else {
+            res.status(500).send('Error');
+        }
+    });
+    
+    
+});
+
+
+
+
 app.get('/addToWishlist', async (req, res) => {
     console.log("backend wl");
     console.log(req.query.ItemID);
@@ -198,6 +294,13 @@ app.get('/addToWishlist', async (req, res) => {
     console.log(req.query.title);
     console.log(req.query.price);
     console.log(req.query.shipping);
+    console.log(req.query.shippingCost);
+    console.log(req.query.shippingLocation);
+    console.log(req.query.handlingTime);
+    console.log(req.query.expeditedShipping);
+    console.log(req.query.oneDayShipping);
+    console.log(req.query.returnsAccepted);
+
     try { 
     const itemExists = await Wishlist.findOne({
         'items.productId': req.query.ItemID // Assuming ItemID is unique for each product
@@ -213,7 +316,15 @@ app.get('/addToWishlist', async (req, res) => {
                 image: req.query.image,
                 title: req.query.title,
                 price: req.query.price,
-                shipping: req.query.shipping
+                shipping: req.query.shipping,
+                shippingCost:req.query.shippingCost,
+                shippingLocation:req.query.shippingLocation,
+                handlingTime:req.query.handlingTime,
+                expeditedShipping:req.query.expeditedShipping,
+                oneDayShipping:req.query.oneDayShipping,
+                returnsAccepted:req.query.returnsAccepted
+
+
             }]
         });
         const result = await wishlistAdd.save();
@@ -246,6 +357,7 @@ app.get('/getWishlist', async (req, res) => {
          
             itemDict.price=item.items[0].price;
             itemDict.shipping=item.items[0].shipping;
+            itemDict.shippingLocation=item.items[0].shippingLocation;
             // itemDict.favourites={
             //     icon: "cart_icon"
 
@@ -265,6 +377,111 @@ app.get('/getWishlist', async (req, res) => {
        
         
 });
+
+app.delete('/deleteWishlist', async (req, res) => {
+
+    const itemID = req.query.itemID || '';
+    try {
+        const wishlist = await Wishlist.findOneAndDelete({ 'items.productId': itemID });;
+        res.json(wishlist);
+    } catch(e) {
+        console.error(e);
+        res.status(500).send('An error occurred while deleting the wishlist');
+    }
+}
+
+);
+app.get('/getShipping', async (req, res) => {
+    const itemID = req.query.itemID || '';
+
+        const wishlistItems = await Wishlist.find({ 'items.productId': itemID });
+        console.log(wishlistItems);
+//     try {
+        
+//          //here get shiippingcost location handling time and others
+
+        
+//         // var response=[];
+//         // wishlist.forEach((item)=>{
+//         //     let itemDict={};
+//         //     itemDict.productId=item.items[0].productId;
+//         //     itemDict.shippingCost=item.items[0].shippingCost;
+//         //     itemDict.shippingLocation=item.items[0].shippingLocation;
+//         //     itemDict.handlingTime=item.items[0].handlingTime;
+//         //     itemDict.expeditedShipping=item.items[0].expeditedShipping;
+//         //     itemDict.oneDayShipping=item.items[0].oneDayShipping;
+//         //     itemDict.returnsAccepted=item.items[0].returnsAccepted;
+//         //     response.push(itemDict);
+//         // })
+//         var response = [];
+//         wishlistItems.forEach((wishlistItem) => {
+//             wishlistItem.items.forEach((item) => {
+//                 // Check if the current item matches the item ID we're looking for
+//                 if (item.productId.toString() === itemId) {
+//                     let itemDict = {
+//                         productId: item.productId,
+//                         shippingCost: item.shippingCost,
+//                         shippingLocation: item.shippingLocation,
+//                         handlingTime: item.handlingTime,
+//                         expeditedShipping: item.expeditedShipping,
+//                         oneDayShipping: item.oneDayShipping,
+//                         returnsAccepted: item.returnsAccepted
+//                     };
+//                     response.push(itemDict);
+//                 }
+//             });
+         });
+
+        
+
+
+//     }
+//        catch(e){
+//         console.error(e);
+//         res.status(500).send('An error occurred while fetching the shipping');
+//     }
+       
+        
+// });
+// app.get('/getShipping/:itemId', async (req, res) => {
+//     try {
+//         const itemId = req.params.itemId;
+//         // Assuming `wishlistItem` is your model, the correct collection name should be used here
+//         const queryItemId = ObjectId.isValid(itemId) ? new ObjectId(itemId) : itemId;
+//         const wishlistItem = await Wishlist.findOne({ 'items.productId': queryItemId });
+
+//         // If the wishlist with the given itemId is not found, send an appropriate response
+//         if (!wishlistItem) {
+//             return res.status(404).send('Item not found');
+//         }
+
+//         // Find the item in the items array
+//         const item = wishlistItem.items.find(item => item.productId === itemId);
+
+//         // If the item does not exist in the items array, send an appropriate response
+//         if (!item) {
+//             return res.status(404).send('Product not found in the wishlist items');
+//         }
+
+//         // Prepare the response object with the shipping details
+//         const response = {
+//             productId: item.productId,
+//             shippingCost: item.shippingCost,
+//             shippingLocation: item.shippingLocation,
+//             handlingTime: item.handlingTime,
+//             expeditedShipping: item.expeditedShipping,
+//             oneDayShipping: item.oneDayShipping,
+//             returnsAccepted: item.returnsAccepted
+//         };
+
+//         // Send the shipping details response
+//         res.json(response);
+
+//     } catch (e) {
+//         console.error(e);
+//         res.status(500).send('An error occurred while fetching the shipping details');
+//     }
+// });
 
 
 
