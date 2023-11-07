@@ -112,35 +112,35 @@ const ShippingTab = ({ wishlistProducts }) => {
   const [shippingDetails, setShippingDetails] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // useEffect(() => {
-  //   // Function to fetch shipping details for a single product
-  //   const fetchShippingDetailsForProduct = async (productId) => {
-  //     try {
-  //       const response = await axios.get(`http://localhost:8080/getShipping/${productId}`);
-  //       // Assuming the backend returns an array of details for a single product
-  //       return response.data.details;
-  //     } catch (error) {
-  //       console.error('Error fetching shipping details for product ID:', productId, error);
-  //       return [];
-  //     }
-  //   };
+  useEffect(() => {
+    // Function to fetch shipping details for a single product
+    const fetchShippingDetailsForProduct = async (productId) => {
+      try {
+        const response = await axios.get(`http://localhost:8080/getShipping/${productId}`);
+        // Assuming the backend returns an array of details for a single product
+        return response.data.details;
+      } catch (error) {
+        console.error('Error fetching shipping details for product ID:', productId, error);
+        return [];
+      }
+    };
 
-  //   // Fetch shipping details for all products in the wishlist
-  //   const fetchAllShippingDetails = async () => {
-  //     setLoading(true);
-  //     const allDetails = [];
-  //     for (const product of wishlistProducts) {
-  //       const details = await fetchShippingDetailsForProduct(product.id);
-  //       allDetails.push(...details);
-  //     }
-  //     setShippingDetails(allDetails);
-  //     setLoading(false);
-  //   };
+    // Fetch shipping details for all products in the wishlist
+    const fetchAllShippingDetails = async () => {
+      setLoading(true);
+      const allDetails = [];
+      for (const product of wishlistProducts) {
+        const details = await fetchShippingDetailsForProduct(product.id);
+        allDetails.push(...details);
+      }
+      setShippingDetails(allDetails);
+      setLoading(false);
+    };
 
-  //   if (wishlistProducts && wishlistProducts.length > 0) {
-  //     fetchAllShippingDetails();
-  //   }
-  // }, [wishlistProducts]);
+    if (wishlistProducts && wishlistProducts.length > 0) {
+      fetchAllShippingDetails();
+    }
+  }, [wishlistProducts]);
 
   // Render the shipping details or a loading state
   return (

@@ -98,10 +98,19 @@ module.exports = {
 
 
     processItemDetailData: function(data) {
+        // return data;
         if (!data || !data.Item) return null;
     
         let item = {};
-    
+
+        if (data.Item.ItemID) {
+            item.id = data.Item.ItemID;
+        }
+
+        if (data.Item.Title) {
+            item.title = data.Item.Title;
+        }
+
         if (data.Item.PictureURL && Array.isArray(data.Item.PictureURL)) {
             item.photo = data.Item.PictureURL;
         }
@@ -113,7 +122,7 @@ module.exports = {
         }
      
         if (data.Item.ReturnPolicy && data.Item.ReturnPolicy.ReturnsAccepted) {
-            console.log(data.Item)
+            // console.log(data.Item)
             item.returnPolicy = {
 
               returnsAccepted: true,
@@ -139,9 +148,47 @@ module.exports = {
         if (itemSpecifics.length > 0) {
             item.itemSpecifics = itemSpecifics;
         }
+
+        //add showfront storename and store url filter also
+        if (data.Item.Storefront && data.Item.Storefront.StoreName) {
+            item.storeName = data.Item.Storefront.StoreName;
+        }
+        if (data.Item.Storefront && data.Item.Storefront.StoreURL) {
+            item.storeURL = data.Item.Storefront.StoreURL;
+        }
+        //add for feedbackscore and feedbackratingstar
+        if (data.Item.Seller && data.Item.Seller.FeedbackScore) {
+            item.feedbackScore = data.Item.Seller.FeedbackScore;
+        }
+        
+        //add for PositiveFeedbackPercent
+        if (data.Item.Seller && data.Item.Seller.FeedbackRatingStar) {
+            item.feedbackRatingStar = data.Item.Seller.FeedbackRatingStar;
+        }
+        if (data.Item.Seller && data.Item.Seller.PositiveFeedbackPercent) {
+            item.PositiveFeedbackPercent = data.Item.Seller.PositiveFeedbackPercent;
+        }
+        //add for top rated
+        if (data.Item.Seller && data.Item.Seller.TopRatedSeller) {
+            item.TopRatedSeller = data.Item.Seller.TopRatedSeller;
+        }
+
+
+
+
     
         return item;
     }
     };
     
-
+    // function extractImageLinks(jsonData) {
+    //     // Check if jsonData is an object and has an 'items' array
+    //     let links = []
+    //     if (typeof jsonData === 'object' && Array.isArray(jsonData.items)) {
+    //       // Use map to extract 'imagelink' from each item, and filter out any undefined or null links
+    //         links = data.items.map(item => item.link);
+    //         }
+    //         // Return an empty array if conditions are not met
+    //     return links;
+    //   }
+      

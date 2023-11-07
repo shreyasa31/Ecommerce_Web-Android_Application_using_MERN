@@ -149,7 +149,7 @@ app.get('/getItem', async (req, res) => {
     if (itemID) {
         getItemBaseUrl += `&ItemID=${itemID}`;
     }
-    console.log(getItemBaseUrl);
+    // console.log(getItemBaseUrl);
  
     const headers = {
        
@@ -181,7 +181,7 @@ app.get('/getPostalCode', (req, res) => {
 
     const apiUrl = `http://api.geonames.org/postalCodeSearchJSON?postalcode_startsWith=${postalstart}&maxRows=5&username=${username}&country=${country}`;
 
-    console.log(apiUrl);
+    // console.log(apiUrl);
 
     request(apiUrl, (error, response, body) => {
         if (!error && response.statusCode === 200) {
@@ -205,17 +205,38 @@ app.get("/googlesearch", async (req, res) => {
     const searchType = 'image'; // Specifies the search type
   
     const googleSearchURL = `https://www.googleapis.com/customsearch/v1?q=${encodeURIComponent(productTitle)}&cx=${cx}&imgSize=${imgSize}&num=${num}&searchType=${searchType}&key=${key}`;
-   console.log(googleSearchURL);
 
    
 
     request(googleSearchURL, (error, response, body) => {
         if (!error && response.statusCode === 200) {
-            res.json(JSON.parse(body));
+            let result = [];
+            const parsedBody = JSON.parse(body);
+            if (parsedBody.items) {
+                result = parsedBody.items.map(item => item.link);
+            }
+            res.json(result);
+            
+
+            // res.json(JSON.parse(body));
         } else {
             res.status(500).send('Error');
         }
     });
+
+
+    // request({url:getItemBaseUrl, headers}, (error, response, body) => {
+        
+    //     if (!error && response.statusCode === 200) {
+    //         // res.json(JSON.parse(body));
+    //         const parsedBody = JSON.parse(body);
+    //     const processedItem = utils.processItemDetailData(parsedBody);
+    //     res.json(processedItem);
+    //     } else {
+
+    //         res.status(500).send('Error');
+    //     }
+    // });
 
 
 
@@ -271,7 +292,7 @@ app.get('/getSimilarItems', async (req, res) => {
 
     const merchandisingApiUrl = `https://svcs.ebay.com/MerchandisingService?OPERATION-NAME=getSimilarItems&SERVICE-NAME=MerchandisingService&SERVICE-VERSION=1.1.0&CONSUMER-ID=ShreyaSa-dummy-PRD-5932e5ad5-579e0f09&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&itemId=${itemID}&maxResults=20`;
 
-    console.log(merchandisingApiUrl);
+    // console.log(merchandisingApiUrl);
 
     request(merchandisingApiUrl, (error, response, body) => {
         if (!error && response.statusCode === 200) {
@@ -288,18 +309,18 @@ app.get('/getSimilarItems', async (req, res) => {
 
 
 app.get('/addToWishlist', async (req, res) => {
-    console.log("backend wl");
-    console.log(req.query.ItemID);
-    console.log(req.query.image);
-    console.log(req.query.title);
-    console.log(req.query.price);
-    console.log(req.query.shipping);
-    console.log(req.query.shippingCost);
-    console.log(req.query.shippingLocation);
-    console.log(req.query.handlingTime);
-    console.log(req.query.expeditedShipping);
-    console.log(req.query.oneDayShipping);
-    console.log(req.query.returnsAccepted);
+    // console.log("backend wl");
+    // console.log(req.query.ItemID);
+    // console.log(req.query.image);
+    // console.log(req.query.title);
+    // console.log(req.query.price);
+    // console.log(req.query.shipping);
+    // console.log(req.query.shippingCost);
+    // console.log(req.query.shippingLocation);
+    // console.log(req.query.handlingTime);
+    // console.log(req.query.expeditedShipping);
+    // console.log(req.query.oneDayShipping);
+    // console.log(req.query.returnsAccepted);
 
     try { 
     const itemExists = await Wishlist.findOne({
@@ -328,7 +349,7 @@ app.get('/addToWishlist', async (req, res) => {
             }]
         });
         const result = await wishlistAdd.save();
-        console.log(result)    
+        // console.log(result)    
         // const wishlist = await Wishlist.find();
         // res.json(wishlist);
         }
@@ -357,7 +378,12 @@ app.get('/getWishlist', async (req, res) => {
          
             itemDict.price=item.items[0].price;
             itemDict.shipping=item.items[0].shipping;
-            itemDict.shippingLocation=item.items[0].shippingLocation;
+            // itemDict.shippingCost=item.items[0].shippingCost;
+            // itemDict.shippingLocation=item.items[0].shippingLocation;
+            // itemDict.handlingTime=item.items[0].handlingTime;
+            // itemDict.expeditedShipping=item.items[0].expeditedShipping;
+            // itemDict.oneDayShipping=item.items[0].oneDayShipping;
+            // itemDict.returnsAccepted=item.items[0].returnsAccepted;
             // itemDict.favourites={
             //     icon: "cart_icon"
 
@@ -391,11 +417,11 @@ app.delete('/deleteWishlist', async (req, res) => {
 }
 
 );
-app.get('/getShipping', async (req, res) => {
-    const itemID = req.query.itemID || '';
+// app.get('/getShipping', async (req, res) => {
+//     const itemID = req.query.itemID || '';
 
-        const wishlistItems = await Wishlist.find({ 'items.productId': itemID });
-        console.log(wishlistItems);
+//         const wishlistItems = await Wishlist.find({ 'items.productId': itemID });
+//         console.log(wishlistItems);
 //     try {
         
 //          //here get shiippingcost location handling time and others
@@ -430,7 +456,7 @@ app.get('/getShipping', async (req, res) => {
 //                     response.push(itemDict);
 //                 }
 //             });
-         });
+        //  });
 
         
 

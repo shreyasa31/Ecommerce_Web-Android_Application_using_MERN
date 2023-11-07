@@ -2,11 +2,14 @@ import { Tab, Nav, Row, Col } from 'react-bootstrap';
 import { useState, useEffect } from 'react'
 import facebookImage from './facebook.png';
 import TabsComponent from './TabsComponent';
-
+import PhotosTab from './PhotosTab';
+import SimilarItems from './SimilarProducts';
 import ShippingTab from './Shipping';
+import React from 'react';
 //newcommit
-const ItemsTable = ({items,handleBack}) => {
+const ItemsTable = ({items,shipping,handleBack}) => {
     console.log("Inside Items Table",items);
+    console.log(shipping);
     // console.log(items?.items?.photo)
     // console.log(items.items.price)
     // // const [items, setItems] = useState([]);
@@ -43,18 +46,23 @@ const ItemsTable = ({items,handleBack}) => {
     //   return <div>Error: {error}</div>;
     // }
     const [images, setImages] = useState([]);
+    
+    const [photos, setPhotos] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [ItemID, setItemID] = useState('');
   const [activeTab, setActiveTab] = useState('product');
+  const [productTitle, setProductTitle] = useState('');
+  const [itemsp, setItemsp] = useState([]);
 
   // Callback function to update active tab
   const handleSelectTab = (key) => {
     setActiveTab(key);
   };
+
   const fetchImages = async (ItemID) => {
     try {
       // Replace with your actual fetch request
-      const response = await fetch(`http://localhost:8080/getItem?ItemID=${ItemID}`)
+      const response = await fetch(`http://localhost:8080/getItem?ItemID=${items.id}`)
       const data = await response.json();
       if (data && data.images) {
         setImages(data.images);
@@ -77,7 +85,55 @@ const ItemsTable = ({items,handleBack}) => {
     };
     // const selectedItem = items && items.length > 0 ? items[0] : null;
 
-    
+  //   useEffect(() => {
+  //     // Assuming 'ItemID' is a prop or state
+  //     fetchPhotos(productTitle);
+  // }, [productTitle]);
+
+
+  useEffect(() => {
+    const fetchSimilarItems = async () => {
+      try {
+        console.log(ItemID);
+        const response = await fetch(`http://localhost:8080/getSimilarItems?itemID=${items.id}`);
+        if (response.ok) {
+          const data = await response.json();
+          setItemsp(data.getSimilarItemsResponse.itemRecommendations.item); // Assuming this path holds your items
+        } else {
+          throw new Error('Error fetching similar items');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+
+    const fetchPhotos = async () => {
+      try {
+  
+        // Replace with your actual fetch request
+        console.log("fetching photos")
+        const response = await fetch(`http://localhost:8080/googlesearch?q=${encodeURIComponent(items.title)}`);
+  
+        // const response = await fetch(`http://localhost:8080/getItem?ItemID=${ItemID}`)
+        const data = await response.json();
+        console.log(data)
+        if (data && data.length > 0) {
+          console.log("got photos")
+          setPhotos(data);
+        } else {
+          // Handle the case where data is not in the expected format
+          console.error('Received data is not in expected format:', data);
+          setImages([]); // Reset images state to empty if data is incorrect
+        }
+      } catch (error) {
+        console.error('Error fetching images:', error);
+      }
+    };
+
+    fetchPhotos();
+    fetchSimilarItems();
+  }, [ItemID]);
+
   return (
     <>
     {/* */}
@@ -303,13 +359,196 @@ const ItemsTable = ({items,handleBack}) => {
   </div>
           )}
         </Tab.Pane>
-        <Tab.Pane eventKey="photos" active={activeTab === 'photos'}>
-          {activeTab === 'photos' && <p>Hello</p>}
+         <Tab.Pane eventKey="photos" active={activeTab === 'photos'}>
+          {activeTab === 'photos' &&  <div>
+
+          {photos.map((photo, index) => (
+            <img key={index} src={photo} />
+          ))}
+      </div>}
     
-        </Tab.Pane>
+
+        {/* </Tab.Pane>  */}
+        {/* <Tab.Pane eventKey="photos" active={activeTab === 'photos'}>
+  {activeTab === 'photos' && (
+    <PhotosTab productTitle={items?.title} />
+
+
+    ///////// photos collage
+  )} */}
+</Tab.Pane>
         <Tab.Pane eventKey="shipping" active={activeTab === 'shipping'}>
          {/* {activeTab === 'shipping' && <ShippingTab />}</Tab.Pane> */}
-            {activeTab === 'shipping' && <ShippingTab prodcutID={ItemID} wishlistProducts={items} />}</Tab.Pane>
+            {/* {activeTab === 'shipping' && <ShippingTab prodcutID={ItemID} wishlistProducts={items} />} */}
+       
+        
+          {/* {activeTab === 'shipping' && (<div className="container mt-3">
+      {shipping ? (
+        <div className="table-responsive">
+          <table className="table table-striped table-dark">
+            <thead>
+              <tr>
+                <th scope="col">Shipping Cost</th>
+                <th scope="col">Shipping Location</th>
+                <th scope="col">Handling Time</th>
+                <th scope="col">Expedited Shipping</th>
+                <th scope="col">One Day Shipping</th>
+                <th scope="col">Returns Accepted</th>
+              </tr>
+            </thead>
+            <tbody>
+              
+            {Object.entries(shipping).map(([key, value]) => {
+    console.log(`Rendering shipping details for product index: ${key}`, value); // Debug log
+    return (
+      <tr key={key}>
+        
+
+
+        <td class="text-white">{value.shippingCost}</td>
+        <td>{value.shippingLocation}</td>
+        <td>{value.handlingTime}</td>
+        <td>{value.expeditedShipping}</td>
+        <td>{value.oneDayShipping}</td>
+        <td>{value.returnsAccepted}</td>
+      </tr>
+    );
+  })}
+            </tbody>
+          </table>
+        </div>
+      ) : (
+        <p className="text-white">Loading shipping details...</p>
+      )}
+    </div>)} */}
+    {activeTab === 'shipping' && (
+  <div className="container mt-3">
+    {shipping ? (
+      <div className="table-responsive">
+        <table className="table table-striped table-dark">
+          <tbody>
+          <tr>
+                    <td>Shipping Cost</td>
+                    <td>{shipping.shippingCost}</td>
+                  </tr>
+                  <tr>
+                    <td>Shipping Location</td>
+                    <td>{shipping.shippingLocation}</td>
+                  </tr>
+                  <tr>
+                    <td>Handling Time</td>
+                    <td>{shipping.handlingTime}</td>
+                  </tr>
+                  <tr>
+                  <td>Expedited Shipping</td>
+              <td>{shipping.expeditedShipping ? <span className="material-icons" style={{ color: 'green' }}>done</span> : <span className="material-icons" style={{ color: 'red' }}>close</span>}</td>
+        
+                  </tr>
+                  <tr>
+                  <td>One Day Shipping</td>
+              <td>{shipping.oneDayShipping ? <span className="material-icons" style={{ color: 'green' }}>done</span> :<span className="material-icons" style={{ color: 'red' }}>close</span> }</td>
+                  </tr>
+                  <tr>
+                  <td>Returns Accepted</td>
+              <td>{shipping.returnsAccepted ? <span className="material-icons" style={{ color: 'green' }}>done</span> : <span className="material-icons" style={{ color: 'red' }}>close</span>}</td>
+     
+                  </tr>
+          
+          </tbody>
+        </table>
+      </div>
+    ) : (
+      <p>No shipping information available.</p>
+    )}
+  </div>
+)}
+
+          {/* ...other shipping details */}
+    
+    
+            </Tab.Pane>
+        <Tab.Pane eventKey="seller" active={activeTab === 'seller'}>
+          {/* ...seller details */}
+          {activeTab === 'seller' && (
+  <div className="container mt-3">
+    {shipping ? (
+      <div className="table-responsive">
+        <table className="table table-striped table-dark">
+          <tbody>
+          
+           
+
+
+          {items.feedbackScore && (
+  <tr>
+    <td>Feedback Score</td>
+    <td>{items.feedbackScore}</td>
+  </tr>
+)}
+
+{items.PositiveFeedbackPercent && (
+  <tr>
+    <td>Popularity</td>
+    <td>{items.PositiveFeedbackPercent}</td>
+  </tr>
+)}
+
+{items.feedbackRatingStar && (
+  <tr>
+    <td>Feedback Rating Star</td>
+    <td>{items.feedbackRatingStar}</td>
+  </tr>
+)}
+
+{typeof items.TopRatedSeller !== 'undefined' && (
+  <tr>
+    <td>Top Rated Seller</td>
+    <td>{items.TopRatedSeller ? <span className="material-icons" style={{ color: 'green' }}>done</span> : <span className="material-icons" style={{ color: 'red' }}>close</span>}</td>
+  </tr>
+)}
+
+{items.storeName && (
+  <tr>
+    <td>Store Name</td>
+    <td>{items.storeName}</td>
+  </tr>
+)}
+
+{items.storeURL && (
+  <tr>
+    <td>Buy Product At</td>
+    <td><a href={items.storeURL} target="_blank" rel="noopener noreferrer">Store Link</a></td>
+  </tr>
+)}
+
+          
+          </tbody>
+        </table>
+      </div>
+    ) : (
+      <p>No shipping information available.</p>
+    )}
+  </div>
+)}
+        </Tab.Pane>
+        <Tab.Pane eventKey="similar-products" active={activeTab === 'similar-products'}>
+          {/* ...similar products */}
+          {/* call similarproducts js here */}
+          {activeTab === 'similar-products' && <div>
+      <h2>Similar Items</h2>
+      <ul>
+        {itemsp.map((item) => (
+          <li key={item.itemId}>
+            <p>Title: {item.title}</p>
+            {/* <p>Price: {item.price}}</p>
+            <p>Shipping Cost: {item.shippingCost.__value__} {item.shippingCost.@currencyId}</p>
+            <p>Days Left: {item.timeLeft}</p> */}
+          </li>
+        ))}
+      </ul>
+    </div> }
+
+        </Tab.Pane>
         
 
 {/* <Tab.Pane eventKey="shipping" active={activeTab === 'shipping'}>

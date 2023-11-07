@@ -8,7 +8,7 @@ import ItemsTable from './Items';
 
 
 const ITEMS_PER_PAGE = 10;
-export default function ResultTable({tableData}){
+export default function ResultTable({tableData, getdetails}){
   console.log("Inside search table",tableData, typeof tableData);
   
   const [currentPage, setCurrentPage] = useState(1);
@@ -26,6 +26,7 @@ export default function ResultTable({tableData}){
     currentPage * ITEMS_PER_PAGE
   );
   const [details,setDetails]=useState({});
+  const [shippingDetails, setShippingDetails]=useState({});
 
   const paginationItems = [];
   for (let number = 1; number <= pageCount; number++) {
@@ -36,12 +37,26 @@ export default function ResultTable({tableData}){
     );
   }
   const [indiDetail, setIndiDetail] = useState(false);
-  const getItems=async (ItemID)=>{
+  // shipping param next to id
+  const getItems=async (ItemID, shippingCost,shippingLocation,handlingTime,expeditedShipping,oneDayShipping,returnsAccepted )=>{
       console.log("Item ID",ItemID);
       const response=await axios.get(`http://localhost:8080/getItem?ItemID=${ItemID}`)
       console.log("Response",response);
       setDetails(response.data);
+      setShippingDetails({
+        "shippingCost": shippingCost,
+        "shippingLocation": [shippingLocation],
+        "handlingTime":handlingTime ,
+        "expeditedShipping":expeditedShipping,
+        "oneDayShipping":oneDayShipping ,
+        "returnsAccepted":returnsAccepted
+      });
+    
+
       setIndiDetail(true);
+
+
+      // getdetails
   }
   console.log("Inside search Result", tableData)
     const getIconDisplay = (iconType) => {
@@ -60,7 +75,7 @@ export default function ResultTable({tableData}){
       };
 
     const addToWishlist = async (e) => {
-      console.log(e)
+      console.log(e);
       const url = `http://localhost:8080/addToWishlist`;
     
       try {
@@ -74,7 +89,7 @@ export default function ResultTable({tableData}){
 
     return(
         <>
-         { indiDetail &&  <ItemsTable items={details} handleBack={handleBack}/>}
+         { indiDetail &&  <ItemsTable items={details} shipping={shippingDetails} handleBack={handleBack}/>}
         {!indiDetail && <div className="container mt-3">
         <div class="row mb-3">
           <div class="col">
@@ -120,7 +135,8 @@ export default function ResultTable({tableData}){
                             </a>
                           </td>
                           {console.log(element.title)}
-                          <td className="bg-dark text-white text-truncate" style={{ maxWidth: "150px" }}><span onClick={()=>getItems(element.itemId)}>{element.title}</span></td>
+                          {/* (element.itemId,element.shippingDetails) */}
+                          <td className="bg-dark text-white text-truncate" style={{ maxWidth: "150px" }}><span onClick={()=>getItems(element.itemId, element.shippingCost,element.shippingLocation,element.handlingTime,element.expeditedShipping,element.oneDayShipping,element.returnsAccepted )}>{element.title}</span></td>
                           <td class=" bg-dark text-white" >{element.price}</td>
                           <td class=" bg-dark text-white" >{element.shippingType}</td>
                           <td class=" bg-dark text-white" >{element.zipcode}</td>

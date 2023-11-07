@@ -30,9 +30,32 @@ export default function Home() {
     // const[showSearchTable,setshowSearchTable]=useState(false);
     const [wishlistItems, setWishlistItems] = useState([]);
     const [showWishlist, setShowWishlist] = useState(false);
-
+    const[shippingDetails,setShippingDetails]=useState({});
+    const [seller,setSeller]=useState({})
+    const [sp,setSp]=useState([]);
     // ... other functions ...
+  // const getIdandShipping = async(itemid,shippping_details)=>{
+  //     console.log(itemid,shippping_details);
 
+      // shipdict={}
+      /* 
+      fill all the necessary values if avialable from shipping_detials into shipdict
+        setShippingDetails(shipdict)
+
+      next call backend and pass this itemid and get singleitemdetails
+
+      you will get json.
+
+      selldict={}
+              fill all the necessary values if avialable from json sellerInfo into selldict
+
+              setSeller(selldict)
+
+      next call backend for similar prods
+
+       setSp([array you get from api])
+      */
+  // }
     const handleWishlistClick = async () => {
         try {
             const response = await axios.get('http://localhost:8080/getWishlist');
@@ -73,6 +96,7 @@ export default function Home() {
         });
     
         const url = `http://localhost:8080/search?${params.toString()}`;
+        console.log(url);
     
         try {
           const response = await axios.get(url);
@@ -87,6 +111,8 @@ export default function Home() {
           console.error("Error fetching data:", error);
         }
       }
+      // export const searchresponse = response
+
     
     
     
@@ -319,8 +345,8 @@ export default function Home() {
     {/* get detail button from result table here */}
     
     {/* {showTableHeaders===true && showDetail === true  && <ResultTable tableData={products}/> } */}
-    {!showWishlist && showTableHeaders && showDetail && <ResultTable tableData={products}/>}
-
+    {!showWishlist && showTableHeaders && showDetail && <ResultTable tableData={products} />}
+{/* //getdetails={getIdandShipping} */}
     {showWishlist && <WishlistTable wishlistProducts={wishlistItems} />}
    
     
