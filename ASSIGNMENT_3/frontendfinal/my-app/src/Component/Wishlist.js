@@ -71,7 +71,7 @@ const WishlistTable = ({wishlistProducts}) => {
                   {/* You can implement adding to wishlist or any other action here */}
                   {/* <button className="btn btn-primary btn-sm">{getIconDisplay1
                                     (item.wishlist.icon)}</button> */}
-                      <button>add_shopping_cart</button>
+                      <button class="material-icons" style={{ color: 'orange' }}>remove_shopping_cart</button>
                 </td>
               </tr>
             ))}

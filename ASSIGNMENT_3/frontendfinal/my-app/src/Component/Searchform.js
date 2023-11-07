@@ -33,32 +33,11 @@ export default function Home() {
     const[shippingDetails,setShippingDetails]=useState({});
     const [seller,setSeller]=useState({})
     const [sp,setSp]=useState([]);
-    // ... other functions ...
-  // const getIdandShipping = async(itemid,shippping_details)=>{
-  //     console.log(itemid,shippping_details);
-
-      // shipdict={}
-      /* 
-      fill all the necessary values if avialable from shipping_detials into shipdict
-        setShippingDetails(shipdict)
-
-      next call backend and pass this itemid and get singleitemdetails
-
-      you will get json.
-
-      selldict={}
-              fill all the necessary values if avialable from json sellerInfo into selldict
-
-              setSeller(selldict)
-
-      next call backend for similar prods
-
-       setSp([array you get from api])
-      */
-  // }
+   
     const handleWishlistClick = async () => {
         try {
             const response = await axios.get('http://localhost:8080/getWishlist');
+            console.log("purnima: ",response)
             setWishlistItems(response.data);
             setShowWishlist(true); // Show wishlist table
         } catch (error) {
