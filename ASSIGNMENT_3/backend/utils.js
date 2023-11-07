@@ -178,7 +178,30 @@ module.exports = {
 
     
         return item;
-    }
+    },
+
+  
+     processSimilarData: function(data) {
+        // get titl price and time left and image
+        if (!data || !data.getSimilarItemsResponse || !data.getSimilarItemsResponse.itemRecommendations || !data.getSimilarItemsResponse.itemRecommendations.item) return null;
+        let items = [];
+        // let index = 1; // Initialize counter for index
+        for (let i of data.getSimilarItemsResponse.itemRecommendations.item) {
+            let itemDict = {};
+            // itemDict.index = index++;  // Add index to each item and increment
+            itemDict.itemId = i.itemId && i.itemId.length > 0 ? i.itemId : null;
+            itemDict.title = i.title && i.title.length > 0 ? i.title : null;
+            itemDict.image = i.imageURL && i.imageURL.length > 0 ? i.imageURL : null;  // Image
+            itemDict.price = i.buyItNowPrice && i.buyItNowPrice.__value__ ? i.buyItNowPrice.__value__ : null;
+            itemDict.shippingCost = i.shippingCost && i.shippingCost.__value__ ? i.shippingCost.__value__ : null;
+            itemDict.timeLeft = i.timeLeft && i.timeLeft.length > 0 ? i.timeLeft[1] : null;
+            items.push(itemDict);
+        }
+        return items;
+
+
+     }
+
     };
     
     // function extractImageLinks(jsonData) {

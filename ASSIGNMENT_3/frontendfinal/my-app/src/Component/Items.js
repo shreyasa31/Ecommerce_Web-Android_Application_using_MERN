@@ -8,8 +8,6 @@ import ShippingTab from './Shipping';
 import React from 'react';
 //newcommit
 const ItemsTable = ({items,shipping,handleBack}) => {
-    console.log("Inside Items Table",items);
-    console.log(shipping);
     // console.log(items?.items?.photo)
     // console.log(items.items.price)
     // // const [items, setItems] = useState([]);
@@ -53,6 +51,10 @@ const ItemsTable = ({items,shipping,handleBack}) => {
   const [activeTab, setActiveTab] = useState('product');
   const [productTitle, setProductTitle] = useState('');
   const [itemsp, setItemsp] = useState([]);
+  const [itemspdup, setItemspdup] = useState([]);
+  const [sortCategory, setSortCategory] = useState('Default');
+  const [sortOrder, setSortOrder] = useState('Ascending');
+  const [isSortOrderDisabled, setIsSortOrderDisabled] = useState(true);
 
   // Callback function to update active tab
   const handleSelectTab = (key) => {
@@ -94,11 +96,11 @@ const ItemsTable = ({items,shipping,handleBack}) => {
   useEffect(() => {
     const fetchSimilarItems = async () => {
       try {
-        console.log(ItemID);
         const response = await fetch(`http://localhost:8080/getSimilarItems?itemID=${items.id}`);
         if (response.ok) {
           const data = await response.json();
-          setItemsp(data.getSimilarItemsResponse.itemRecommendations.item); // Assuming this path holds your items
+          setItemsp(data); // Assuming this path holds your items
+          setItemspdup(data);
         } else {
           throw new Error('Error fetching similar items');
         }
@@ -133,6 +135,63 @@ const ItemsTable = ({items,shipping,handleBack}) => {
     fetchPhotos();
     fetchSimilarItems();
   }, [ItemID]);
+
+  useEffect(() => {
+    // Disable the sort order dropdown if the sort category is 'Default'
+    if (sortCategory === 'Default') {
+      setIsSortOrderDisabled(true);
+      setSortOrder('Ascending'); // Reset to default or any required value
+    } else {
+      setIsSortOrderDisabled(false);
+    }
+  }, [sortCategory]);
+
+
+  const handleSortCategoryChange = (event) => {
+    setSortCategory(event.target.value);
+  };
+
+  const handleSortOrderChange = (event) => {
+    setSortOrder(event.target.value);
+  };
+
+  useEffect(() => {
+    // This code will run after `sortCategory` has been updated and the component has re-rendered
+    sortProductsArray();
+  }, [sortCategory, sortOrder]);
+
+  const sortProductsArray = () => {
+    if(sortCategory === "Default") {
+      setItemsp(itemspdup)
+    }
+    else {
+
+    const sortedProducts = [...itemsp].sort((a, b) => {
+      let comparison = 0;
+
+      switch (sortCategory) {
+        case 'ProductName':
+          comparison = a.title.localeCompare(b.title);
+          break;
+        case 'DaysLeft':
+          comparison = a.timeLeft - b.timeLeft;
+          break;
+        case 'Price':
+          comparison = a.price - b.price;
+          break;
+        case 'ShoppingCost':
+          comparison = a.shippingCost - b.shippingCost;
+          break;
+        default:
+          return 0; // No sorting
+      }
+
+      return sortOrder === 'Descending' ? comparison * -1 : comparison;
+    });
+
+    setItemsp(sortedProducts);
+  }
+  };
 
   return (
     <>
@@ -198,7 +257,7 @@ const ItemsTable = ({items,shipping,handleBack}) => {
           <i className="fab fa-facebook-f"><img></img></i> {/* Font Awesome Icon */}
         {/* </a> */}
         {/* <a href="/wishlist">
-          <i className="fas fa-heart"> </i> {/* Font Awesome Icon */}
+          <i className="fas sfa-heart"> </i> {/* Font Awesome Icon */}
         {/* </a> */} 
 
         <button  className="me-2">
@@ -471,7 +530,7 @@ const ItemsTable = ({items,shipping,handleBack}) => {
           {/* ...seller details */}
           {activeTab === 'seller' && (
   <div className="container mt-3">
-    {shipping ? (
+    {items ? (
       <div className="table-responsive">
         <table className="table table-striped table-dark">
           <tbody>
@@ -536,13 +595,36 @@ const ItemsTable = ({items,shipping,handleBack}) => {
           {/* call similarproducts js here */}
           {activeTab === 'similar-products' && <div>
       <h2>Similar Items</h2>
+      <label>
+        Sort by:
+        <select value={sortCategory} onChange={handleSortCategoryChange}>
+          <option value="Default">Default</option>
+          <option value="ProductName">Product Name</option>
+          <option value="DaysLeft">Days Left</option>
+          <option value="Price">Price</option>
+          <option value="ShoppingCost">Shopping Cost</option>
+        </select>
+      </label>
+      <label>
+        Order:
+        <select
+          value={sortOrder}
+          onChange={handleSortOrderChange}
+          disabled={isSortOrderDisabled}
+        >
+          <option value="Ascending">Ascending</option>
+          <option value="Descending">Descending</option>
+        </select>
+      </label>
       <ul>
         {itemsp.map((item) => (
+          
           <li key={item.itemId}>
             <p>Title: {item.title}</p>
-            {/* <p>Price: {item.price}}</p>
-            <p>Shipping Cost: {item.shippingCost.__value__} {item.shippingCost.@currencyId}</p>
-            <p>Days Left: {item.timeLeft}</p> */}
+            <p>Price: {item.price}</p>
+            <p>image:{item.image}</p>
+            <p>Shipping Cost: {item.shippingCost}</p>
+            <p>Days Left: {item.timeLeft}</p>
           </li>
         ))}
       </ul>

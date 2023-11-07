@@ -296,7 +296,14 @@ app.get('/getSimilarItems', async (req, res) => {
 
     request(merchandisingApiUrl, (error, response, body) => {
         if (!error && response.statusCode === 200) {
-            res.json(JSON.parse(body));
+            // processSimilarData fucntion call this here
+            let processedBody;
+            if (utils.processSimilarData) {
+                processedBody = utils.processSimilarData(JSON.parse(body));
+            } else {
+                processedBody = JSON.parse(body);
+            }
+            res.json(processedBody);
         } else {
             res.status(500).send('Error');
         }
