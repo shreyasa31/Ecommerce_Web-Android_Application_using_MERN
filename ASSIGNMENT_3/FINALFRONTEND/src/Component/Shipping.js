@@ -116,7 +116,7 @@ const ShippingTab = ({ wishlistProducts }) => {
     // Function to fetch shipping details for a single product
     const fetchShippingDetailsForProduct = async (productId) => {
       try {
-        const response = await axios.get(`https://hw3shreyaback.wl.r.appspot.com/getShipping/${productId}`);
+        const response = await axios.get(`http://localhost:8080/getShipping/${productId}`);
         // Assuming the backend returns an array of details for a single product
         return response.data.details;
       } catch (error) {

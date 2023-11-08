@@ -440,7 +440,7 @@ export default function Home() {
    
     const handleWishlistClick = async () => {
         try {
-            const response = await axios.get('https://hw3shreyaback.wl.r.appspot.com/getWishlist');
+            const response = await axios.get('http://localhost:8080/getWishlist');
             setWishlistItems(response.data);
             setShowWishlist(true); // Show wishlist table
         } catch (error) {
@@ -525,7 +525,7 @@ const clear = () => {
             buyerPostalCode: fromOption === 'other' ? zipCode : undefined
           });
       
-          const url = `https://hw3shreyaback.wl.r.appspot.com/search?${params.toString()}`;
+          const url = `http://localhost:8080/search?${params.toString()}`;
           console.log(url);
       
           try {

@@ -40,7 +40,7 @@ export default function ResultTable({tableData, getdetails}){
   // shipping param next to id
   const getItems=async (ItemID, shippingCost,shippingLocation,handlingTime,expeditedShipping,oneDayShipping,returnsAccepted )=>{
       console.log("Item ID",ItemID);
-      const response=await axios.get(`https://hw3shreyaback.wl.r.appspot.com/getItem?ItemID=${ItemID}`)
+      const response=await axios.get(`http://localhost:8080/getItem?ItemID=${ItemID}`)
       console.log("Response",response);
       setDetails(response.data);
       setShippingDetails({
@@ -129,7 +129,7 @@ export default function ResultTable({tableData, getdetails}){
     const handleWishlistClick = async (e) => {
       console.log("wishlist clicked!")
       // call getwishlist and initialize newwishlists array
-      const response = await axios.get('https://hw3shreyaback.wl.r.appspot.com/getWishlist'); // Replace with your API endpoint
+      const response = await axios.get('http://localhost:8080/getWishlist'); // Replace with your API endpoint
       const cur_wishlist = response.data;
       
 
@@ -145,7 +145,7 @@ export default function ResultTable({tableData, getdetails}){
           flag = 1;
           try {
             console.log(`Removing item with ID: ${e.itemId}`);
-            const response = await axios.delete(`https://hw3shreyaback.wl.r.appspot.com/deleteWishlist?itemID=${e.itemId}`);
+            const response = await axios.delete(`http://localhost:8080/deleteWishlist?itemID=${e.itemId}`);
             console.log('Item removed from wishlist:', response.data);  // Handle response data as needed
           } catch (error) {
             console.error("Error removing item from wishlist:", error);
@@ -159,7 +159,7 @@ export default function ResultTable({tableData, getdetails}){
         // add to wishlist
         console.log("adding to wishlist")
         try {
-          const response = await axios.get(`https://hw3shreyaback.wl.r.appspot.com/addToWishlist?ItemID=${e.itemId}&image=${e.image}&title=${e.title}&price=${e.price}&shipping=${e.shippingType}&shippingCost=${e.shippingCost}&shippingLocation=${e.shippingLocation}&handlingTime=${e.handlingTime}&expeditedShipping=${e.expeditedShipping}&oneDayShipping=${e.oneDayShipping}&returnsAccepted=${e.returnsAccepted}`);
+          const response = await axios.get(`http://localhost:8080/addToWishlist?ItemID=${e.itemId}&image=${e.image}&title=${e.title}&price=${e.price}&shipping=${e.shippingType}&shippingCost=${e.shippingCost}&shippingLocation=${e.shippingLocation}&handlingTime=${e.handlingTime}&expeditedShipping=${e.expeditedShipping}&oneDayShipping=${e.oneDayShipping}&returnsAccepted=${e.returnsAccepted}`);
           console.log(response.data);  // Handle response data as needed
         } catch (error) {
           console.error("Error fetching data:", error);

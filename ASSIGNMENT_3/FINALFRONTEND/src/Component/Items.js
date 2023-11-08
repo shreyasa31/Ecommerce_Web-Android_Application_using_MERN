@@ -64,7 +64,7 @@ const ItemsTable = ({items,shipping,handleBack}) => {
   const fetchImages = async (ItemID) => {
     try {
       // Replace with your actual fetch request
-      const response = await fetch(`https://hw3shreyaback.wl.r.appspot.com/getItem?ItemID=${items.id}`)
+      const response = await fetch(`http://localhost:8080/getItem?ItemID=${items.id}`)
       const data = await response.json();
       if (data && data.images) {
         setImages(data.images);
@@ -96,7 +96,7 @@ const ItemsTable = ({items,shipping,handleBack}) => {
   useEffect(() => {
     const fetchSimilarItems = async () => {
       try {
-        const response = await fetch(`https://hw3shreyaback.wl.r.appspot.com/getSimilarItems?itemID=${items.id}`);
+        const response = await fetch(`http://localhost:8080/getSimilarItems?itemID=${items.id}`);
         if (response.ok) {
           const data = await response.json();
           setItemsp(data); // Assuming this path holds your items
@@ -114,7 +114,7 @@ const ItemsTable = ({items,shipping,handleBack}) => {
   
         // Replace with your actual fetch request
         console.log("fetching photos")
-        const response = await fetch(`https://hw3shreyaback.wl.r.appspot.com/googlesearch?q=${encodeURIComponent(items.title)}`);
+        const response = await fetch(`http://localhost:8080/googlesearch?q=${encodeURIComponent(items.title)}`);
   
         // const response = await fetch(`http://localhost:8080/getItem?ItemID=${ItemID}`)
         const data = await response.json();

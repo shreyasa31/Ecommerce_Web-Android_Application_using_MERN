@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASSIGNMENT3</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        .custom-btn {
+    background-color: transparent;
+    color: inherit; /* Inherit the default text color */
+}
+
+.custom-btn:hover {
+    background-color: black;
+    color: white;
+    border: 1px solid black;
+}
+
+    </style>
+</head>
+
+<body>
+
+    <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+        <div class="bg-dark text-white p-4 rounded" style="padding-left: 1000px; width: 1048px;">
+            
+            <div class="container mt-5">
+                <h3 class="mb-4 text-center">Product Search</h3>
+                <form>
+                    <div class="form-group row justify-content-center">
+                        <label for="keyword" class="col-sm-2 col-form-label">Keyword<span class="text-danger">*</span></label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="keyword" placeholder="Enter Product Name(Eg. iPhone 8)">
+                        </div>
+                    </div>
+
+                    <div class="form-group row justify-content-center">
+                        <label for="category" class="col-sm-2 col-form-label">Category</label>
+                        <div class="col-sm-6">
+                            <select class="form-control" id="category">
+                                <option>All Categories</option>
+                                <option>Art</option>
+                                <option>Baby</option>
+                                <option>Books</option>
+                                <option>Clothing, Shoes & Accessories</option>
+                                <option>Computers/Tablets & Networking</option>
+                                <option>Music</option>
+                                <option>Health & Beauty</option>
+                                <option>Vidoe Games & Consoles</option>
+                                <!-- ... other options ... -->
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row justify-content-center">
+                        <label class="col-sm-2">Condition</label>
+                        <div class="col-sm-6">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="new" value="new">
+                                <label class="form-check-label" for="new">New</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="used" value="used">
+                                <label class="form-check-label" for="used">Used</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="unspecified" value="unspecified">
+                                <label class="form-check-label" for="unspecified">Unspecified</label>
+                            </div>
+                            <!-- ... other conditions ... -->
+                        </div>
+                    </div>
+
+                    <div class="form-group row justify-content-center">
+                        <label class="col-sm-2">Shipping Options</label>
+                        <div class="col-sm-6">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" name="shippingOption" id="localPickup" value="localPickup">
+                                <label class="form-check-label" for="localPickup">Local Pickup</label>
+                            </div>
+                            <!-- ... other shipping options ... -->
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" name="shippingOption" id="freeshipping" value="freeshipping">
+                                <label class="form-check-label" for="freeshipping">Free Shipping</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row justify-content-center">
+                        <label for="distance" class="col-sm-2 col-form-label">Distance (Miles)</label>
+                        <div class="col-sm-6">
+                            <input type="number" class="form-control" id="distance" placeholder="10">
+                        </div>
+                    </div>
+
+                    <div class="form-group row justify-content-center">
+                        <label class="col-sm-2">From<span class="text-danger">*</span></label>
+                        <div class="col-sm-6">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="fromOption" id="currentLocation" value="currentLocation">
+                                <label class="form-check-label" for="currentLocation">'Current Location'</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="fromOption" id="other" value="other">
+                                <label class="form-check-label" for="other">Other. Please specify zip code:</label>
+                                <input type="text" class="form-control mt-2">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- <span class="form-group row justify-content-center">
+                        <span class="col-sm-8 text-center">
+                            <button type="submit" class="btn btn-primary">Search</button>
+                            <button type="reset" class="btn btn-secondary">Clear</button>
+                        </span>
+                    </span> -->
+                    <div class="form-group row">
+                        <div class="col-sm-8 offset-sm-2 d-flex justify-content-start">
+                            <button type="submit" class="btn btn-primary mr-2">Search</button>
+                            <button type="reset" class="btn btn-secondary">Clear</button>
+                        </div>
+                    </div>
+                    
+                    
+                </form>
+            </div>
+    </div>
+</div>
+<div class="container mt-5">
+    <!-- Your form elements here -->
+    <div class="form-group row mt-1 justify-content-center">
+        <div class="col-12 col-sm-auto mb-1 mb-sm-0">
+            <button type="button" class="btn custom-btn border-0 rounded w-100">Results</button>
+        </div>
+        <div class="col-12 col-sm-auto">
+            <button type="button" class="btn custom-btn border-0 rounded w-100">Wish List</button>
+        </div>
+    </div>
+</div>
+</div>s
+
+</body>
+
+</html>

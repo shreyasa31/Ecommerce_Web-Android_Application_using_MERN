@@ -1,0 +1,44 @@
+@import "~bootstrap/dist/css/bootstrap.css";
+/* styles/globals.css */
+
+/* Google Font */
+/* @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap'); */
+
+
+@media (min-width: 768px) {
+  .btn-md-inline-block {
+      display: inline-block;
+      width: auto;
+  }
+}
+.custom-hover:hover{
+  background-color: black;
+  color:white;
+}
+.search_container{
+  margin-top: 2rem!important;
+  margin-left: 10rem!important;
+  margin-right: 10rem!important; 
+}
+   
+.custom-row-height tr td {
+  height: 120px;
+  
+}
+.always-blue {
+  color: #007bff !important; /* Bootstrap's primary color */
+  text-decoration: none;
+
+}
+.always-blue:hover, .always-blue:focus {
+  text-decoration: underline;
+}
+
+/* For the table layout */
+
+
+
+
+
+
+

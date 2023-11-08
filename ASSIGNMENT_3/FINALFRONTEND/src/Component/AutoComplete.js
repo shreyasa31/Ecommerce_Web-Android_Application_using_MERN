@@ -9,7 +9,7 @@ const PostalCodeAutocomplete = ({ zipCode, setZipCode }) => {
     const loadSuggestions = async () => {
       if (zipCode.length > 2) {
         try {
-          const response = await axios.get(`https://hw3shreyaback.wl.r.appspot.com/getPostalCode?postalstart=${zipCode}`);
+          const response = await axios.get(`http://localhost:8080/getPostalCode?postalstart=${zipCode}`);
           if (response.data && response.data.postalCodes) {
             setSuggestions(response.data.postalCodes);
           }

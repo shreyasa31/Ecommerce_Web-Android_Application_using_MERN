@@ -7,7 +7,7 @@ const WishlistTable = ({wishlistProducts}) => {
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const response = await axios.get('https://hw3shreyaback.wl.r.appspot.com/getWishlist'); // Replace with your API endpoint
+        const response = await axios.get('http://localhost:8080/getWishlist'); // Replace with your API endpoint
         setItems(response.data);
       } catch (error) {
         console.error('Error fetching wishlist data:', error);

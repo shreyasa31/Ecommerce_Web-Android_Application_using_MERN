@@ -8,7 +8,7 @@ function SimilarItems() {
     const fetchSimilarItems = async () => {
       try {
         console.log(itemID);
-        const response = await fetch(`https://hw3shreyaback.wl.r.appspot.com/getSimilarItems?itemID=${itemID}`);
+        const response = await fetch(`http://localhost:8080/getSimilarItems?itemID=${itemID}`);
         if (response.ok) {
           const data = await response.json();
           console.log(data);
