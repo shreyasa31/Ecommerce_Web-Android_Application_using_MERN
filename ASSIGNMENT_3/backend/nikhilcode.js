@@ -176,20 +176,37 @@ app.get('/getItem', async (req, res) => {
 
 app.get('/getPostalCode', (req, res) => {
     const postalstart = req.query.postalstart;
-    const username = 'shreya31'; 
+    const username = 'shreyak31'; 
     const country = 'US';
 
     const apiUrl = `http://api.geonames.org/postalCodeSearchJSON?postalcode_startsWith=${postalstart}&maxRows=5&username=${username}&country=${country}`;
 
-    // console.log(apiUrl);
-
+    console.log(apiUrl);
+    //i want only postal code
+    
+    
+//in request call processPostal function
     request(apiUrl, (error, response, body) => {
         if (!error && response.statusCode === 200) {
-            res.json(JSON.parse(body));
+            // res.json(JSON.parse(body));
+            let result = [];
+            const parsedBody = JSON.parse(body);
+            if (parsedBody.postalCodes) {
+                result = parsedBody.postalCodes.map(item => item.postalCode);
+            }
+            res.json(result);
         } else {
             res.status(500).send('Error');
         }
     });
+
+    // request(apiUrl, (error, response, body) => {
+    //     if (!error && response.statusCode === 200) {
+    //         res.json(JSON.parse(body));
+    //     } else {
+    //         res.status(500).send('Error');
+    //     }
+    // });
 });
 
 app.get("/googlesearch", async (req, res) => {

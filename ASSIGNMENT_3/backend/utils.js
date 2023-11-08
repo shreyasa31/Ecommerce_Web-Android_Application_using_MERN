@@ -76,14 +76,14 @@ module.exports = {
                             // if (shippingPrice !== null && parseFloat(shippingPrice) >= 0.01) {
                             //     itemDict.price += ` (+ $${shippingPrice} for shipping)`;
                             // }
-                            itemDict.wishlist = {
-                                // added: false, // Placeholder; this should be determined from the user's actual wishlist
-                                // icon: "🖤"    // Using a heart emoji as a placeholder for the wishlist icon; replace with the actual icon in your frontend
+                            // itemDict.wishlist = {
+                            //     // added: false, // Placeholder; this should be determined from the user's actual wishlist
+                            //     // icon: "🖤"    // Using a heart emoji as a placeholder for the wishlist icon; replace with the actual icon in your frontend
 
-                                icon: "cart_icon"
+                            //     icon: "cart_icon"
 
                             
-                            };
+                            // };
                             items.push(itemDict);
                         }
                     }
@@ -200,18 +200,27 @@ module.exports = {
         return items;
 
 
+     },
+     processPostal: function(data){
+        //get only postal code
+        if (!data || !data.postalCodes || !data.postalCodes.length > 0) return null;
+        let postal = [];
+        for (let i of data.postalCodes) {
+            let itemDict = {};
+            itemDict.postalCode = i.postalCode && i.postalCode.length > 0 ? i.postalCode : null;
+            postal.push(itemDict);
+        }
+        return postal;
+        
+          
      }
+     
+
+
+
+
 
     };
     
-    // function extractImageLinks(jsonData) {
-    //     // Check if jsonData is an object and has an 'items' array
-    //     let links = []
-    //     if (typeof jsonData === 'object' && Array.isArray(jsonData.items)) {
-    //       // Use map to extract 'imagelink' from each item, and filter out any undefined or null links
-    //         links = data.items.map(item => item.link);
-    //         }
-    //         // Return an empty array if conditions are not met
-    //     return links;
-    //   }
+   
       
