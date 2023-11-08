@@ -1,0 +1,31 @@
+{
+  "name": "assignment_3",
+  "version": "1.0.0",
+  "description": "Web Technology Assignment3",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "shreyasa31.github.io"
+  },
+  "author": "shreya kamath",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.5.1",
+    "btoa": "^1.2.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mongoose": "^8.0.0",
+    "ngeohash": "^0.6.3",
+    "node-fetch": "^3.3.2",
+    "nodemon": "^3.0.1",
+    "request": "^2.88.2"
+
+  },
+ "scripts":{
+	"start":"node app.js"
+}
+}

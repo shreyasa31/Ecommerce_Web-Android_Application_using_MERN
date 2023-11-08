@@ -9,7 +9,7 @@ const PhotosTab = ({ productTitle }) => {
   const fetchPhotos = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch(`/googlesearch?q=${encodeURIComponent(productTitle)}`);
+      const response = await fetch(`https://hw3shreyaback.wl.r.appspot.com/googlesearch?q=${encodeURIComponent(productTitle)}`);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }

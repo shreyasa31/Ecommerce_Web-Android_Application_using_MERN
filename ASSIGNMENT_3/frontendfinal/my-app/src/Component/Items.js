@@ -146,7 +146,7 @@ const ItemsTable = ({items,shipping,handleBack}) => {
     }
   }, [sortCategory]);
 
-
+  const [visibleItems, setVisibleItems] = useState(5);
   const handleSortCategoryChange = (event) => {
     setSortCategory(event.target.value);
   };
@@ -154,6 +154,13 @@ const ItemsTable = ({items,shipping,handleBack}) => {
   const handleSortOrderChange = (event) => {
     setSortOrder(event.target.value);
   };
+  const showMore = () => {
+    setVisibleItems(itemsp.length);
+};
+
+const showLess = () => {
+    setVisibleItems(5);
+};
 
   useEffect(() => {
     // This code will run after `sortCategory` has been updated and the component has re-rendered
@@ -251,7 +258,7 @@ const ItemsTable = ({items,shipping,handleBack}) => {
 
   
   <div className="container mt-5">
-  <h2 onClick={traverseCallback}>List</h2>
+  <button onClick={traverseCallback}>List</button>
   <div className="d-flex justify-content-end">
         {/* <a href="/facebook" className="me-2">
           <i className="fab fa-facebook-f"><img></img></i> {/* Font Awesome Icon */}
@@ -530,11 +537,13 @@ const ItemsTable = ({items,shipping,handleBack}) => {
           {/* ...seller details */}
           {activeTab === 'seller' && (
   <div className="container mt-3">
+    
     {items ? (
       <div className="table-responsive">
         <table className="table table-striped table-dark">
           <tbody>
-          
+          {/* <tr class="text-centre col-sm-6 "><td>{items.storeName}</td></tr> */}
+      
            
 
 
@@ -576,7 +585,7 @@ const ItemsTable = ({items,shipping,handleBack}) => {
 {items.storeURL && (
   <tr>
     <td>Buy Product At</td>
-    <td><a href={items.storeURL} target="_blank" rel="noopener noreferrer">Store Link</a></td>
+    <td><a href={items.storeURL} target="_blank" rel="noopener noreferrer">Store</a></td>
   </tr>
 )}
 
@@ -588,6 +597,10 @@ const ItemsTable = ({items,shipping,handleBack}) => {
       <p>No shipping information available.</p>
     )}
   </div>
+
+
+
+
 )}
         </Tab.Pane>
         <Tab.Pane eventKey="similar-products" active={activeTab === 'similar-products'}>
@@ -616,7 +629,7 @@ const ItemsTable = ({items,shipping,handleBack}) => {
           <option value="Descending">Descending</option>
         </select>
       </label>
-      <ul>
+      {/* <ul>
         {itemsp.map((item) => (
           
           <li key={item.itemId}>
@@ -627,7 +640,52 @@ const ItemsTable = ({items,shipping,handleBack}) => {
             <p>Days Left: {item.timeLeft}</p>
           </li>
         ))}
-      </ul>
+      </ul> */}
+       {/* <div className="row">
+                                {itemsp.slice(0, visibleItems).map((item, index) => (
+                                    <div key={index} className="col-md-4 col-lg-3 mb-4">
+                                        <div className="card">
+                                            <img src={item.image} className="card-img-top" alt="Product" />
+                                            <div className="card-body">
+                                                <h5 className="card-title">{item.title}</h5>
+                                                <p className="card-text">Price: {item.price}</p>
+                                                <p className="card-text">Shipping Cost: {item.shippingCost}</p>
+                                                <p className="card-text">Days Left: {item.timeLeft}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div> */}
+                          <div className="row">
+  {itemsp.slice(0, visibleItems).map((item, index) => (
+    <div key={index} className="col-12 mb-4">
+      <div className="card">
+        <div className="row g-0 bg-dark">
+          <div className="col-md-4">
+            <img src={item.image} className="img-fluid rounded-start" alt="Product" />
+          </div>
+          <div className="col-md-8">
+            <div className="card-body">
+              <h5 className="card-title text-white">{item.title}</h5>
+              <p className="card-text text-white">Price: {item.price}</p>
+              <p className="card-text text-white">Shipping Cost: {item.shippingCost}</p>
+              <p className="card-text text-white">Days Left: {item.timeLeft}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  ))}
+</div>
+                            {visibleItems < itemsp.length ? (
+                                <button onClick={showMore} className="btn btn-primary">
+                                    Show More
+                                </button>
+                            ) : (
+                                <button onClick={showLess} className="btn btn-secondary">
+                                    Show Less
+                                </button>
+                            )}
     </div> }
 
         </Tab.Pane>

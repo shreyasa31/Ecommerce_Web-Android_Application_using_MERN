@@ -36,7 +36,21 @@ const WishlistTable = ({wishlistProducts}) => {
     }
     return <>{decodedText}</>;
   }
-  
+  // const [details,setDetails]=useState({});
+  // const [shippingDetails, setShippingDetails]=useState({});
+  // const getItems=async (ItemID, shippingCost,shippingLocation,handlingTime,expeditedShipping,oneDayShipping,returnsAccepted )=>{
+  //   console.log("Item ID",ItemID);
+  //   const response=await axios.get(`http://localhost:8080/getItem?ItemID=${ItemID}`)
+  //   console.log("Response",response);
+  //   setDetails(response.data);
+  //   setShippingDetails({
+  //     "shippingCost": shippingCost,
+  //     "shippingLocation": [shippingLocation],
+  //     "handlingTime":handlingTime ,
+  //     "expeditedShipping":expeditedShipping,
+  //     "oneDayShipping":oneDayShipping ,
+  //     "returnsAccepted":returnsAccepted
+  //   });
 
 
   
@@ -82,6 +96,6 @@ const WishlistTable = ({wishlistProducts}) => {
   );
 };
 
-
+// }
 
 export default WishlistTable;
