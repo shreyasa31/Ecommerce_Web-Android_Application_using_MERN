@@ -9,10 +9,12 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 
@@ -23,6 +25,7 @@ public class SearchFragment extends Fragment {
     private RadioGroup radioGroup;
     private Button dynamicButton,dynamicButton1;
     private ConstraintLayout constraintLayout;
+    private Spinner mySpinner;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,6 +46,13 @@ public class SearchFragment extends Fragment {
         dynamicButton = view.findViewById(R.id.button);
         dynamicButton1 = view.findViewById(R.id.button2);
         constraintLayout = view.findViewById(R.id.frameLayout);
+
+        mySpinner = view.findViewById(R.id.spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
+                R.array.spinner_items, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mySpinner.setAdapter(adapter);
+
         checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
