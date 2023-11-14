@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <style name="MyTabTextStyle" parent="Widget.MaterialComponents.TabLayout">
+        <item name="tabTextColor">#A483EF</item>
+        <item name="tabSelectedTextColor">@color/white</item>
+        <item name="tabBackground">@color/navy_blue</item>
+        <item name="tabIndicatorColor">#C4B6AEAE</item>
+
+    </style>
+
+</resources>
