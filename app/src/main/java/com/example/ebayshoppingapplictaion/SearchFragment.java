@@ -29,6 +29,7 @@ public class SearchFragment extends Fragment {
     private ConstraintLayout constraintLayout;
     private Spinner mySpinner;
     private RadioButton zip;
+    private TextView validationText,validationText1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,9 +56,10 @@ public class SearchFragment extends Fragment {
         dynamicButton = view.findViewById(R.id.button);
         dynamicButton1 = view.findViewById(R.id.button2);
         constraintLayout = view.findViewById(R.id.frameLayout);
-
+        zip=view.findViewById(R.id.radio_button);
         editText2.setText("10");
         mySpinner = view.findViewById(R.id.spinner);
+
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
                 R.array.spinner_items, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -73,6 +75,7 @@ public class SearchFragment extends Fragment {
                 checkBox5.setChecked(false);
                 checkBox.setChecked(false);
                 radioGroup.clearCheck();
+                zip.setChecked(false);
                 editText.setText("");
                 editText2.setText("10");
                 mySpinner.setSelection(0);
@@ -98,7 +101,19 @@ public class SearchFragment extends Fragment {
                 }
             }
         });
-
+        validationText = view.findViewById(R.id.validationText);
+        validationText1=view.findViewById(R.id.validation2);
+        validationText.setVisibility(View.GONE);
+        validationText1.setVisibility(View.GONE);
+       // Assuming you have a submit button
+//        dynamicButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                validateEditText();
+//                validateEditText1();
+//            }
+//
+//        });
         dynamicButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,6 +125,7 @@ public class SearchFragment extends Fragment {
             }
         });
 
+
         return view;
     }
     //
@@ -120,20 +136,40 @@ public class SearchFragment extends Fragment {
         constraintSet.connect(R.id.button2, ConstraintSet.TOP, anchorId, ConstraintSet.BOTTOM);
         constraintSet.applyTo(constraintLayout);
     }
-    private boolean isValidInput() {
-        String keyword = KeywordEditText.getText().toString().trim();
-        String zipcode = editText.getText().toString().trim();
+//    private void validateEditText() {
+//        if (KeywordEditText.getText().toString().trim().isEmpty()) {
+//            validationText.setText("Please enter mandatory field");
+//            validationText.setVisibility(View.VISIBLE);
+//        } else {
+//            validationText.setVisibility(View.GONE);
+//        }
+//    }
+//    private void validateEditText1() {
+//        if ( editText.getText().toString().trim().isEmpty()) {
+//            validationText1.setText("Please enter mandatory field");
+//            validationText1.setVisibility(View.VISIBLE);
+//        } else {
+//            validationText1.setVisibility(View.GONE);
+//        }
+//    }
+private boolean isValidInput() {
+    String keyword = KeywordEditText.getText().toString().trim();
+    String zipcode = editText.getText().toString().trim();
 
-        if (keyword.isEmpty()) {
-            KeywordEditText.setError("Keyword is required");
-            return false;
-        }
-
-        if (zip.isChecked() && (zipcode.isEmpty()) ){
-            editText.setError("Valid zipcode is required");
-            return false;
-        }
-
-        return true;
+    if (keyword.isEmpty()) {
+        validationText.setText("Keyword is required");
+        validationText.setVisibility(View.VISIBLE);
+        return false;
     }
+
+
+    if (zip.isChecked() && (zipcode.isEmpty()) ){
+        validationText1.setText("Valid zipcode is required");
+        validationText1.setVisibility(View.VISIBLE);
+        return false;
+    }
+
+    return true;
+}
+
 }

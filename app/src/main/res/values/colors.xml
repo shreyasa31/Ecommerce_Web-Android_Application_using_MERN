@@ -5,4 +5,6 @@
     <color name="my_purple">#804AFF</color>
     <color name="orange_icon">#F44336</color>
     <color name="navy_blue">#532bab</color>
+    <color name="red">#FF0000</color>
+
 </resources>
