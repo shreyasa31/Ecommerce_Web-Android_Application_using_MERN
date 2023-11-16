@@ -120,7 +120,7 @@ public class SearchFragment extends Fragment {
                 if (isValidInput()) {
                     // Proceed with your search logic
                 } else {
-                    Toast.makeText(getActivity(), "Invalid keyword or zipcode", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Please fix all the errors", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -156,17 +156,24 @@ private boolean isValidInput() {
     String keyword = KeywordEditText.getText().toString().trim();
     String zipcode = editText.getText().toString().trim();
 
-    if (keyword.isEmpty()) {
-        validationText.setText("Keyword is required");
+    if (keyword.isEmpty() || (zip.isChecked() && (zipcode.isEmpty()) )) {
+        validationText.setText("Please enter mandatory field");
         validationText.setVisibility(View.VISIBLE);
+        validationText1.setText("Please enter mandatory field");
+        validationText1.setVisibility(View.VISIBLE);
         return false;
     }
 
 
-    if (zip.isChecked() && (zipcode.isEmpty()) ){
-        validationText1.setText("Valid zipcode is required");
-        validationText1.setVisibility(View.VISIBLE);
-        return false;
+
+//    if (zip.isChecked() && (zipcode.isEmpty()) ){
+//        validationText1.setText("Valid zipcode is required");
+//        validationText1.setVisibility(View.VISIBLE);
+//        return false;
+//    }
+    else {
+        validationText.setVisibility(View.GONE);
+        validationText1.setVisibility(View.GONE);
     }
 
     return true;
