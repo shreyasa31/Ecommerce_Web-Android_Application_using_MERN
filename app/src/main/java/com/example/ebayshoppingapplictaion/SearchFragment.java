@@ -21,6 +21,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -127,7 +128,17 @@ public class SearchFragment extends Fragment {
 
             }
         });
-
+        listViewPostalCodes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Get the selected item text from ListView
+                String selectedItem = (String) parent.getItemAtPosition(position);
+                // Set the EditText text to the selected zipcode
+                editText.setText(selectedItem);
+                // Optionally, you can hide the ListView after selection
+                listViewPostalCodes.setVisibility(View.GONE);
+            }
+        });
 
 
         //dropdown
