@@ -157,7 +157,8 @@ public class SearchFragment extends Fragment {
                 checkBox4.setChecked(false);
                 checkBox5.setChecked(false);
                 checkBox.setChecked(false);
-                radioGroup.clearCheck();
+                zip.setChecked(false);
+                current.setChecked(true);
                 zip.setChecked(false);
                 editText.setText("");
                 editText2.setText("10");
