@@ -6,12 +6,14 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -28,7 +30,7 @@ public class SearchFragment extends Fragment {
     private Button dynamicButton,dynamicButton1;
     private ConstraintLayout constraintLayout;
     private Spinner mySpinner;
-    private RadioButton zip;
+    private RadioButton zip,current;
     private TextView validationText,validationText1;
 
     @Override
@@ -56,10 +58,11 @@ public class SearchFragment extends Fragment {
         dynamicButton = view.findViewById(R.id.button);
         dynamicButton1 = view.findViewById(R.id.button2);
         constraintLayout = view.findViewById(R.id.frameLayout);
-        zip=view.findViewById(R.id.radio_button);
+        zip=view.findViewById(R.id.radioButton2);
         editText2.setText("10");
         mySpinner = view.findViewById(R.id.spinner);
-
+        current=view.findViewById(R.id.radioButton1);
+        current.setChecked(true);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
                 R.array.spinner_items, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -81,6 +84,56 @@ public class SearchFragment extends Fragment {
                 mySpinner.setSelection(0);
             }
         });
+//        current.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (current.isChecked()) {
+//                    current.setChecked(true);
+//                    zip.setChecked(false);
+//                }
+//            }
+//        });
+//
+//        zip.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (zip.isChecked()) {
+//                    zip.setChecked(true);
+//                    current.setChecked(false);
+//                }
+//            }
+//        });
+
+
+        // Replace with your RadioGroup ID
+        current.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    zip.setChecked(false);
+                } else {
+                    // Check if zip is also not checked, then recheck current
+                    if (!zip.isChecked()) {
+                        current.setChecked(true);
+                    }
+                }
+            }
+        });
+
+        zip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    current.setChecked(false);
+                } else {
+                    // Check if current is also not checked, then recheck zip
+                    if (!current.isChecked()) {
+                        zip.setChecked(true);
+                    }
+                }
+            }
+        });
+
         checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

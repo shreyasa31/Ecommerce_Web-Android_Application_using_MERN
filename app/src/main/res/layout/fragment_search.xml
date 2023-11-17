@@ -194,56 +194,84 @@
         app:layout_constraintTop_toBottomOf="@+id/textView9"
         tools:visibility="gone">
 
-        <!--        <RadioButton-->
-        <!--            android:id="@+id/radioButton2"-->
-        <!--            android:layout_width="32dp"-->
-        <!--            android:layout_height="wrap_content" />-->
-
-        <RadioButton
-            android:id="@+id/radioButton"
-            android:layout_width="match_parent"
-            android:layout_height="31dp"
-            android:layout_marginStart="16dp"
-            android:text="Current Location" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout1"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp">
+            android:orientation="horizontal">
 
             <RadioButton
-                android:id="@+id/radio_button"
-                android:layout_width="32dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="1dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="1.0" />
+                android:id="@+id/radioButton1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Current Location" />
+
+            <!-- You can add EditText or any other view here if needed -->
+        </LinearLayout>
+
+        <!-- Second Radio Button and its EditText -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radioButton2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
             <EditText
                 android:id="@+id/zipcode"
-                android:layout_width="351dp"
-                android:layout_height="39dp"
-                android:hint="Zipcode"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@id/radio_button"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Zipcode" />
+        </LinearLayout>
+
+<!--        <RadioButton-->
+<!--            android:id="@+id/radioButton1"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="31dp"-->
+<!--            android:layout_marginStart="16dp"-->
+<!--            android:text="Current Location" />-->
+
+<!--        <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--            android:id="@+id/layout1"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:padding="16dp">-->
+
+<!--            <RadioButton-->
+<!--                android:id="@+id/radioButton2"-->
+<!--                android:layout_width="32dp"-->
+<!--                android:layout_height="40dp"-->
+<!--                android:layout_marginStart="1dp"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent"-->
+<!--                app:layout_constraintVertical_bias="1.0" />-->
+
+<!--            <EditText-->
+<!--                android:id="@+id/zipcode"-->
+<!--                android:layout_width="351dp"-->
+<!--                android:layout_height="39dp"-->
+<!--                android:hint="Zipcode"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintHorizontal_bias="0.0"-->
+<!--                app:layout_constraintStart_toEndOf="@id/radioButton2"-->
+<!--                app:layout_constraintTop_toTopOf="parent" />-->
 
 
 
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+<!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
 
 
         <TextView
             android:id="@+id/validation2"
             android:layout_width="192dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
+            android:layout_marginStart="20dp"
             android:text="TextView"
             android:textColor="@color/red"
             tools:visibility="gone" />
@@ -276,7 +304,7 @@
 
             <TextView
                 android:id="@+id/validationText"
-                android:layout_width="180dp"
+                android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:text="TextView"
                 android:textColor="@color/red"
