@@ -15,6 +15,8 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +27,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 
+import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -32,8 +35,27 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.Manifest;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class SearchFragment extends Fragment {
+    private ListView listViewPostalCodes;
+    private ArrayAdapter<String> adapter;
+    private List<String> postalCodeList;
+    private RequestQueue requestQueue;
     private CheckBox checkBox,checkBox2,checkBox3,checkBox4,checkBox5,checkBox6;
     private TextView textView,textView1;
     private EditText editText,editText2,KeywordEditText;
@@ -76,6 +98,31 @@ public class SearchFragment extends Fragment {
         mySpinner = view.findViewById(R.id.spinner);
         current=view.findViewById(R.id.radioButton1);
         current.setChecked(true);
+//autocomplete
+        listViewPostalCodes = view.findViewById(R.id.listView);
+        postalCodeList = new ArrayList<>();
+        adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, postalCodeList);
+        listViewPostalCodes.setAdapter(adapter);
+        requestQueue = Volley.newRequestQueue(getActivity());
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() == 3) {
+                    fetchPostalCodes(s.toString());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+
+
         //dropdown
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
                 R.array.spinner_items, android.R.layout.simple_spinner_item);
@@ -277,6 +324,41 @@ public class SearchFragment extends Fragment {
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             locationManager.removeUpdates(locationListener);
         }
+    }
+
+    private void fetchPostalCodes(String postalStart ) {
+//postalStart = editText.getText().toString();
+
+        String apiUrl = "http://10.0.2.2:8080/getPostalCode?postalstart=";
+        apiUrl+=postalStart;
+
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest
+                (Request.Method.GET, apiUrl, null, new Response.Listener<JSONArray>() {
+
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        try {
+                            postalCodeList.clear();
+                            for (int i = 0; i < response.length(); i++) {
+                                String postalCode = response.getString(i);
+                                postalCodeList.add(postalCode);
+                                Log.d("PostalCode", postalCode);
+                            }
+                            adapter.notifyDataSetChanged();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Log.e("FetchPostalCodes", "JSON parsing error: " + e.getMessage());
+                        }
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("FetchPostalCodes", "Volley error: " + error.getMessage());
+                    }
+                });
+
+        requestQueue.add(jsonArrayRequest);
     }
 
 
