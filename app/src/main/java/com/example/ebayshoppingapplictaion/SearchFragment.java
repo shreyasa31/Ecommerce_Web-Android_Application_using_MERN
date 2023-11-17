@@ -1,10 +1,17 @@
 package com.example.ebayshoppingapplictaion;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
@@ -23,6 +30,7 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.Manifest;
 
 
 public class SearchFragment extends Fragment {
@@ -35,6 +43,8 @@ public class SearchFragment extends Fragment {
     private Spinner mySpinner;
     private RadioButton zip,current;
     private TextView validationText,validationText1;
+    private LocationManager locationManager;
+    private LocationListener locationListener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,10 +76,12 @@ public class SearchFragment extends Fragment {
         mySpinner = view.findViewById(R.id.spinner);
         current=view.findViewById(R.id.radioButton1);
         current.setChecked(true);
+        //dropdown
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
                 R.array.spinner_items, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mySpinner.setAdapter(adapter);
+        //clear
         dynamicButton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,38 +102,7 @@ public class SearchFragment extends Fragment {
 
 
 
-        editText.setEnabled(false);
-        current.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    zip.setChecked(false);
-                    editText.setEnabled(false);
-                } else {
-                    // Check if zip is also not checked, then recheck current
-                    if (!zip.isChecked()) {
-                        current.setChecked(true);
-
-                    }
-                }
-            }
-        });
-
-        zip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    current.setChecked(false);
-                    editText.setEnabled(true);
-                } else {
-                    // Check if current is also not checked, then recheck zip
-                    if (!current.isChecked()) {
-                        zip.setChecked(true);
-                    }
-                }
-            }
-        });
-
+//that checkbox press distance and all displays
         checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -142,11 +123,16 @@ public class SearchFragment extends Fragment {
                 }
             }
         });
+        //current location
+
+
+
+
         validationText = view.findViewById(R.id.validationText);
         validationText1=view.findViewById(R.id.validation2);
         validationText.setVisibility(View.GONE);
         validationText1.setVisibility(View.GONE);
-
+//search button press
         dynamicButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -177,10 +163,67 @@ public class SearchFragment extends Fragment {
             }
         });
 
+        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+
+        locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                Log.d("Location", "Latitude: " + location.getLatitude() + ", Longitude: " + location.getLongitude());
+            }
+
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {}
+
+            @Override
+            public void onProviderEnabled(String provider) {}
+
+            @Override
+            public void onProviderDisabled(String provider) {}
+        };
+        //switching radio buttons
+        editText.setEnabled(false);
+        current.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    zip.setChecked(false);
+                    editText.setEnabled(false);
+                    requestLocationUpdates();
+                } else {
+                    // Check if zip is also not checked, then recheck current
+                    if (!zip.isChecked()) {
+                        current.setChecked(true);
+
+                    }
+                }
+            }
+        });
+
+        zip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    current.setChecked(false);
+                    editText.setEnabled(true);
+                    if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                        locationManager.removeUpdates(locationListener); // Stop receiving location updates
+                    }
+                } else {
+                    // Check if current is also not checked, then recheck zip
+                    if (!current.isChecked()) {
+                        zip.setChecked(true);
+                    }
+                }
+            }
+        });
+
+        if(current.isChecked()){
+            requestLocationUpdates();
+        }
 
         return view;
-    }
-    //
+    }  //here main flower braces ends
+    //other methods
     private void updateButtonConstraint(int anchorId) {
         ConstraintSet constraintSet = new ConstraintSet();
         constraintSet.clone(constraintLayout);
@@ -188,7 +231,8 @@ public class SearchFragment extends Fragment {
         constraintSet.connect(R.id.button2, ConstraintSet.TOP, anchorId, ConstraintSet.BOTTOM);
         constraintSet.applyTo(constraintLayout);
     }
-private boolean isValidInput() {
+    //validations
+    private boolean isValidInput() {
     String keyword = KeywordEditText.getText().toString().trim();
     String zipcode = editText.getText().toString().trim();
     boolean isValid = true;
@@ -211,5 +255,29 @@ private boolean isValidInput() {
 //made changes here
     return isValid;
 }
+    // Function to request location updates
+    private void requestLocationUpdates() {
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        } else {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == 1 && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            requestLocationUpdates();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            locationManager.removeUpdates(locationListener);
+        }
+    }
+
 
 }
