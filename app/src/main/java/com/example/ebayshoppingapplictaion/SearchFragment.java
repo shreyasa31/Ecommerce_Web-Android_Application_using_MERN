@@ -17,7 +17,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ProgressBar;
+
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -87,28 +87,9 @@ public class SearchFragment extends Fragment {
                 mySpinner.setSelection(0);
             }
         });
-//        current.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (current.isChecked()) {
-//                    current.setChecked(true);
-//                    zip.setChecked(false);
-//                }
-//            }
-//        });
-//
-//        zip.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (zip.isChecked()) {
-//                    zip.setChecked(true);
-//                    current.setChecked(false);
-//                }
-//            }
-//        });
 
 
-        // Replace with your RadioGroup ID
+
         editText.setEnabled(false);
         current.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -165,31 +146,11 @@ public class SearchFragment extends Fragment {
         validationText1=view.findViewById(R.id.validation2);
         validationText.setVisibility(View.GONE);
         validationText1.setVisibility(View.GONE);
-       // Assuming you have a submit button
-//        dynamicButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                validateEditText();
-//                validateEditText1();
-//            }
-//
-//        });
-//        dynamicButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (isValidInput()) {
-//                    // Proceed with your search logic
-//
-//                } else {
-//                    Toast.makeText(getActivity(), "Please fix all the errors", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
+
         dynamicButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (isValidInput()) {
-                    // Show the progress bar
 
 
                     // Your search logic here
@@ -227,47 +188,28 @@ public class SearchFragment extends Fragment {
         constraintSet.connect(R.id.button2, ConstraintSet.TOP, anchorId, ConstraintSet.BOTTOM);
         constraintSet.applyTo(constraintLayout);
     }
-//    private void validateEditText() {
-//        if (KeywordEditText.getText().toString().trim().isEmpty()) {
-//            validationText.setText("Please enter mandatory field");
-//            validationText.setVisibility(View.VISIBLE);
-//        } else {
-//            validationText.setVisibility(View.GONE);
-//        }
-//    }
-//    private void validateEditText1() {
-//        if ( editText.getText().toString().trim().isEmpty()) {
-//            validationText1.setText("Please enter mandatory field");
-//            validationText1.setVisibility(View.VISIBLE);
-//        } else {
-//            validationText1.setVisibility(View.GONE);
-//        }
-//    }
 private boolean isValidInput() {
     String keyword = KeywordEditText.getText().toString().trim();
     String zipcode = editText.getText().toString().trim();
-
-    if (keyword.isEmpty() || (zip.isChecked() && (zipcode.isEmpty()) )) {
+    boolean isValid = true;
+    if (keyword.isEmpty()) {
         validationText.setText("Please enter mandatory field");
         validationText.setVisibility(View.VISIBLE);
+        isValid = false; // Set isValid to false if the keyword is empty
+    } else {
+        validationText.setVisibility(View.GONE); // Hide the validation message for keyword if it is not empty
+    }
+
+    // Check if the zip RadioButton is checked and zipcode is empty
+    if (zip.isChecked() && zipcode.isEmpty()) {
         validationText1.setText("Please enter mandatory field");
         validationText1.setVisibility(View.VISIBLE);
-        return false;
+        isValid = false; // Set isValid to false if the zipcode is empty
+    } else {
+        validationText1.setVisibility(View.GONE); // Hide the validation message for zipcode if it is not empty
     }
 
-
-
-//    if (zip.isChecked() && (zipcode.isEmpty()) ){
-//        validationText1.setText("Valid zipcode is required");
-//        validationText1.setVisibility(View.VISIBLE);
-//        return false;
-//    }
-    else {
-        validationText.setVisibility(View.GONE);
-        validationText1.setVisibility(View.GONE);
-    }
-
-    return true;
+    return isValid;
 }
 
 }
