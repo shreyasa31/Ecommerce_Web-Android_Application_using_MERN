@@ -1,11 +1,13 @@
 package com.example.ebayshoppingapplictaion;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +17,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -106,15 +109,18 @@ public class SearchFragment extends Fragment {
 
 
         // Replace with your RadioGroup ID
+        editText.setEnabled(false);
         current.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     zip.setChecked(false);
+                    editText.setEnabled(false);
                 } else {
                     // Check if zip is also not checked, then recheck current
                     if (!zip.isChecked()) {
                         current.setChecked(true);
+
                     }
                 }
             }
@@ -125,6 +131,7 @@ public class SearchFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     current.setChecked(false);
+                    editText.setEnabled(true);
                 } else {
                     // Check if current is also not checked, then recheck zip
                     if (!current.isChecked()) {
@@ -167,11 +174,42 @@ public class SearchFragment extends Fragment {
 //            }
 //
 //        });
+//        dynamicButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (isValidInput()) {
+//                    // Proceed with your search logic
+//
+//                } else {
+//                    Toast.makeText(getActivity(), "Please fix all the errors", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
         dynamicButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (isValidInput()) {
-                    // Proceed with your search logic
+                    // Show the progress bar
+
+
+                    // Your search logic here
+                    // For example, making a network request or processing data
+
+                    // After the search logic is complete or after a delay, hide the progress bar
+                    // This could be in the response handler of your network request or after a delay
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+
+
+                            Intent intent = new Intent(getActivity(), ProductResults.class);
+                            // You can put extra data in the Intent if needed
+                            // intent.putExtra("key", value);
+                            startActivity(intent);
+
+                            // Proceed with next steps, such as displaying search results
+                        }
+                    }, 2000); // Adjust this delay according to your needs
                 } else {
                     Toast.makeText(getActivity(), "Please fix all the errors", Toast.LENGTH_SHORT).show();
                 }

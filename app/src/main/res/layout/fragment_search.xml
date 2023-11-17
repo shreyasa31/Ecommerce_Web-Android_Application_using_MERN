@@ -201,6 +201,7 @@
 
             <RadioButton
                 android:id="@+id/radioButton1"
+                android:layout_marginStart="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Current Location" />
@@ -216,6 +217,7 @@
 
             <RadioButton
                 android:id="@+id/radioButton2"
+                android:layout_marginStart="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -223,6 +225,7 @@
                 android:id="@+id/zipcode"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+
                 android:layout_weight="1"
                 android:hint="Zipcode" />
         </LinearLayout>
@@ -315,4 +318,5 @@
                 app:layout_constraintTop_toBottomOf="@+id/KeywordEditText"
                 app:layout_constraintVertical_bias="1.0"
                 tools:visibility="gone" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
