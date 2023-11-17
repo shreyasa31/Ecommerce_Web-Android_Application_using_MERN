@@ -208,7 +208,7 @@ private boolean isValidInput() {
     } else {
         validationText1.setVisibility(View.GONE); // Hide the validation message for zipcode if it is not empty
     }
-
+//made changes here
     return isValid;
 }
 
