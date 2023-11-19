@@ -78,7 +78,6 @@ public class SearchFragment extends Fragment {
         checkBox4=view.findViewById(R.id.checkBox4);
         checkBox5=view.findViewById(R.id.checkBox5);
         checkBox6=view.findViewById(R.id.checkBox);
-
         checkBox = view.findViewById(R.id.checkBox6);
         KeywordEditText=view.findViewById(R.id.KeywordEditText);
         textView1 = view.findViewById(R.id.textDistance);
@@ -218,6 +217,14 @@ public class SearchFragment extends Fragment {
                             Intent intent = new Intent(getActivity(), ProductResults.class);
                             // You can put extra data in the Intent if needed
                             // intent.putExtra("key", value);
+                            intent.putExtra("keyword",KeywordEditText .getText().toString());
+                            intent.putExtra("category", mySpinner.getSelectedItem().toString());
+                            String condition = getConditionString();
+                            intent.putExtra("condition", condition);
+                            intent.putExtra("localpickuponly", checkBox4.isChecked());
+                            intent.putExtra("freeshipping", checkBox5.isChecked());
+                            intent.putExtra("distance", editText2.getText().toString());
+                            intent.putExtra("buyerPostalCode", editText.getText().toString());
                             startActivity(intent);
 
                             // Proceed with next steps, such as displaying search results
@@ -379,6 +386,25 @@ public class SearchFragment extends Fragment {
 
         requestQueue.add(jsonArrayRequest);
     }
+    private String getConditionString() {
+        StringBuilder conditionBuilder = new StringBuilder();
 
+        if (checkBox6.isChecked()) {
+            conditionBuilder.append("New,");
+        }
+        if (checkBox2.isChecked()) {
+            conditionBuilder.append("Used,");
+        }
+        if (checkBox3.isChecked()) {
+            conditionBuilder.append("Unspecified,");
+        }
+
+        // Remove the trailing comma
+        if (conditionBuilder.length() > 0) {
+            conditionBuilder.deleteCharAt(conditionBuilder.length() - 1);
+        }
+
+        return conditionBuilder.toString();
+    }
 
 }
