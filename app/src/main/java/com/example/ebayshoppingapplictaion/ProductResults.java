@@ -118,7 +118,7 @@ public class ProductResults extends AppCompatActivity {
                     progressBar.setVisibility(View.GONE); // Hide progress bar when data is loaded
                     if (searchItemList.isEmpty()) {
                         searchProductsText.setText("No results found.");
-                        searchProductsText.setVisibility(View.VISIBLE);
+                        searchProductsText.setVisibility(View.GONE);
                     } else {
                         recyclerView.setVisibility(View.VISIBLE);
                     }
@@ -140,7 +140,8 @@ public class ProductResults extends AppCompatActivity {
 
         try {
             // Parse JSON response and create SearchItem objects
-            JSONArray items = response.getJSONArray("items");
+            JSONObject message = response.getJSONObject("message");
+            JSONArray items = message.getJSONArray("items");
             for (int i = 0; i < items.length(); i++) {
                 JSONObject item = items.getJSONObject(i);
                 String image = item.getString("image");
@@ -149,7 +150,7 @@ public class ProductResults extends AppCompatActivity {
                 String condition = item.getString("condition");
                 String shippingType = item.getString("shippingType");
                 String price = item.getString("price");
-                Log.d("ProductResults", "Item " + i + ": " + title + ", " + zipcode + ", " + price);
+                Log.d("ProductResultssssssssss", "Item " + i + ": " + title + ", " + zipcode + ", " + price);
 
                 searchItemList.add(new SearchItem(image,title, zipcode, shippingType, condition, price));
             }
