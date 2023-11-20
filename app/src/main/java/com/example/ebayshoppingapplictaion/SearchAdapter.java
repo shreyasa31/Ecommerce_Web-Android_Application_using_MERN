@@ -3,7 +3,10 @@ package com.example.ebayshoppingapplictaion;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
+import com.bumptech.glide.Glide;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,7 +17,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
     private List<SearchItem> searchItems;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView textViewTitle1;
+        ImageView ImageViewItem;
         TextView textViewTitle2;
         TextView textViewTitle3;
         TextView textViewTitle4;
@@ -24,7 +27,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
         public ViewHolder(View view) {
             super(view);
-            textViewTitle1 = view.findViewById(R.id.textViewTitle1);
+            ImageViewItem = view.findViewById(R.id.textViewTitle1);
             textViewTitle2 = view.findViewById(R.id.textViewTitle2);
             textViewTitle3 = view.findViewById(R.id.textViewTitle3);
             textViewTitle4 = view.findViewById(R.id.textViewTitle4);
@@ -47,7 +50,9 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         SearchItem item = searchItems.get(position);
-        holder.textViewTitle1.setText(item.getImage());
+        Glide.with(holder.itemView.getContext())
+                .load(item.getImage())
+                .into(holder.ImageViewItem);
         holder.textViewTitle2.setText(item.getTitle());
         holder.textViewTitle3.setText(item.getZipcode());
         holder.textViewTitle4.setText(item.getShippingType());

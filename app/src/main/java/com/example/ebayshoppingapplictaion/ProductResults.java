@@ -116,9 +116,10 @@ public class ProductResults extends AppCompatActivity {
                     Log.d("APIIIIIIIIIIIIIII Response", response.toString());
                     parseJSONAndPopulateList(response);
                     progressBar.setVisibility(View.GONE); // Hide progress bar when data is loaded
+                    searchProductsText.setVisibility(View.GONE);
                     if (searchItemList.isEmpty()) {
                         searchProductsText.setText("No results found.");
-                        searchProductsText.setVisibility(View.GONE);
+                        searchProductsText.setVisibility(View.VISIBLE);
                     } else {
                         recyclerView.setVisibility(View.VISIBLE);
                     }

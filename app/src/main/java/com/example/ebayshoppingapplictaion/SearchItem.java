@@ -9,7 +9,7 @@ public class SearchItem {
     private String shippingType;
 
     // Constructor
-    public SearchItem(String imgURL, String title, String zipcode, String condition, String price, String shippingType) {
+    public SearchItem(String image, String title, String zipcode, String condition, String price, String shippingType) {
         this.image=image;
         this.title = title;
         this.zipcode = zipcode;
