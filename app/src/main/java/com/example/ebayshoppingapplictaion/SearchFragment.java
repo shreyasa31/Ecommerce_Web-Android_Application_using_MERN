@@ -3,6 +3,8 @@ package com.example.ebayshoppingapplictaion;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -48,13 +50,18 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 
 public class SearchFragment extends Fragment {
     private ListView listViewPostalCodes;
     private ArrayAdapter<String> adapter;
+
+    private Location currentLocation = null;
+    private String currentZipcode = null;
     private List<String> postalCodeList;
     private RequestQueue requestQueue;
     private CheckBox checkBox,checkBox2,checkBox3,checkBox4,checkBox5,checkBox6;
@@ -224,7 +231,17 @@ public class SearchFragment extends Fragment {
                             intent.putExtra("localpickuponly", checkBox4.isChecked());
                             intent.putExtra("freeshipping", checkBox5.isChecked());
                             intent.putExtra("distance", editText2.getText().toString());
-                            intent.putExtra("buyerPostalCode", editText.getText().toString());
+//                            intent.putExtra("distance", editText2.getText().toString());
+//                            intent.putExtra("buyerPostalCode", editText.getText().toString());
+                            if (current.isChecked() && currentZipcode != null) {
+                                // Use the current zipcode obtained from reverse geocoding
+                                intent.putExtra("buyerPostalCode", currentZipcode);
+                            } else {
+                                // If 'zip' RadioButton is selected or current location is not available
+
+                                intent.putExtra("buyerPostalCode", editText.getText().toString());
+                            }
+
                             startActivity(intent);
 
                             // Proceed with next steps, such as displaying search results
@@ -241,6 +258,9 @@ public class SearchFragment extends Fragment {
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
+                currentLocation = location;
+                // Perform reverse geocoding to get zipcode
+                updateLocationAddress(location);
                 Log.d("Location", "Latitude: " + location.getLatitude() + ", Longitude: " + location.getLongitude());
             }
 
@@ -406,5 +426,18 @@ public class SearchFragment extends Fragment {
 
         return conditionBuilder.toString();
     }
-
+    private void updateLocationAddress(Location location) {
+        Geocoder geocoder = new Geocoder(getActivity(), Locale.getDefault());
+        try {
+            List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+            if (addresses != null && !addresses.isEmpty()) {
+                Address address = addresses.get(0);
+                // Get the zipcode from the address and store it in the member variable
+                currentZipcode = address.getPostalCode();
+                Log.d("SearchFragmentttttttttttt", "Current Zipcodeeeeeeeeeeeeeeee: " + currentZipcode);
+            }
+        } catch (IOException e) {
+            Log.e("Geocoder", "Error in getting zipcode from location", e);
+        }
+    }
 }

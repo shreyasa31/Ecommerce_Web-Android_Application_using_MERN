@@ -99,7 +99,8 @@ public class ProductResults extends AppCompatActivity {
                 builder.appendQueryParameter("localpickuponly", Boolean.toString(localpickuponly))
                 .appendQueryParameter("freeshipping", Boolean.toString(freeshipping))
                 .appendQueryParameter("distance", Integer.toString(distance))
-                .appendQueryParameter("buyerPostalCode", buyerPostalCode);
+
+               .appendQueryParameter("buyerPostalCode", buyerPostalCode);
 
         return builder.build().toString();
     }
