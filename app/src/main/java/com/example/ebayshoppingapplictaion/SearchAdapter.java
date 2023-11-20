@@ -52,6 +52,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         SearchItem item = searchItems.get(position);
         Glide.with(holder.itemView.getContext())
                 .load(item.getImage())
+                .centerCrop()
                 .into(holder.ImageViewItem);
         holder.textViewTitle2.setText(item.getTitle());
         holder.textViewTitle3.setText(item.getZipcode());

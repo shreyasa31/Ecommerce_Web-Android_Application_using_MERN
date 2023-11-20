@@ -9,20 +9,22 @@ public class SearchItem {
     private String shippingType;
 
     // Constructor
-    public SearchItem(String image, String title, String zipcode, String condition, String price, String shippingType) {
+    public SearchItem(String image, String title, String zipcode,String shippingType, String condition, String price) {
         this.image=image;
         this.title = title;
         this.zipcode = zipcode;
+        this.shippingType = shippingType;
         this.condition = condition;
         this.price = price;
-        this.shippingType = shippingType;
+
     }
 
     // Getters
     public String getImage(){return image;}
     public String getTitle() { return title; }
     public String getZipcode() { return zipcode; }
+    public String getShippingType() { return shippingType; }
     public String getCondition() { return condition; }
     public String getPrice() { return price; }
-    public String getShippingType() { return shippingType; }
+
 }

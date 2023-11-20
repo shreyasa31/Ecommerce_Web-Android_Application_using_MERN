@@ -14,6 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 //import android.widget.Toolbar;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -50,7 +51,7 @@ public class ProductResults extends AppCompatActivity {
 
         searchProductsText.setVisibility(View.VISIBLE);
         recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new GridLayoutManager(this,2));
         adapter = new SearchAdapter(searchItemList);
         recyclerView.setAdapter(adapter);
         Intent intent = getIntent();
@@ -148,8 +149,8 @@ public class ProductResults extends AppCompatActivity {
                 String image = item.getString("image");
                 String title = item.getString("title");
                 String zipcode = item.getString("zipcode");
-                String condition = item.getString("condition");
                 String shippingType = item.getString("shippingType");
+                String condition = item.getString("condition");
                 String price = item.getString("price");
                 Log.d("ProductResultssssssssss", "Item " + i + ": " + title + ", " + zipcode + ", " + price);
 
