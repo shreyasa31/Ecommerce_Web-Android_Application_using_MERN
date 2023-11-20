@@ -93,9 +93,17 @@ public class ProductResults extends AppCompatActivity {
         Uri.Builder builder = Uri.parse(baseUrl).buildUpon();
         builder.appendQueryParameter("keyword", keyword)
                 .appendQueryParameter("category", category);
+//        for (String c : condition) {
+//            builder.appendQueryParameter("condition", c);
+//        }
+        StringBuilder conditionValue = new StringBuilder();
         for (String c : condition) {
-            builder.appendQueryParameter("condition", c);
+            if (conditionValue.length() > 0) {
+                conditionValue.append(",");
+            }
+            conditionValue.append(c);
         }
+        builder.appendQueryParameter("condition", conditionValue.toString());
                 builder.appendQueryParameter("localpickuponly", Boolean.toString(localpickuponly))
                 .appendQueryParameter("freeshipping", Boolean.toString(freeshipping))
                 .appendQueryParameter("distance", Integer.toString(distance))
