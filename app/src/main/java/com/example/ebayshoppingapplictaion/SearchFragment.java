@@ -163,6 +163,12 @@ public class SearchFragment extends Fragment {
                 checkBox4.setChecked(false);
                 checkBox5.setChecked(false);
                 checkBox.setChecked(false);
+                textView.setVisibility(View.GONE);
+                editText.setVisibility(View.GONE);
+                editText2.setVisibility(View.GONE);
+                radioGroup.setVisibility(View.GONE);
+                textView1.setVisibility(View.GONE);
+                updateButtonConstraint(R.id.checkBox6);
                 zip.setChecked(false);
                 current.setChecked(true);
                 zip.setChecked(false);
