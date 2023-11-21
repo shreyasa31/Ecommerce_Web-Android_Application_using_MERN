@@ -15,6 +15,16 @@ import java.util.List;
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> {
 
     private List<SearchItem> searchItems;
+    private OnItemClickListener listener;
+
+    public interface OnItemClickListener {
+        void onItemClick(SearchItem item);
+    }
+
+    public SearchAdapter(List<SearchItem> searchItems, OnItemClickListener listener) {
+        this.searchItems = searchItems;
+        this.listener = listener;
+    }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView ImageViewItem;
@@ -25,7 +35,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         TextView textViewTitle6;
         // ... other views
 
-        public ViewHolder(View view) {
+        public ViewHolder(View view,final OnItemClickListener listener) {
             super(view);
             ImageViewItem = view.findViewById(R.id.textViewTitle1);
             textViewTitle2 = view.findViewById(R.id.textViewTitle2);
@@ -34,17 +44,19 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             textViewTitle5 = view.findViewById(R.id.textViewTitle5);
             textViewTitle6= view.findViewById(R.id.textViewTitle6);
             // ... initialize other views
+
+
         }
     }
 
-    public SearchAdapter(List<SearchItem> searchItems) {
-        this.searchItems = searchItems;
-    }
+//    public SearchAdapter(List<SearchItem> searchItems) {
+//        this.searchItems = searchItems;
+//    }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_search, parent, false);
-        return new ViewHolder(view);
+        return new ViewHolder(view,listener);
     }
 
     @Override
@@ -60,6 +72,12 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         holder.textViewTitle5.setText(item.getCondition());
         holder.textViewTitle6.setText(item.getPrice());
         // ... set other views
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onItemClick(item);
+            }
+        });
     }
 
     @Override

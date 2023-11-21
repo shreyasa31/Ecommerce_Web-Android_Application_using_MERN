@@ -53,7 +53,15 @@ public class ProductResults extends AppCompatActivity {
         searchProductsText.setVisibility(View.VISIBLE);
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(this,2));
-        adapter = new SearchAdapter(searchItemList);
+        adapter = new SearchAdapter(searchItemList, new SearchAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(SearchItem item) {
+                Intent intent = new Intent(ProductResults.this, DetailActivity.class);
+                intent.putExtra("title", item.getTitle()); // Pass the title
+                // Add any other product details you want to pass to the detail activity
+                startActivity(intent);
+            }
+        });
         recyclerView.setAdapter(adapter);
         Intent intent = getIntent();
         String keyword = intent.getStringExtra("keyword");

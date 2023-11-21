@@ -18,6 +18,9 @@
         android:theme="@style/Theme.EBayShoppingApplictaion"
         tools:targetApi="31">
         <activity
+            android:name=".DetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".SearchItems"
             android:exported="false" />
         <activity

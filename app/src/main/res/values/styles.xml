@@ -8,5 +8,8 @@
         <item name="tabIndicatorColor">#C4B6AEAE</item>
 
     </style>
+    <style name="ToolbarTitleStyle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
 
 </resources>
