@@ -55,7 +55,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
                 .centerCrop()
                 .into(holder.ImageViewItem);
         holder.textViewTitle2.setText(item.getTitle());
-        holder.textViewTitle3.setText(item.getZipcode());
+        holder.textViewTitle3.setText("Zip: "+item.getZipcode());
         holder.textViewTitle4.setText(item.getShippingType());
         holder.textViewTitle5.setText(item.getCondition());
         holder.textViewTitle6.setText(item.getPrice());

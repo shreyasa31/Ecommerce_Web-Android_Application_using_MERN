@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -32,6 +33,7 @@ import java.util.List;
 
 
 public class ProductResults extends AppCompatActivity {
+    private TextView noResultsTextView;
     private RecyclerView recyclerView;
     private  ProgressBar progressBar;
     private SearchAdapter adapter;
@@ -41,8 +43,7 @@ public class ProductResults extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_results);
-
-
+        noResultsTextView= findViewById(R.id.noResultsTextView);
         ImageView img = findViewById(R.id.backArrow);
         progressBar = findViewById(R.id.progressBar);
         searchProductsText = findViewById(R.id.searchProductsText);
@@ -128,9 +129,10 @@ public class ProductResults extends AppCompatActivity {
                     progressBar.setVisibility(View.GONE); // Hide progress bar when data is loaded
                     searchProductsText.setVisibility(View.GONE);
                     if (searchItemList.isEmpty()) {
-                        searchProductsText.setText("No results found.");
-                        searchProductsText.setVisibility(View.VISIBLE);
+                        noResultsTextView.setVisibility(View.VISIBLE);
+
                     } else {
+                        noResultsTextView.setVisibility(View.GONE);
                         recyclerView.setVisibility(View.VISIBLE);
                     }
                 }, error -> {

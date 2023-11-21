@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- shadow_background.xml -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Shadow -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#40000000"/> <!-- Adjust color for shadow darkness -->
+            <corners android:radius="12dp"/> <!-- Same as your background drawable -->
+        </shape>
+    </item>
+
+    <!-- Spacing for the shadow -->
+    <item android:left="2dp" android:right="2dp" android:top="2dp" android:bottom="4dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#FFFFFF"/> <!-- White background -->
+            <corners android:radius="12dp"/> <!-- Same as your background drawable -->
+        </shape>
+    </item>
+</layer-list>
