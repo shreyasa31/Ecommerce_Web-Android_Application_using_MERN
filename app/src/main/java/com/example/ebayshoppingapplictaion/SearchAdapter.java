@@ -1,5 +1,7 @@
 package com.example.ebayshoppingapplictaion;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,6 +74,19 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         holder.textViewTitle5.setText(item.getCondition());
         holder.textViewTitle6.setText(item.getPrice());
         // ... set other views
+        // Set the background color state list for the item view
+//        int[][] states = new int[][] {
+//                new int[] { android.R.attr.state_pressed}, // pressed
+//                new int[] {}  // default
+//        };
+//
+//        int[] colors = new int[] {
+//                Color.GRAY, // color for pressed state
+//                Color.WHITE // default color
+//        };
+//
+//        ColorStateList colorStateList = new ColorStateList(states, colors);
+//        holder.itemView.setBackgroundTintList(colorStateList);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
