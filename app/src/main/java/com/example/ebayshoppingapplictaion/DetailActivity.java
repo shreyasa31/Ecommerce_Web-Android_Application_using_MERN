@@ -8,6 +8,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,31 +31,21 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
         viewPager = findViewById(R.id.viewPager1);
 
+        String keyword = getIntent().getStringExtra("keyword");
 
+        Log.d("DetailActivity", "Keywordddddddddddddddddd: " + keyword);
+
+//        // Create a new instance of PhotosFragment with the keyword
+//        PhotosFragment photosFragment = PhotosFragment.newInstance(keyword);
 //
-        tabsViewAdapter = new TabsViewAdapter(this);
+//        // Add the fragment to the activity's layout
+//        getSupportFragmentManager().beginTransaction()
+//                .replace(R.id.fragment_container, photosFragment)
+//                .commit();
+
+        tabsViewAdapter = new TabsViewAdapter(this,keyword);
         viewPager.setAdapter(tabsViewAdapter);
-        // Link ViewPager with TabLayout
-//        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
-//            switch (position) {
-//                case 0:
-//                    tab.setText("Product");
-//                    break;
-//                case 1:
-//                    tab.setText("Shipping");
-//                    break;
-//                case 2:
-//                    tab.setText("Photos");
-//                    break;
-//                case 3:
-//                    tab.setText("Similar");
-//                    break;
-//            }
-//        }).attach();
-//        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
-//            // You can set simple text here if you want
-//            // tab.setText(tabTitles[position]);
-//        }).attach();
+
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -158,7 +149,7 @@ public class DetailActivity extends AppCompatActivity {
 
     }
 
-    // Handle the Up button
+    //
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {

@@ -49,7 +49,8 @@ public class ProductResults extends AppCompatActivity {
         searchProductsText = findViewById(R.id.searchProductsText);
         // Initially, show the progress bar and hide the text view
         progressBar.setVisibility(View.VISIBLE);
-
+        Intent intent = getIntent();
+        String keyword = intent.getStringExtra("keyword");
         searchProductsText.setVisibility(View.VISIBLE);
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(this,2));
@@ -59,12 +60,13 @@ public class ProductResults extends AppCompatActivity {
                 Intent intent = new Intent(ProductResults.this, DetailActivity.class);
                 intent.putExtra("title", item.getTitle()); // Pass the title
                 // Add any other product details you want to pass to the detail activity
+
+                intent.putExtra("keyword", keyword);
                 startActivity(intent);
             }
         });
         recyclerView.setAdapter(adapter);
-        Intent intent = getIntent();
-        String keyword = intent.getStringExtra("keyword");
+
         String category = intent.getStringExtra("category");
         String conditions = intent.getStringExtra("condition");
         String[] condition = conditions.split(",");

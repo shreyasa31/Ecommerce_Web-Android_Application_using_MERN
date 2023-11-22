@@ -1,47 +1,43 @@
 package com.example.ebayshoppingapplictaion;
 
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
+import java.io.IOException;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link PhotosFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class PhotosFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private static final String ARG_KEYWORD = "keyword";
+    private String keyword;
+    private RecyclerView recyclerView;
+    private ImageCardAdapter imageCardAdapter;
+    private List<String> imageUrls = new ArrayList<>();
 
     public PhotosFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment PhotosFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static PhotosFragment newInstance(String param1, String param2) {
+    public static PhotosFragment newInstance(String keyword) {
         PhotosFragment fragment = new PhotosFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString(ARG_KEYWORD, keyword);
         fragment.setArguments(args);
         return fragment;
     }
@@ -49,16 +45,57 @@ public class PhotosFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            keyword = getArguments().getString(ARG_KEYWORD);
         }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_photos, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_photos, container, false);
+        recyclerView = view.findViewById(R.id.recyclerViewPhotos);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        imageCardAdapter = new ImageCardAdapter(imageUrls);
+        recyclerView.setAdapter(imageCardAdapter);
+
+        fetchImages();
+        return view;
     }
+
+    private void fetchImages() {
+        String url = "http://10.0.2.2:8080/googlesearch?q=" + keyword; // Use keyword here
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder().url(url).build();
+        Log.d("PhotosFragmenttttttttt", "Sendingggggggg request to URL: " + url);
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    final String responseData = response.body().string();
+                    getActivity().runOnUiThread(() -> {
+                        try {
+                                                            // Example of parsing a JSON array response
+                            JSONArray jsonArray = new JSONArray(responseData);
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                String imageUrl = jsonArray.getString(i);
+                                imageUrls.add(imageUrl);
+                            }
+                            imageCardAdapter.notifyDataSetChanged();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                                                            // Handle JSON parsing error
+                        }
+                    });
+                }}
+
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+                // Handle failure
+            }
+        });
+    }
+
+    // ImageCardAdapter and ViewHolder class implementation
 }
