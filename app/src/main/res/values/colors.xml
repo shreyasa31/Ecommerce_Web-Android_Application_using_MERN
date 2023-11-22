@@ -7,6 +7,7 @@
     <color name="navy_blue">#532bab</color>
     <color name="red">#FF0000</color>
     <color name="grey">#E0E0E0</color>
-
+    <color name="tabIndicatorColor">#C4B6AEAE</color>
+    <color name="tabTextColor">#A483EF</color>
 
 </resources>

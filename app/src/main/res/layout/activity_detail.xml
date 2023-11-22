@@ -10,17 +10,53 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/navy_blue"
-        app:titleTextAppearance="@style/ToolbarTitleStyle"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="@drawable/arrow_left"> <!-- Use your own back arrow drawable -->
+        app:navigationIcon="@drawable/arrow_left"
+        app:titleTextAppearance="@style/ToolbarTitleStyle"> <!-- Use your own back arrow drawable -->
         <!-- Toolbar can have a title set dynamically -->
         <include layout="@layout/toolbar_with_image" />
     </androidx.appcompat.widget.Toolbar>
 
-<!--    <ImageView-->
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+
+        android:layout_width="408dp"
+        android:layout_height="66dp"
+        android:layout_marginTop="1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+        <!--        <com.google.android.material.tabs.TabItem-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:text="Monday"-->
+        <!--            tools:layout_editor_absoluteX="9dp"-->
+        <!--            tools:layout_editor_absoluteY="76dp" />-->
+
+        <!--        <com.google.android.material.tabs.TabItem-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:text="Tuesday" />-->
+
+        <!--        <com.google.android.material.tabs.TabItem-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:text="vhv"-->
+        <!--            tools:layout_editor_absoluteX="168dp"-->
+        <!--            tools:layout_editor_absoluteY="76dp" />-->
+
+        <!--        <com.google.android.material.tabs.TabItem-->
+        <!--            android:id="@+id/tabItem"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:text="Tab5" />-->
+    </com.google.android.material.tabs.TabLayout>
+
+    <!--    <ImageView-->
 <!--        android:id="@+id/imageView3"-->
 <!--        android:layout_width="64dp"-->
 <!--        android:layout_height="54dp"-->
