@@ -3,6 +3,7 @@ package com.example.ebayshoppingapplictaion;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -15,35 +16,46 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 public class DetailActivity extends AppCompatActivity {
     private TextView toolbarTitle;
     private ImageView toolbarImage;
     private TabLayout tabLayout;
+    private ViewPager2 viewPager;
+    private TabsViewAdapter tabsViewAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-//        Toolbar toolbar = findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
+        viewPager = findViewById(R.id.viewPager1);
+
+
 //
-//        // Enable the Up button
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//
-//        // Get the title passed from the ProductResults activity
-//        String productTitle = getIntent().getStringExtra("title");
-//        getSupportActionBar().setTitle(productTitle); // Set the title
-//    }
-//
-//    // Handle the Up button
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        if (item.getItemId() == android.R.id.home) {
-//            finish();
-//            return true;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
+        tabsViewAdapter = new TabsViewAdapter(this);
+        viewPager.setAdapter(tabsViewAdapter);
+        // Link ViewPager with TabLayout
+//        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
+//            switch (position) {
+//                case 0:
+//                    tab.setText("Product");
+//                    break;
+//                case 1:
+//                    tab.setText("Shipping");
+//                    break;
+//                case 2:
+//                    tab.setText("Photos");
+//                    break;
+//                case 3:
+//                    tab.setText("Similar");
+//                    break;
+//            }
+//        }).attach();
+//        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
+//            // You can set simple text here if you want
+//            // tab.setText(tabTitles[position]);
+//        }).attach();
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -115,6 +127,7 @@ public class DetailActivity extends AppCompatActivity {
                     ImageView tabIcon = customView.findViewById(R.id.tab_icon);
                     tabText.setTextColor(tabSelectedColor);
                     tabIcon.setColorFilter(tabSelectedColor, PorterDuff.Mode.SRC_IN);
+                    viewPager.setCurrentItem(tab.getPosition());
                 }
             }
 
@@ -132,6 +145,14 @@ public class DetailActivity extends AppCompatActivity {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
+            }
+        });
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback()
+        {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                tabLayout.getTabAt(position).select();
             }
         });
 
