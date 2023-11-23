@@ -7,15 +7,16 @@ public class SearchItem {
     private String condition;
     private String price;
     private String shippingType;
-
+    private String productUrl;
     // Constructor
-    public SearchItem(String image, String title, String zipcode,String shippingType, String condition, String price) {
+    public SearchItem(String image, String title, String zipcode,String shippingType, String condition, String price,String productUrl) {
         this.image=image;
         this.title = title;
         this.zipcode = zipcode;
         this.shippingType = shippingType;
         this.condition = condition;
         this.price = price;
+        this.productUrl = productUrl;
 
     }
 
@@ -26,5 +27,6 @@ public class SearchItem {
     public String getShippingType() { return shippingType; }
     public String getCondition() { return condition; }
     public String getPrice() { return price; }
+    public String getProductUrl() { return productUrl; }
 
 }

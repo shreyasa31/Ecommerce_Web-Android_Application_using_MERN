@@ -14,4 +14,6 @@
         <item>Music</item>
         <item>Video,Games and Consoles</item>
     </string-array>
+    <string name="facebook_app_id">3245885425558259</string>
+    <string name="facebook_client_token">3hSXcAoql5tJjv3IkUFvhyOzhHQ</string>
 </resources>

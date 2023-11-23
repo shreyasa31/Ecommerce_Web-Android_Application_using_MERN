@@ -62,6 +62,7 @@ public class ProductResults extends AppCompatActivity {
                 // Add any other product details you want to pass to the detail activity
 
                 intent.putExtra("keyword", keyword);
+                intent.putExtra("productUrl", item.getProductUrl());
                 startActivity(intent);
             }
         });
@@ -174,8 +175,8 @@ public class ProductResults extends AppCompatActivity {
                 String condition = item.getString("condition");
                 String price = item.getString("price");
                 Log.d("ProductResultssssssssss", "Item " + i + ": " + title + ", " + zipcode + ", " + price);
-
-                searchItemList.add(new SearchItem(image,title, zipcode, shippingType, condition, price));
+                String productUrl = item.getString("viewItemURL");
+                searchItemList.add(new SearchItem(image,title, zipcode, shippingType, condition, price,productUrl));
             }
         } catch (JSONException e) {
             e.printStackTrace();
