@@ -25,6 +25,10 @@ import com.facebook.share.widget.ShareDialog;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.facebook.FacebookSdk;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+
 public class DetailActivity extends AppCompatActivity {
     private TextView toolbarTitle;
     private ImageView toolbarImage;
@@ -68,7 +72,11 @@ public class DetailActivity extends AppCompatActivity {
         toolbarImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                shareProductOnFacebook();
+                try {
+                    shareProductOnFacebook();
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
         // Hide the default title to use the custom one
@@ -204,20 +212,23 @@ public class DetailActivity extends AppCompatActivity {
 //            // Handle the case where there is no URL to share
 //            Log.e("DetailActivity", "Product URL is null or empty");
 //        }
-        private void shareProductOnFacebook() {
+        private void shareProductOnFacebook() throws JSONException {
             ShareDialog shareDialog = new ShareDialog(this);
-            String productUrl = getIntent().getStringExtra("productUrl");
-
+            String productUrlArrayString = getIntent().getStringExtra("productUrl");
+            JSONArray jsonArray = new JSONArray(productUrlArrayString);
+            String productUrl = jsonArray.getString(0);
+            String hashtag = "#CSCI571Fall23AndroidApp";
             // Unescape the URL if it's escaped
             if (productUrl != null) {
                 productUrl = productUrl.replace("\\/", "/");
             }
-
+            Log.d("producttttttturl","uwugfuw"+productUrl);
             if (productUrl != null) {
                 Uri productUri = Uri.parse(productUrl);
 
                 ShareLinkContent shareLinkContent = new ShareLinkContent.Builder()
                         .setContentUrl(productUri)
+                        .setShareHashtag(new ShareHashtag.Builder().setHashtag(hashtag).build())
                         .build();
 
                 if (ShareDialog.canShow(ShareLinkContent.class)) {
@@ -225,7 +236,7 @@ public class DetailActivity extends AppCompatActivity {
                     shareDialog.show(shareLinkContent, ShareDialog.Mode.AUTOMATIC);
                 } else {
                     // Fallback for when the Facebook app is not installed
-                    String sharerUrl = "https://www.facebook.com/sharer/sharer.php?u=" + productUrl;
+                    String sharerUrl = "https://www.facebook.com/sharer/sharer.php?u=" + productUrl+"&hashtag=" + Uri.encode(hashtag);
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(sharerUrl));
                     startActivity(intent);
                 }
