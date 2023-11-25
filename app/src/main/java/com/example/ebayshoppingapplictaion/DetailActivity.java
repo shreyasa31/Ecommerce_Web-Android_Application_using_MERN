@@ -56,7 +56,7 @@ public class DetailActivity extends AppCompatActivity {
 //                .replace(R.id.fragment_container, photosFragment)
 //                .commit();
 
-        tabsViewAdapter = new TabsViewAdapter(this,keyword,itemId);
+        tabsViewAdapter = new TabsViewAdapter(this,keyword);
         viewPager.setAdapter(tabsViewAdapter);
 
 

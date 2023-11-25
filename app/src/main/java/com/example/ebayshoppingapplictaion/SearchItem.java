@@ -8,9 +8,9 @@ public class SearchItem {
     private String price;
     private String shippingType;
     private String productUrl;
-    private String itemId;
+//    private String itemId;
     // Constructor
-    public SearchItem(String image, String title, String zipcode,String shippingType, String condition, String price,String productUrl,String itemId) {
+    public SearchItem(String image, String title, String zipcode,String shippingType, String condition, String price,String productUrl) {
         this.image=image;
         this.title = title;
         this.zipcode = zipcode;
@@ -18,7 +18,7 @@ public class SearchItem {
         this.condition = condition;
         this.price = price;
         this.productUrl = productUrl;
-        this.itemId=itemId;
+//        this.itemId=itemId;
 
     }
 
@@ -30,6 +30,6 @@ public class SearchItem {
     public String getCondition() { return condition; }
     public String getPrice() { return price; }
     public String getProductUrl() { return productUrl; }
-    public String getItemId(){return itemId;}
+//    public String getItemId(){return itemId;}
 
 }
