@@ -44,7 +44,7 @@ public class DetailActivity extends AppCompatActivity {
         viewPager = findViewById(R.id.viewPager1);
 
         String keyword = getIntent().getStringExtra("keyword");
-
+        String itemId=getIntent().getStringExtra("itemId");
 
         Log.d("DetailActivity", "Keywordddddddddddddddddd: " + keyword);
 
@@ -56,7 +56,7 @@ public class DetailActivity extends AppCompatActivity {
 //                .replace(R.id.fragment_container, photosFragment)
 //                .commit();
 
-        tabsViewAdapter = new TabsViewAdapter(this,keyword);
+        tabsViewAdapter = new TabsViewAdapter(this,keyword,itemId);
         viewPager.setAdapter(tabsViewAdapter);
 
 
@@ -180,38 +180,7 @@ public class DetailActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-//    private void shareProductOnFacebook() {
-        // Retrieve product details such as URL, name, etc.
-//        ShareDialog shareDialog = new ShareDialog(this);
-////
-//        String productUrl = getIntent().getStringExtra("productUrl");
-//        String unescapedUrl = productUrl.replace("\\/", "/");
-//        if (unescapedUrl != null) {
-//            // Parse the URL to a Uri object
-//            Uri productUri = Uri.parse(unescapedUrl);
 //
-//            // Prepare the content to share
-//            ShareLinkContent shareLinkContent = new ShareLinkContent.Builder()
-//                    .setContentUrl(productUri) // Set the content URL to the product URL
-//                    // .setQuote("Check out this product!") // Optional: if you want to add a predefined quote
-//                    .build();
-//            Log.d("Dghdjskasjhdfghdjsxkz", "Product URL: " + productUri);
-//            // Show the share dialog
-//
-////            shareDialog.show(shareLinkContent);
-////            shareDialog.show(shareLinkContent, ShareDialog.Mode.AUTOMATIC);
-//            if (ShareDialog.canShow(ShareLinkContent.class)) {
-//                shareDialog.show(shareLinkContent, ShareDialog.Mode.AUTOMATIC);
-//            } else {
-//                // Fallback for when the Facebook app is not installed
-//                String sharerUrl = "https://www.facebook.com/sharer/sharer.php?u=" + productUrl;
-//                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(sharerUrl));
-//                startActivity(intent);
-//            }
-//        } else {
-//            // Handle the case where there is no URL to share
-//            Log.e("DetailActivity", "Product URL is null or empty");
-//        }
         private void shareProductOnFacebook() throws JSONException {
             ShareDialog shareDialog = new ShareDialog(this);
             String productUrlArrayString = getIntent().getStringExtra("productUrl");
