@@ -7,12 +7,12 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 public class TabsViewAdapter extends FragmentStateAdapter {
-//    private  String itemId;
+    private  String itemId;
     private String keyword;
-    public TabsViewAdapter(FragmentActivity fa,String keyword) {
+    public TabsViewAdapter(FragmentActivity fa,String keyword,String itemId) {
         super(fa);
         this.keyword = keyword;
-//        this.itemId=itemId;
+        this.itemId=itemId;
     }
 
     @Override
@@ -26,8 +26,8 @@ public class TabsViewAdapter extends FragmentStateAdapter {
 //                return new PhotosFragment();
                 return PhotosFragment.newInstance(keyword);
             case 3:
-                return new SimilarFragment();
-//                return PhotosFragment.newInstance(itemId);
+//                return new SimilarFragment();
+                return SimilarFragment.newInstance(itemId);
             default:
                 return new ProductFragment();
         }
