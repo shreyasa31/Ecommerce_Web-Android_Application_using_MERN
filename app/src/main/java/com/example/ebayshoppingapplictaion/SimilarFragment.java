@@ -25,6 +25,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -75,14 +77,17 @@ public class SimilarFragment extends Fragment {
         ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(getActivity(),
                 R.array.spinner_items2, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        myspinner2.setAdapter(adapter1);
+
         myspinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                // Check if the default item is selected
                 if (position == 0) { // Assuming the default item is at position 0
                     myspinner2.setEnabled(false);
                 } else {
                     myspinner2.setEnabled(true);
+                    sortItems();
                 }
             }
 
@@ -91,7 +96,19 @@ public class SimilarFragment extends Fragment {
                 myspinner2.setEnabled(false);
             }
         });
-        myspinner2.setAdapter(adapter1);
+
+// Listener for myspinner2
+        myspinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (myspinner1.getSelectedItemPosition() != 0) {
+                    sortItems(); // Only sort if default is not selected in myspinner1
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
         fetchSimilarItems();
 
         return view;
@@ -122,6 +139,7 @@ public class SimilarFragment extends Fragment {
             Log.d("SimilarFragment", "Parsing items");
             similarItems.clear();
 
+
             for (int i = 0; i < itemsArray.length(); i++) {
                 JSONObject itemObject = itemsArray.getJSONObject(i);
                 String itemId = itemObject.getString("itemId");
@@ -135,6 +153,7 @@ public class SimilarFragment extends Fragment {
                 SimilarItem item = new SimilarItem(itemId, title, image, price, shippingCost, timeLeft, viewItemURL);
                 similarItems.add(item);
 
+
                 Log.d("SimilarFragment", "Item " + i + ": " + title + ", " + price);
             }
 
@@ -144,4 +163,50 @@ public class SimilarFragment extends Fragment {
             e.printStackTrace();
             Log.e("SimilarFragment", "Error parsing JSON", e);
         }}
+    private void sortItems() {
+        String criteria = myspinner1.getSelectedItem().toString();
+        String order = myspinner2.getSelectedItem().toString();
+
+        Comparator<SimilarItem> comparator;
+
+        switch (criteria) {
+            case "Name":
+                comparator = Comparator.comparing(SimilarItem::getTitle);
+                break;
+            case "Price":
+                comparator = Comparator.comparingDouble(item -> Double.parseDouble(item.getPrice()));
+                break;
+            case "Days":
+//                comparator = Comparator.comparingInt(item -> getDays(item.getTimeLeft()));
+//                comparator = (item1, item2) -> Integer.compare(getDays(item2.getTimeLeft()), getDays(item1.getTimeLeft()));
+                comparator = Comparator.comparingInt(item -> getDays(item.getTimeLeft()));
+                if (order.equals("Descending")) {
+                    comparator = comparator.reversed();
+                }
+                break;
+            default:
+                return; // If no valid criteria is selected, return without sorting.
+        }
+
+        if (!criteria.equals("Days") && order.equals("Descending")) {
+            comparator = comparator.reversed();
+        }
+        Collections.sort(similarItems, comparator);
+        adapter.notifyDataSetChanged();
+    }
+
+    private int getDays(String timeLeft) {
+        try {
+            // Assuming timeLeft is in the format "X days"
+            String[] parts = timeLeft.split(" ");
+            if (parts.length >= 2) {
+                return Integer.parseInt(parts[0]); // Extract the numeric part
+            }
+        } catch (NumberFormatException e) {
+            Log.e("SimilarFragment", "Error parsing days from timeLeft", e);
+        }
+        return 0; // Default to 0 if parsing fails
+    }
+
+
 }
