@@ -10,6 +10,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -27,12 +30,14 @@ import java.util.List;
 
 public class SimilarFragment extends Fragment {
     private RecyclerView recyclerView;
+    private Spinner myspinner1,myspinner2;
     private SimilarItemAdapter adapter;
     private List<SimilarItem> similarItems = new ArrayList<>();
 
         // Required empty public constructor
         private static final String ARG_ITEM_ID = "itemId";
         private String itemId;
+
 
         public static SimilarFragment newInstance(String itemId) {
             SimilarFragment fragment = new SimilarFragment();
@@ -58,11 +63,35 @@ public class SimilarFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_similar, container, false);
         recyclerView = view.findViewById(R.id.recyclerViewSimilar);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-
+        myspinner1=view.findViewById(R.id.spinner1);
+        myspinner2=view.findViewById(R.id.spinner2);
         // Initialize the adapter with the empty list
         adapter = new SimilarItemAdapter(getContext(), similarItems);
         recyclerView.setAdapter(adapter); // Attach the adapter to RecyclerView
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
+                R.array.spinner_items1, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        myspinner1.setAdapter(adapter);
+        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(getActivity(),
+                R.array.spinner_items2, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        myspinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // Check if the default item is selected
+                if (position == 0) { // Assuming the default item is at position 0
+                    myspinner2.setEnabled(false);
+                } else {
+                    myspinner2.setEnabled(true);
+                }
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                myspinner2.setEnabled(false);
+            }
+        });
+        myspinner2.setAdapter(adapter1);
         fetchSimilarItems();
 
         return view;
