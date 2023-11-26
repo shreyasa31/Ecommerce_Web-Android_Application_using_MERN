@@ -35,8 +35,11 @@ public class SimilarFragment extends Fragment {
     private Spinner myspinner1,myspinner2;
     private SimilarItemAdapter adapter;
     private List<SimilarItem> similarItems = new ArrayList<>();
+    private List<SimilarItem> originalItems = new ArrayList<>();
 
-        // Required empty public constructor
+
+
+    // Required empty public constructor
         private static final String ARG_ITEM_ID = "itemId";
         private String itemId;
 
@@ -85,6 +88,7 @@ public class SimilarFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0) { // Assuming the default item is at position 0
                     myspinner2.setEnabled(false);
+                    resetToOriginalList();
                 } else {
                     myspinner2.setEnabled(true);
                     sortItems();
@@ -138,7 +142,7 @@ public class SimilarFragment extends Fragment {
         try {
             Log.d("SimilarFragment", "Parsing items");
             similarItems.clear();
-
+            originalItems.clear();
 
             for (int i = 0; i < itemsArray.length(); i++) {
                 JSONObject itemObject = itemsArray.getJSONObject(i);
@@ -152,7 +156,7 @@ public class SimilarFragment extends Fragment {
 
                 SimilarItem item = new SimilarItem(itemId, title, image, price, shippingCost, timeLeft, viewItemURL);
                 similarItems.add(item);
-
+                originalItems.add(item);
 
                 Log.d("SimilarFragment", "Item " + i + ": " + title + ", " + price);
             }
@@ -206,6 +210,11 @@ public class SimilarFragment extends Fragment {
             Log.e("SimilarFragment", "Error parsing days from timeLeft", e);
         }
         return 0; // Default to 0 if parsing fails
+    }
+    private void resetToOriginalList() {
+        similarItems.clear();
+        similarItems.addAll(originalItems); // Reset to original data
+        adapter.notifyDataSetChanged(); // Notify the adapter
     }
 
 
