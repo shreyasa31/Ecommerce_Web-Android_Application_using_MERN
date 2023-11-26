@@ -95,6 +95,7 @@ public class SimilarFragment extends Fragment {
                 }
             }
 
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 myspinner2.setEnabled(false);
