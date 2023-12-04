@@ -11,13 +11,13 @@
         android:padding="16dp">
 
         <!-- ViewPager2 for Image Swiping -->
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/imageViewPager"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:padding="8dp" />
 
         <!-- Indicator for ViewPager2 -->
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/imageViewPager"
+            android:layout_width="382dp"
+            android:layout_height="306dp" />
+
         <LinearLayout
             android:id="@+id/indicatorLayout"
             android:layout_width="wrap_content"
@@ -29,68 +29,86 @@
             <!-- Indicators will be added programmatically -->
         </LinearLayout>
 
-
         <!-- Title -->
         <TextView
             android:id="@+id/productTitleTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="24sp"
-            android:textStyle="bold"
+            android:layout_marginBottom="3dp"
             android:padding="0dp"
-            android:text="product_title" />
+            android:text="Product Title"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <!-- Price -->
-
-        <!-- Highlights -->
         <TextView
             android:id="@+id/productPriceTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="0dp"
-            android:text="product_price"
+            android:text="Product Price"
             android:textColor="@color/navy_blue"
-            android:textSize="20sp"
+            android:textSize="15sp"
             android:textStyle="bold" />
 
+        <!-- Horizontal Line before Highlights -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp"
+            android:background="@android:color/darker_gray" />
+
+        <!-- Highlights -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textStyle="bold"
+            android:padding="0dp"
             android:text="Highlights"
-            android:paddingTop="16dp"/>
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <!-- Highlight 1 -->
         <TextView
             android:id="@+id/highlight1TextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:padding="0dp"
-            android:text="highlight1" />
+            android:text="Highlight 1" />
 
         <!-- Highlight 2 -->
         <TextView
             android:id="@+id/highlight2TextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:padding="0dp"
-            android:text="highlight2" />
+            android:text="Highlight 2" />
+
+        <!-- Horizontal Line before Specifications -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp"
+            android:background="@android:color/darker_gray" />
 
         <!-- Specifications Title -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textStyle="bold"
+            android:layout_marginBottom="4dp"
+            android:padding="0dp"
             android:text="Specifications"
-            android:paddingTop="16dp"/>
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <!-- Specifications List (Dynamic Content) -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/specificationsRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="413dp"
             android:nestedScrollingEnabled="false" />
 
         <!-- Placeholder for additional dynamic API content -->
@@ -102,6 +120,5 @@
             android:paddingTop="16dp">
             <!-- Dynamic API content will be programmatically added here -->
         </LinearLayout>
-
     </LinearLayout>
 </ScrollView>

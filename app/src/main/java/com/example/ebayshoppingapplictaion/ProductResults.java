@@ -64,6 +64,7 @@ public class ProductResults extends AppCompatActivity {
                 intent.putExtra("keyword", keyword);
                 intent.putExtra("productUrl", item.getProductUrl());
                 intent.putExtra("itemId",item.getItemId());
+                intent.putExtra("ShippingType",item.getShippingType());
                 startActivity(intent);
             }
         });

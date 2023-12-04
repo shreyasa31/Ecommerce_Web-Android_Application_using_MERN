@@ -9,17 +9,19 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 public class TabsViewAdapter extends FragmentStateAdapter {
     private  String itemId;
     private String keyword;
-    public TabsViewAdapter(FragmentActivity fa,String keyword,String itemId) {
+    private String ShippingType;
+    public TabsViewAdapter(FragmentActivity fa,String keyword,String itemId,String SHippingType) {
         super(fa);
         this.keyword = keyword;
         this.itemId=itemId;
+        this.ShippingType=SHippingType;
     }
 
     @Override
     public Fragment createFragment(int position) {
         switch (position) {
             case 0:
-                return ProductFragment.newInstance(itemId);
+                return ProductFragment.newInstance(itemId,ShippingType);
             case 1:
                 return new ShippingFragment();
             case 2:

@@ -30,14 +30,16 @@ import java.util.ArrayList;
 public class ProductFragment extends Fragment {
     private static final String ARG_ITEM_ID = "itemId";
     private String itemId;
+    private String ShippingType;
     private ViewPager2 imageViewPager;
     private RecyclerView specificationsRecyclerView;
 
     // Static factory method to create a new instance of the fragment
-    public static ProductFragment newInstance(String itemId) {
+    public static ProductFragment newInstance(String itemId,String ShippingType) {
         ProductFragment fragment = new ProductFragment();
         Bundle args = new Bundle();
         args.putString(ARG_ITEM_ID, itemId);
+        args.putString("ARG_SHIPPING_TYPE", ShippingType);
         fragment.setArguments(args);
         return fragment;
     }
@@ -47,6 +49,7 @@ public class ProductFragment extends Fragment {
 
         if (getArguments() != null) {
             itemId = getArguments().getString(ARG_ITEM_ID);
+            ShippingType = getArguments().getString("ARG_SHIPPING_TYPE");
         }
     }
     @Override
@@ -88,16 +91,18 @@ public class ProductFragment extends Fragment {
             ArrayList<String> photo = new ArrayList<>();
             for (int i = 0; i < photosJson.length(); i++) {
                 photo.add(photosJson.getString(i));
+                Log.d("imagesssssssssss","gdhwgjhfw"+photo);
             }
             String price = response.getString("price");
             String brand = response.getString("brand");
-
+            Log.d("imagesssssssssss","gdhwgjhfw"+photo);
             JSONArray specificsJson = response.getJSONArray("itemSpecifics");
             ArrayList<ProductItem.ItemSpecific> itemSpecifics = new ArrayList<>();
             for (int i = 0; i < specificsJson.length(); i++) {
                 JSONObject specificJson = specificsJson.getJSONObject(i);
                 String value = specificJson.getString("value");
                 itemSpecifics.add(new ProductItem.ItemSpecific(value));
+                Log.d("itemSpecificsssssssss","gdhwgjhfw"+value);
             }
 
             return new ProductItem(id, title, photo, price, brand, itemSpecifics);
@@ -125,9 +130,9 @@ public class ProductFragment extends Fragment {
         TextView priceTextView = getView().findViewById(R.id.productPriceTextView);
         TextView priceTextView2 = getView().findViewById(R.id.highlight1TextView);
         TextView brandTextView = getView().findViewById(R.id.highlight2TextView); // Make sure this ID exists in your layout
-        priceTextView.setText(item.getPrice());
-        brandTextView.setText(item.getBrand());
-        priceTextView2.setText(item.getPrice());
+        priceTextView.setText(item.getPrice()+" "+"with"+" "+ShippingType+" "+"shipping");
+        brandTextView.setText("Brand"+"\t\t"+item.getBrand());
+        priceTextView2.setText("Price"+"\t\t"+item.getPrice());
 
     }
 

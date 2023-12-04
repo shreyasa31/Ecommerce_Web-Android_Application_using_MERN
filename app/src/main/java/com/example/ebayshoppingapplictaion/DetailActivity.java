@@ -47,7 +47,7 @@ public class DetailActivity extends AppCompatActivity {
 
         String keyword = getIntent().getStringExtra("keyword");
         String itemId=getIntent().getStringExtra("itemId");
-
+        String ShippingType=getIntent().getStringExtra("ShippingType");
         Log.d("DetailActivity", "Keywordddddddddddddddddd: " + itemId);
 
 //        // Create a new instance of PhotosFragment with the keyword
@@ -58,7 +58,7 @@ public class DetailActivity extends AppCompatActivity {
 //                .replace(R.id.fragment_container, photosFragment)
 //                .commit();
 
-        tabsViewAdapter = new TabsViewAdapter(this,keyword,itemId);
+        tabsViewAdapter = new TabsViewAdapter(this,keyword,itemId,ShippingType);
         viewPager.setAdapter(tabsViewAdapter);
 
 
