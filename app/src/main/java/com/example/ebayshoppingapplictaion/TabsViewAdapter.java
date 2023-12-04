@@ -19,7 +19,7 @@ public class TabsViewAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         switch (position) {
             case 0:
-                return new ProductFragment();
+                return ProductFragment.newInstance(itemId);
             case 1:
                 return new ShippingFragment();
             case 2:

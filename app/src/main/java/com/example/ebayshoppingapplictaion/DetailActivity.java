@@ -1,5 +1,7 @@
 package com.example.ebayshoppingapplictaion;
 
+import static com.example.ebayshoppingapplictaion.SimilarItemAdapter.clearPicassoCache;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
@@ -39,7 +41,7 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        clearPicassoCache(this);
         setContentView(R.layout.activity_detail);
         viewPager = findViewById(R.id.viewPager1);
 

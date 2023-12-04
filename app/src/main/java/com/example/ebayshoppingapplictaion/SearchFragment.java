@@ -332,28 +332,28 @@ public class SearchFragment extends Fragment {
     }
     //validations
     private boolean isValidInput() {
-    String keyword = KeywordEditText.getText().toString().trim();
-    String zipcode = editText.getText().toString().trim();
-    boolean isValid = true;
-    if (keyword.isEmpty()) {
-        validationText.setText("Please enter mandatory field");
-        validationText.setVisibility(View.VISIBLE);
-        isValid = false; // Set isValid to false if the keyword is empty
-    } else {
-        validationText.setVisibility(View.GONE); // Hide the validation message for keyword if it is not empty
-    }
+        String keyword = KeywordEditText.getText().toString().trim();
+        String zipcode = editText.getText().toString().trim();
+        boolean isValid = true;
+        if (keyword.isEmpty()) {
+            validationText.setText("Please enter mandatory field");
+            validationText.setVisibility(View.VISIBLE);
+            isValid = false; // Set isValid to false if the keyword is empty
+        } else {
+            validationText.setVisibility(View.GONE); // Hide the validation message for keyword if it is not empty
+        }
 
-    // Check if the zip RadioButton is checked and zipcode is empty
-    if (zip.isChecked() && zipcode.isEmpty()) {
-        validationText1.setText("Please enter mandatory field");
-        validationText1.setVisibility(View.VISIBLE);
-        isValid = false; // Set isValid to false if the zipcode is empty
-    } else {
-        validationText1.setVisibility(View.GONE); // Hide the validation message for zipcode if it is not empty
-    }
+        // Check if the zip RadioButton is checked and zipcode is empty
+        if (zip.isChecked() && zipcode.isEmpty()) {
+            validationText1.setText("Please enter mandatory field");
+            validationText1.setVisibility(View.VISIBLE);
+            isValid = false; // Set isValid to false if the zipcode is empty
+        } else {
+            validationText1.setVisibility(View.GONE); // Hide the validation message for zipcode if it is not empty
+        }
 //made changes here
-    return isValid;
-}
+        return isValid;
+    }
     // Function to request location updates
     private void requestLocationUpdates() {
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
