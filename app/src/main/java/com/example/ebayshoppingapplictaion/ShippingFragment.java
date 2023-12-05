@@ -30,14 +30,16 @@ public class ShippingFragment extends Fragment {
     // Static factory method to create a new instance of the fragment
     private static final String ARG_ITEM_ID = "itemId";
     private String itemId;
+    private String ShippingType;
 
     private TextView storename,feedbackscore,popularity,feedbackstar,shippingcost,globalshipping,handlingtime,policy,returnswithin,refundmode,shippedby;
 
     // Static factory method to create a new instance of the fragment
-    public static ShippingFragment newInstance(String itemId) {
+    public static ShippingFragment newInstance(String itemId,String ShippingType) {
         ShippingFragment fragment = new ShippingFragment();
         Bundle args = new Bundle();
         args.putString(ARG_ITEM_ID, itemId);
+        args.putString("ARG_SHIPPING_TYPE", ShippingType);
         fragment.setArguments(args);
         return fragment;
     }
@@ -47,7 +49,7 @@ public class ShippingFragment extends Fragment {
 
         if (getArguments() != null) {
             itemId = getArguments().getString(ARG_ITEM_ID);
-
+            ShippingType = getArguments().getString("ARG_SHIPPING_TYPE");
         }
     }
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -67,10 +69,10 @@ public class ShippingFragment extends Fragment {
         refundmode=view.findViewById(R.id.refund);
         shippedby=view.findViewById(R.id.shippedby);
         parseAndDisplayData();
-       return view;
+        return view;
         // ... existing code ...
     }
-//    private void parseAndDisplayData() {
+    //    private void parseAndDisplayData() {
 //        String url = "http://10.0.2.2:8080/getItem?ItemID=" + itemId;
 //        Log.d("LETSSSSSS","SEEEE"+url);
 //        // Request a string response from the provided URL.
@@ -118,9 +120,9 @@ public class ShippingFragment extends Fragment {
 //        RequestQueue queue = Volley.newRequestQueue(requireContext());
 //        queue.add(stringRequest);
 //    }
-private void parseAndDisplayData() {
-    String url = "http://10.0.2.2:8080/getItem?ItemID=" + itemId;
-    Log.d("LETSSSSSS","SEEEE"+url);
+    private void parseAndDisplayData() {
+        String url = "http://10.0.2.2:8080/getItem?ItemID=" + itemId;
+        Log.d("LETSSSSSS","SEEEE"+url);
 //    StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
 //            response -> {
 //                try {
@@ -149,53 +151,53 @@ private void parseAndDisplayData() {
 //
 //    RequestQueue queue = Volley.newRequestQueue(requireContext());
 //    queue.add(stringRequest);
-    StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-            response -> {
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                response -> {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
 
-                    // Use optString to avoid JSONException if the key is missing
-                    String storeName = jsonObject.optString("storeName", "N/A");
-                    String storeURL = jsonObject.optString("storeURL", "N/A");
-                    int feedbackScore = jsonObject.optInt("feedbackScore", 0);
-                    double positiveFeedbackPercent = jsonObject.optDouble("PositiveFeedbackPercent", 0.0);
-                    String feedbackRatingStar = jsonObject.optString("feedbackRatingStar", "N/A");
-                    boolean globalShipping = jsonObject.optBoolean("GlobalShipping", false);
-                    int handlingTime = jsonObject.optInt("HandlingTime", 0);
-                    String refund = jsonObject.optString("Refund", "N/A");
-                    String returnsWithin = jsonObject.optString("returnsWithin", "N/A");
-                    String shippingCostPaidBy = jsonObject.optString("ShippingCostPaidBy", "N/A");
+                        // Use optString to avoid JSONException if the key is missing
+                        String storeName = jsonObject.optString("storeName", "N/A");
+                        String storeURL = jsonObject.optString("storeURL", "N/A");
+                        int feedbackScore = jsonObject.optInt("feedbackScore", 0);
+                        double positiveFeedbackPercent = jsonObject.optDouble("PositiveFeedbackPercent", 0.0);
+                        String feedbackRatingStar = jsonObject.optString("feedbackRatingStar", "N/A");
+                        boolean globalShipping = jsonObject.optBoolean("GlobalShipping", false);
+                        int handlingTime = jsonObject.optInt("HandlingTime", 0);
+                        String refund = jsonObject.optString("Refund", "N/A");
+                        String returnsWithin = jsonObject.optString("returnsWithin", "N/A");
+                        String shippingCostPaidBy = jsonObject.optString("ShippingCostPaidBy", "N/A");
+                        String returnsAccepted=jsonObject.optString("returnsAccepted","N/A");
+                        Item item = new Item(storeName, storeURL, feedbackScore, positiveFeedbackPercent, feedbackRatingStar, globalShipping, handlingTime, refund, returnsWithin, shippingCostPaidBy,returnsAccepted);
+                        updateUI(item);
 
-                    Item item = new Item(storeName, storeURL, feedbackScore, positiveFeedbackPercent, feedbackRatingStar, globalShipping, handlingTime, refund, returnsWithin, shippingCostPaidBy);
-                    updateUI(item);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                },
+                error -> Log.e("Volley", "Error: " + error.toString())
+        );
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            },
-            error -> Log.e("Volley", "Error: " + error.toString())
-    );
-
-    RequestQueue queue = Volley.newRequestQueue(requireContext());
-    queue.add(stringRequest);
-}
+        RequestQueue queue = Volley.newRequestQueue(requireContext());
+        queue.add(stringRequest);
+    }
     private void updateUI(Item item) {
         storename.setText(item.getStoreName());
         feedbackscore.setText(String.valueOf(item.getFeedbackScore()));
         popularity.setText(String.format("%.1f%%", item.getPositiveFeedbackPercent()));
         feedbackstar.setText(item.getFeedbackRatingStar());
         globalshipping.setText(item.isGlobalShipping() ? "Yes" : "No");
-        handlingtime.setText(item.getHandlingTime() + " days");
-        policy.setText(item.getRefund());
+        handlingtime.setText(item.getHandlingTime() + " ");
+        policy.setText(item.getReturnsAccepted());
         returnswithin.setText(item.getReturnsWithin());
         refundmode.setText(item.getRefund());
         shippedby.setText(item.getShippingCostPaidBy());
-
-        if (getActivity() != null) {
-            Intent intent = getActivity().getIntent();
-            String shippingCostValue = intent.getStringExtra("shippingCost");
-            shippingcost.setText(shippingCostValue != null ? shippingCostValue : "Not Available");
-        }
+        shippingcost.setText(ShippingType);
+//        if (getActivity() != null) {
+//            Intent intent = getActivity().getIntent();
+//            String shippingCostValue = intent.getStringExtra("shippingCost");
+//            shippingcost.setText(shippingCostValue != null ? shippingCostValue : "Not Available");
+//        }
 
         storename.setOnClickListener(v -> {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(item.getStoreURL()));

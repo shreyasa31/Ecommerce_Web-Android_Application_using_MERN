@@ -25,7 +25,7 @@ public class TabsViewAdapter extends FragmentStateAdapter {
             case 0:
                 return ProductFragment.newInstance(itemId,ShippingType);
             case 1:
-                return ShippingFragment.newInstance(itemId);
+                return ShippingFragment.newInstance(itemId,ShippingType);
             case 2:
 //                return new PhotosFragment();
                 return PhotosFragment.newInstance(keyword);

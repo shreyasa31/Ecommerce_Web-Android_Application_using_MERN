@@ -11,11 +11,12 @@ public class Item {
     private String refund;
     private String returnsWithin;
     private String shippingCostPaidBy;
+    private String returnsAccepted;
 
     // Constructor
     public Item(String storeName, String storeURL, int feedbackScore, double positiveFeedbackPercent,
                 String feedbackRatingStar, boolean globalShipping, int handlingTime, String refund,
-                String returnsWithin, String shippingCostPaidBy) {
+                String returnsWithin, String shippingCostPaidBy,String returnsAccepted) {
         this.storeName = storeName;
         this.storeURL = storeURL;
         this.feedbackScore = feedbackScore;
@@ -26,6 +27,7 @@ public class Item {
         this.refund = refund;
         this.returnsWithin = returnsWithin;
         this.shippingCostPaidBy = shippingCostPaidBy;
+        this.returnsAccepted=returnsAccepted;
     }
 
     // Getters and Setters
@@ -107,5 +109,12 @@ public class Item {
 
     public void setShippingCostPaidBy(String shippingCostPaidBy) {
         this.shippingCostPaidBy = shippingCostPaidBy;
+    }
+    public String getReturnsAccepted() {
+        return returnsAccepted;
+    }
+
+    public void setReturnsAccepted(String returnsAccepted) {
+        this.returnsAccepted = returnsAccepted;
     }
 }
