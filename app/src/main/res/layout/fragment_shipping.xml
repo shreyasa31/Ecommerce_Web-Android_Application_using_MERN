@@ -35,7 +35,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:text="Sold By"
-                    android:textSize="20dp"
+                    android:textSize="25dp"
                     android:textStyle="bold" />
             </LinearLayout>
         </TableRow>
@@ -45,7 +45,8 @@
 
             <TextView
                 android:padding="3dp"
-                android:text="Store Name" />
+                android:text="Store Name"
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/storeName"
@@ -62,20 +63,23 @@
                 android:padding="3dp"
                 android:scrollHorizontally="true"
                 android:singleLine="true"
-                android:text="sh" />
+                android:text="sh"
+                android:textSize="18sp" />
         </TableRow>
         <!-- Feedback Score Row -->
         <TableRow android:paddingStart="8dp">
 
             <TextView
                 android:padding="3dp"
-                android:text="Feedback Score" />
+                android:text="Feedback Score"
+                android:textSize="18sp"/>
 
             <TextView
                 android:id="@+id/feedbackscore"
                 android:layout_marginStart="15dp"
                 android:padding="3dp"
-                android:text="29570" />
+                android:text="29570"
+                android:textSize="18sp"/>
         </TableRow>
 
         <!-- Popularity Row -->
@@ -83,26 +87,67 @@
 
             <TextView
                 android:padding="3dp"
-                android:text="Popularity" />
+                android:text="Popularity"
+                android:textSize="18sp"/>
 
-            <TextView
-                android:id="@+id/popularity"
-                android:layout_marginStart="15dp"
-                android:padding="3dp"
-                android:text="99%" />
+<!--            <TextView-->
+<!--                android:id="@+id/popularity"-->
+<!--                android:layout_marginStart="15dp"-->
+<!--                android:padding="3dp"-->
+<!--                android:text="99%"-->
+<!--                android:textSize="18sp"/>-->
+            <!-- Circular Progress Bar Container -->
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp">
+
+                <!-- Circular Progress Bar -->
+                <ProgressBar
+                    android:id="@+id/feedbackProgress"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:indeterminate="false"
+                    android:progressDrawable="@drawable/circular_progress_bar"
+                    android:max="100"
+                    android:progress="0" />
+
+                <!-- Percentage TextView Inside the Progress Bar -->
+                <TextView
+                    android:id="@+id/popularity"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:gravity="center"
+                    android:textSize="12sp"
+                    android:textColor="@android:color/black"
+                    android:text="0%" />
+            </FrameLayout>
         </TableRow>
 
-        <TableRow android:paddingStart="8dp">
+        <TableRow
+            android:layout_width="318dp"
+            android:paddingStart="0dp">
 
-            <TextView
-                android:padding="3dp"
-                android:text="Feedback Star" />
+                  <TextView
+                          android:padding="3dp"
+                      android:text="Feedback Star"
+                        android:textSize="18sp"/>
 
-            <TextView
+            <!--&lt;!&ndash;            <TextView&ndash;&gt;-->
+            <!--&lt;!&ndash;                android:id="@+id/feedbackstar"&ndash;&gt;-->
+            <!--&lt;!&ndash;                android:layout_marginStart="15dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;                android:padding="3dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;                android:text="99%"&ndash;&gt;-->
+            <!--&lt;!&ndash;                android:textSize="18sp"/>&ndash;&gt;-->
+            <ImageView
                 android:id="@+id/feedbackstar"
-                android:layout_marginStart="15dp"
-                android:padding="3dp"
-                android:text="99%" />
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:padding="0dp"
+                android:src="@drawable/star_circle" />
+
+
         </TableRow>
         <!-- Other rows for feedback score, popularity, etc. -->
 
@@ -144,7 +189,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:text="Shipping Info"
-                    android:textSize="20dp"
+                    android:textSize="25dp"
                     android:textStyle="bold" />
             </LinearLayout>
         </TableRow>
@@ -153,13 +198,15 @@
 
             <TextView
                 android:padding="3dp"
-                android:text="Shipping Cost" />
+                android:text="Shipping Cost"
+                android:textSize="18sp"/>
 
             <TextView
                 android:id="@+id/shippingcost"
                 android:layout_marginStart="15dp"
                 android:padding="3dp"
-                android:text="Free" />
+                android:text="Free"
+                android:textSize="18sp"/>
         </TableRow>
 
         <!-- Global Shipping Row -->
@@ -167,13 +214,15 @@
 
             <TextView
                 android:padding="3dp"
-                android:text="Global Shipping" />
+                android:text="Global Shipping"
+                android:textSize="18sp"/>
 
             <TextView
                 android:id="@+id/globalshipping"
                 android:layout_marginStart="15dp"
                 android:padding="3dp"
-                android:text="No" />
+                android:text="No"
+                android:textSize="18sp"/>
         </TableRow>
 
         <!-- Handling Time Row -->
@@ -181,13 +230,15 @@
 
             <TextView
                 android:padding="3dp"
-                android:text="Handling Time" />
+                android:text="Handling Time"
+                android:textSize="18sp"/>
 
             <TextView
                 android:id="@+id/handlingtime"
                 android:layout_marginStart="15dp"
                 android:padding="3dp"
-                android:text="1" />
+                android:text="1"
+                android:textSize="18sp"/>
         </TableRow>
 
         <!-- Shipping Cost Row -->
@@ -231,7 +282,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:text="Return Policy"
-                    android:textSize="20dp"
+                    android:textSize="25dp"
                     android:textStyle="bold" />
             </LinearLayout>
         </TableRow>
@@ -240,13 +291,15 @@
 
             <TextView
                 android:padding="3dp"
-                android:text="Policy" />
+                android:text="Policy"
+                android:textSize="18sp"/>
 
             <TextView
                 android:id="@+id/policy"
                 android:layout_marginStart="15dp"
                 android:padding="3dp"
-                android:text="Returns Accepted" />
+                android:text="Returns Accepted"
+                android:textSize="18sp"/>
         </TableRow>
 
         <!-- Returns Within Row -->
@@ -254,13 +307,15 @@
 
             <TextView
                 android:padding="3dp"
-                android:text="Returns Within" />
+                android:text="Returns Within"
+                android:textSize="18sp"/>
 
             <TextView
                 android:id="@+id/returnswithin"
                 android:layout_marginStart="15dp"
                 android:padding="3dp"
-                android:text="30 Days" />
+                android:text="30 Days"
+                android:textSize="18sp"/>
         </TableRow>
 
         <!-- Refund Mode Row -->
@@ -268,7 +323,8 @@
 
             <TextView
                 android:padding="3dp"
-                android:text="Refund Mode" />
+                android:text="Refund Mode"
+                android:textSize="18sp"/>
 
             <TextView
                 android:id="@+id/refund"
@@ -279,6 +335,7 @@
                 android:ellipsize="end"
                 android:padding="3dp"
                 android:singleLine="true"
+                android:textSize="18sp"
                 android:text="Money back or replacement (buyer's choice)" />
         </TableRow>
 
@@ -287,13 +344,15 @@
 
             <TextView
                 android:padding="3dp"
-                android:text="Shipped By" />
+                android:text="Shipped By"
+                android:textSize="18sp"/>
 
             <TextView
                 android:id="@+id/shippedby"
                 android:layout_marginStart="15dp"
                 android:padding="3dp"
-                android:text="Seller" />
+                android:text="Seller"
+                android:textSize="18sp"/>
         </TableRow>
 
         <!-- Policy Row -->

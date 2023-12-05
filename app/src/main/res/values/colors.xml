@@ -10,4 +10,26 @@
     <color name="tabIndicatorColor">#C4B6AEAE</color>
     <color name="tabTextColor">#A483EF</color>
 
+    <!-- Standard Stars -->
+    <color name="none">#00000000</color> <!-- Transparent for no graphic -->
+    <color name="yellow_star">#FFFF00</color> <!-- Yellow -->
+    <color name="blue_star">#0000FF</color> <!-- Blue -->
+    <color name="turquoise_star">#40E0D0</color> <!-- Turquoise -->
+    <color name="purple_star">#800080</color> <!-- Purple -->
+    <color name="red_star">#FF0000</color> <!-- Red -->
+    <color name="green_star">#008000</color> <!-- Green -->
+
+    <!-- Shooting Stars -->
+    <color name="yellow_shooting_star">#FFD700</color> <!-- Gold Yellow for shooting star -->
+    <color name="turquoise_shooting_star">#40E0D0</color> <!-- Turquoise Shooting Star -->
+    <color name="purple_shooting_star">#800080</color> <!-- Purple Shooting Star -->
+    <color name="red_shooting_star">#FF0000</color> <!-- Red Shooting Star -->
+    <color name="green_shooting_star">#008000</color> <!-- Green Shooting Star -->
+    <color name="silver_shooting_star">#C0C0C0</color> <!-- Silver Shooting Star -->
+
+    <!-- Default Star Color -->
+    <color name="default_star_color">#FFFFFF</color>
+        <!-- Define other star colors here -->
+
+
 </resources>

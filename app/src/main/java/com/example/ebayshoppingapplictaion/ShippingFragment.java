@@ -1,6 +1,7 @@
 package com.example.ebayshoppingapplictaion;
 
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -13,6 +14,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -23,6 +26,8 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Locale;
+
 
 public class ShippingFragment extends Fragment {
 
@@ -32,7 +37,8 @@ public class ShippingFragment extends Fragment {
     private String itemId;
     private String ShippingType;
 
-    private TextView storename,feedbackscore,popularity,feedbackstar,shippingcost,globalshipping,handlingtime,policy,returnswithin,refundmode,shippedby;
+    private TextView storename,feedbackscore,popularity,shippingcost,globalshipping,handlingtime,policy,returnswithin,refundmode,shippedby;
+    private ImageView feedbackstar;
 
     // Static factory method to create a new instance of the fragment
     public static ShippingFragment newInstance(String itemId,String ShippingType) {
@@ -59,8 +65,6 @@ public class ShippingFragment extends Fragment {
         feedbackscore=view.findViewById(R.id.feedbackscore);
         popularity=view.findViewById(R.id.popularity);
         feedbackstar=view.findViewById(R.id.feedbackstar);
-
-
         shippingcost=view.findViewById(R.id.shippingcost);
         globalshipping=view.findViewById(R.id.globalshipping);
         handlingtime=view.findViewById(R.id.handlingtime);
@@ -182,10 +186,16 @@ public class ShippingFragment extends Fragment {
         queue.add(stringRequest);
     }
     private void updateUI(Item item) {
+        ProgressBar feedbackProgress = getView().findViewById(R.id.feedbackProgress);
+        // Calculate the progress from the PositiveFeedbackPercent
+        int progressValue = (int) Math.round(item.getPositiveFeedbackPercent());
+        feedbackProgress.setProgress(progressValue);
+        // Set the percentage text
+        popularity.setText(String.format(Locale.getDefault(), "%.1f%%", item.getPositiveFeedbackPercent()));
         storename.setText(item.getStoreName());
         feedbackscore.setText(String.valueOf(item.getFeedbackScore()));
-        popularity.setText(String.format("%.1f%%", item.getPositiveFeedbackPercent()));
-        feedbackstar.setText(item.getFeedbackRatingStar());
+        popularity.setText(String.format(Locale.getDefault(),"%.1f%%", item.getPositiveFeedbackPercent()));
+        setFeedbackStarColor(feedbackstar, item.getFeedbackRatingStar());
         globalshipping.setText(item.isGlobalShipping() ? "Yes" : "No");
         handlingtime.setText(item.getHandlingTime() + " ");
         policy.setText(item.getReturnsAccepted());
@@ -204,6 +214,49 @@ public class ShippingFragment extends Fragment {
             startActivity(browserIntent);
         });
     }
-
+    private void setFeedbackStarColor(ImageView feedbackstar, String feedbackRatingStar) {
+        int starColor;
+        switch (feedbackRatingStar) {
+            case "YellowShooting":
+                starColor = getResources().getColor(R.color.yellow_shooting_star); // Define this color in colors.xml
+                break;
+            case "Yellow":
+                starColor = getResources().getColor(R.color.yellow_star); // Define this color in colors.xml
+                break;
+            case "Green":
+                starColor = getResources().getColor(R.color.green_star); // Define this color in colors.xml
+                break;
+            case "GreenShooting":
+                starColor = getResources().getColor(R.color.green_shooting_star); // Define this color in colors.xml
+                break;
+            case "Turquoise":
+                starColor = getResources().getColor(R.color.turquoise_star); // Define this color in colors.xml
+                break;
+            case "TurquoiseShooting":
+                starColor = getResources().getColor(R.color.turquoise_shooting_star); // Define this color in colors.xml
+                break;
+            case "Purple":
+                starColor = getResources().getColor(R.color.purple_star); // Define this color in colors.xml
+                break;
+            case "PurpleShooting":
+                starColor = getResources().getColor(R.color.purple_shooting_star); // Define this color in colors.xml
+                break;
+            case "SilverShooting":
+                starColor = getResources().getColor(R.color.silver_shooting_star); // Define this color in colors.xml
+                break;
+            case "Red":
+                starColor = getResources().getColor(R.color.red_star); // Define this color in colors.xml
+                break;
+            case "RedShooting":
+                starColor = getResources().getColor(R.color.red_shooting_star); // Define this color in colors.xml
+                break;
+            // Add other cases for different colors based on your needs
+            default:
+                starColor = getResources().getColor(R.color.default_star_color); // Fallback color
+                break;
+        }
+        feedbackstar.setColorFilter(starColor, PorterDuff.Mode.SRC_IN);
+        feedbackstar.setVisibility(View.VISIBLE);
+    }
 
 }
