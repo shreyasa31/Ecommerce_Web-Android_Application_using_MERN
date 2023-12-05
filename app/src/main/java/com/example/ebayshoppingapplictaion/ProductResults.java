@@ -123,8 +123,9 @@ public class ProductResults extends AppCompatActivity {
                 .appendQueryParameter("distance", Integer.toString(distance))
 
                .appendQueryParameter("buyerPostalCode", buyerPostalCode);
-
+        Log.d("thissss url productsss","prodyctshwhgw"+builder);
         return builder.build().toString();
+
     }
 
     private void fetchSearchResults(String url) {

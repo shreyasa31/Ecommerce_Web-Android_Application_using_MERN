@@ -40,5 +40,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </FrameLayout>
+    <TextView
+        android:id="@+id/noRecordsTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="No Records"
+        android:gravity="center"
+        android:visibility="gone"
+        android:textSize="18sp"
+        android:layout_marginTop="16dp"/>
 </LinearLayout>
 

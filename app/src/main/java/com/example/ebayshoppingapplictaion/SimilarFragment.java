@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -42,7 +43,7 @@ public class SimilarFragment extends Fragment {
     // Required empty public constructor
         private static final String ARG_ITEM_ID = "itemId";
         private String itemId;
-
+        private TextView noRecordsTextView;
 
         public static SimilarFragment newInstance(String itemId) {
             SimilarFragment fragment = new SimilarFragment();
@@ -65,11 +66,13 @@ public class SimilarFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         View view = inflater.inflate(R.layout.fragment_similar, container, false);
         recyclerView = view.findViewById(R.id.recyclerViewSimilar);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         myspinner1=view.findViewById(R.id.spinner1);
         myspinner2=view.findViewById(R.id.spinner2);
+        noRecordsTextView = view.findViewById(R.id.noRecordsTextView);
         // Initialize the adapter with the empty list
         adapter = new SimilarItemAdapter(getContext(), similarItems);
         recyclerView.setAdapter(adapter); // Attach the adapter to RecyclerView
@@ -128,6 +131,7 @@ public class SimilarFragment extends Fragment {
                     public void onResponse(JSONArray response) {
                         Log.d("SimilarFragment", "Response received");
                         parseItems(response);
+                        checkForEmptyList();
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -168,6 +172,13 @@ public class SimilarFragment extends Fragment {
             e.printStackTrace();
             Log.e("SimilarFragment", "Error parsing JSON", e);
         }}
+    private void checkForEmptyList() {
+        if (similarItems.isEmpty()) {
+            noRecordsTextView.setVisibility(View.VISIBLE);
+        } else {
+            noRecordsTextView.setVisibility(View.GONE);
+        }
+    }
     private void sortItems() {
         String criteria = myspinner1.getSelectedItem().toString();
         String order = myspinner2.getSelectedItem().toString();
