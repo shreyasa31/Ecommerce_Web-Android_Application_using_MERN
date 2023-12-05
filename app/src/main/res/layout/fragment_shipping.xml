@@ -1,14 +1,305 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ShippingFragment">
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="0dp">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <!-- Store Section -->
+    <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:stretchColumns="1">
 
-</FrameLayout>
+        <TableRow>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <ImageView
+                    android:id="@+id/soldByIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="8dp"
+
+                    android:src="@drawable/truck" />
+
+                <TextView
+                    android:id="@+id/soldByText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="Sold By"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </TableRow>
+
+        <!-- Store Name Row -->
+        <TableRow android:paddingStart="8dp">
+
+            <TextView
+                android:padding="3dp"
+                android:text="Store Name" />
+
+            <TextView
+                android:id="@+id/storeName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:ellipsize="marquee"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:onClick="onStoreNameClick"
+                android:padding="3dp"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:text="sh" />
+        </TableRow>
+        <!-- Feedback Score Row -->
+        <TableRow android:paddingStart="8dp">
+
+            <TextView
+                android:padding="3dp"
+                android:text="Feedback Score" />
+
+            <TextView
+                android:id="@+id/feedbackscore"
+                android:layout_marginStart="15dp"
+                android:padding="3dp"
+                android:text="29570" />
+        </TableRow>
+
+        <!-- Popularity Row -->
+        <TableRow android:paddingStart="8dp">
+
+            <TextView
+                android:padding="3dp"
+                android:text="Popularity" />
+
+            <TextView
+                android:id="@+id/popularity"
+                android:layout_marginStart="15dp"
+                android:padding="3dp"
+                android:text="99%" />
+        </TableRow>
+
+        <TableRow android:paddingStart="8dp">
+
+            <TextView
+                android:padding="3dp"
+                android:text="Feedback Star" />
+
+            <TextView
+                android:id="@+id/feedbackstar"
+                android:layout_marginStart="15dp"
+                android:padding="3dp"
+                android:text="99%" />
+        </TableRow>
+        <!-- Other rows for feedback score, popularity, etc. -->
+
+    </TableLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="10dp"
+        android:background="@android:color/darker_gray" />
+    <!-- Shipping Info Section -->
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="1">
+
+        <!-- Shipping Info Header Row -->
+        <TableRow android:padding="8dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/shipping1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="8dp"
+
+                    android:src="@drawable/ferry" />
+
+                <TextView
+                    android:id="@+id/shipping2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="Shipping Info"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </TableRow>
+
+        <TableRow android:paddingStart="8dp">
+
+            <TextView
+                android:padding="3dp"
+                android:text="Shipping Cost" />
+
+            <TextView
+                android:id="@+id/shippingcost"
+                android:layout_marginStart="15dp"
+                android:padding="3dp"
+                android:text="Free" />
+        </TableRow>
+
+        <!-- Global Shipping Row -->
+        <TableRow android:paddingStart="8dp">
+
+            <TextView
+                android:padding="3dp"
+                android:text="Global Shipping" />
+
+            <TextView
+                android:id="@+id/globalshipping"
+                android:layout_marginStart="15dp"
+                android:padding="3dp"
+                android:text="No" />
+        </TableRow>
+
+        <!-- Handling Time Row -->
+        <TableRow android:paddingStart="8dp">
+
+            <TextView
+                android:padding="3dp"
+                android:text="Handling Time" />
+
+            <TextView
+                android:id="@+id/handlingtime"
+                android:layout_marginStart="15dp"
+                android:padding="3dp"
+                android:text="1" />
+        </TableRow>
+
+        <!-- Shipping Cost Row -->
+        <!-- Other rows for global shipping, handling time, etc. -->
+
+    </TableLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="10dp"
+        android:background="@android:color/darker_gray" />
+    <!-- Return Policy Section -->
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="1">
+
+        <!-- Return Policy Header Row -->
+        <TableRow android:padding="8dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/return1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="8dp"
+
+                    android:src="@drawable/dump_truck" />
+
+                <TextView
+                    android:id="@+id/return2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="Return Policy"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </TableRow>
+        <!-- Policy Row -->
+        <TableRow android:paddingStart="8dp">
+
+            <TextView
+                android:padding="3dp"
+                android:text="Policy" />
+
+            <TextView
+                android:id="@+id/policy"
+                android:layout_marginStart="15dp"
+                android:padding="3dp"
+                android:text="Returns Accepted" />
+        </TableRow>
+
+        <!-- Returns Within Row -->
+        <TableRow android:paddingStart="8dp">
+
+            <TextView
+                android:padding="3dp"
+                android:text="Returns Within" />
+
+            <TextView
+                android:id="@+id/returnswithin"
+                android:layout_marginStart="15dp"
+                android:padding="3dp"
+                android:text="30 Days" />
+        </TableRow>
+
+        <!-- Refund Mode Row -->
+        <TableRow android:paddingStart="8dp">
+
+            <TextView
+                android:padding="3dp"
+                android:text="Refund Mode" />
+
+            <TextView
+                android:id="@+id/refund"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:padding="3dp"
+                android:singleLine="true"
+                android:text="Money back or replacement (buyer's choice)" />
+        </TableRow>
+
+        <!-- Shipped By Row -->
+        <TableRow android:paddingStart="8dp">
+
+            <TextView
+                android:padding="3dp"
+                android:text="Shipped By" />
+
+            <TextView
+                android:id="@+id/shippedby"
+                android:layout_marginStart="15dp"
+                android:padding="3dp"
+                android:text="Seller" />
+        </TableRow>
+
+        <!-- Policy Row -->
+        <!-- Other rows for return within, refund mode, shipped by, etc. -->
+        <!-- Add a RecyclerView for listing items -->
+
+    </TableLayout>
+
+</LinearLayout>

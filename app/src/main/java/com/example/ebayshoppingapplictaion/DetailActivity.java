@@ -48,6 +48,7 @@ public class DetailActivity extends AppCompatActivity {
         String keyword = getIntent().getStringExtra("keyword");
         String itemId=getIntent().getStringExtra("itemId");
         String ShippingType=getIntent().getStringExtra("ShippingType");
+
         Log.d("DetailActivity", "Keywordddddddddddddddddd: " + itemId);
 
 //        // Create a new instance of PhotosFragment with the keyword
