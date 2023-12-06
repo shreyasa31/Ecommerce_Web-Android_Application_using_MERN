@@ -32,11 +32,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ProductResults extends AppCompatActivity {
+public class ProductResults extends AppCompatActivity  {
     private TextView noResultsTextView;
     private RecyclerView recyclerView;
     private  ProgressBar progressBar;
     private SearchAdapter adapter;
+    private ImageView cart;
     private TextView searchProductsText;
     private List<SearchItem> searchItemList = new ArrayList<>();
     @Override
@@ -53,6 +54,7 @@ public class ProductResults extends AppCompatActivity {
         String keyword = intent.getStringExtra("keyword");
         searchProductsText.setVisibility(View.VISIBLE);
         recyclerView = findViewById(R.id.recyclerView);
+
         recyclerView.setLayoutManager(new GridLayoutManager(this,2));
         adapter = new SearchAdapter(searchItemList, new SearchAdapter.OnItemClickListener() {
             @Override
@@ -66,6 +68,17 @@ public class ProductResults extends AppCompatActivity {
                 intent.putExtra("itemId",item.getItemId());
                 intent.putExtra("ShippingType",item.getShippingType());
                 startActivity(intent);
+            }
+
+            @Override
+            public void onWishlistClick(SearchItem item) {
+                if (item.isInWishlist()) {
+                    // Call API to add item to wishlist
+                    addToWishlist(item);
+                } else {
+                    // Call API to remove item from wishlist
+                    removeFromWishlist(item);
+                }
             }
         });
         recyclerView.setAdapter(adapter);
@@ -100,6 +113,44 @@ public class ProductResults extends AppCompatActivity {
           }
       });
     }
+    private void addToWishlist(SearchItem item) {
+        String baseUrl = "http://10.0.2.2:8080/addToWishlist?"; // Replace with your actual API URL
+
+        Uri.Builder builder = Uri.parse(baseUrl).buildUpon();
+        builder.appendQueryParameter("ItemID", item.getItemId());
+        builder.appendQueryParameter("image", item.getImage());
+        builder.appendQueryParameter("title", item.getTitle());
+        builder.appendQueryParameter("location", item.getZipcode());
+        builder.appendQueryParameter("shipping", item.getShippingType());
+        builder.appendQueryParameter("condition", item.getCondition());
+        builder.appendQueryParameter("price", item.getPrice());
+
+
+        String urlWithParams = builder.build().toString();
+        Log.d("wishlistttttttttttttttttttttt", "URL: " + urlWithParams);
+        RequestQueue queue = Volley.newRequestQueue(this);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, urlWithParams, null,
+                response -> {
+                    // Handle response
+                    Log.d("ProductResults", "Item added to wishlist");
+                    item.setInWishlist(true);
+                    adapter.notifyItemChanged(searchItemList.indexOf(item));
+                },
+                error -> {
+                    // Handle error
+                    Log.e("ProductResults", "Error: " + error.getMessage());
+                });
+
+        queue.add(jsonObjectRequest);
+
+    }
+
+    private void removeFromWishlist(SearchItem item) {
+        // API call to remove item from wishlist
+        item.setInWishlist(false);
+        adapter.notifyItemChanged(searchItemList.indexOf(item));
+    }
+
 
     private String constructURL(String keyword, String category, String[] condition, boolean localpickuponly, boolean freeshipping, int distance, String buyerPostalCode) {
         // Construct the URL with user input

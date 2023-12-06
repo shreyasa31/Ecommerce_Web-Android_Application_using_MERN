@@ -8,6 +8,11 @@ public class SimilarItem {
     private String shippingCost;
     private String timeLeft;
     private String viewItemURL;
+
+
+    // constructor, getters, and setters...
+
+
     // Other fields...
 
     // Updated constructor

@@ -9,6 +9,7 @@ public class SearchItem {
     private String shippingType;
     private String productUrl;
     private String itemId;
+    private boolean isInWishlist;
     // Constructor
     public SearchItem(String image, String title, String zipcode,String shippingType, String condition, String price,String productUrl,String itemId) {
         this.image=image;
@@ -31,5 +32,12 @@ public class SearchItem {
     public String getPrice() { return price; }
     public String getProductUrl() { return productUrl; }
     public String getItemId(){return itemId;}
+    public boolean isInWishlist() {
+        return isInWishlist;
+    }
+
+    public void setInWishlist(boolean inWishlist) {
+        isInWishlist = inWishlist;
+    }
 
 }
