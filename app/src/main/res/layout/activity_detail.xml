@@ -57,16 +57,16 @@
     </com.google.android.material.tabs.TabLayout>
 
     <!--    <ImageView-->
-<!--        android:id="@+id/imageView3"-->
-<!--        android:layout_width="64dp"-->
-<!--        android:layout_height="54dp"-->
-<!--        app:layout_constraintBottom_toBottomOf="@+id/toolbar"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="1.0"-->
-<!--        app:layout_constraintStart_toStartOf="@+id/toolbar"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:layout_constraintVertical_bias="1.0"-->
-<!--        app:srcCompat="@drawable/facebook" />-->
+    <!--        android:id="@+id/imageView3"-->
+    <!--        android:layout_width="64dp"-->
+    <!--        android:layout_height="54dp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="@+id/toolbar"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="1.0"-->
+    <!--        app:layout_constraintStart_toStartOf="@+id/toolbar"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:layout_constraintVertical_bias="1.0"-->
+    <!--        app:srcCompat="@drawable/facebook" />-->
 
     <!-- Rest of your layout -->
     <androidx.viewpager2.widget.ViewPager2
@@ -79,15 +79,16 @@
         app:layout_constraintTop_toBottomOf="@id/tabLayout">
         <!-- This will host the tab contents -->
     </androidx.viewpager2.widget.ViewPager2>
+
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
     <TextView
         android:id="@+id/searchProductsText"
@@ -95,11 +96,38 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Fetching Products..."
-        android:textColor="@color/navy_blue"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintTop_toBottomOf="@id/progressBar"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/navy_blue"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="gone" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/progressBar" />
+
+<!--    <Button-->
+<!--        android:id="@+id/cartButton"-->
+<!--        android:layout_width="80dp"-->
+<!--        android:layout_height="80dp"-->
+<!--        android:layout_marginRight="20dp"-->
+<!--        android:layout_marginBottom="20dp"-->
+<!--        android:background="@drawable/circular_button"-->
+<!--        android:drawableLeft="@drawable/cart_plus"-->
+<!--        android:padding="10dp"-->
+<!--        android:textColor="#FFFFFF"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintRight_toRightOf="parent" />-->
+    <ImageButton
+        android:id="@+id/cartButton"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/circular_button"
+        android:src="@drawable/cart_plus1"
+    android:padding="10dp"
+    android:scaleType="center"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintRight_toRightOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
