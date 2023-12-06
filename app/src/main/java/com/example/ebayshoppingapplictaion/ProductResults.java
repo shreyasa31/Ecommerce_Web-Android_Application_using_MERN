@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 //import android.widget.Toolbar;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -79,6 +80,7 @@ public class ProductResults extends AppCompatActivity  {
             public void onWishlistClick(SearchItem item) {
                 if (item.isInWishlist()) {
                     // Call API to add item to wishlist
+
                     addToWishlist(item);
                 } else {
                     // Call API to remove item from wishlist
@@ -118,6 +120,14 @@ public class ProductResults extends AppCompatActivity  {
           }
       });
     }
+    private String trimmedTitle(String title) {
+        int maxLength = 20; // Define the maximum length of the title
+        if (title.length() > maxLength) {
+            return title.substring(0, maxLength) + "...";
+        } else {
+            return title;
+        }
+    }
     private void addToWishlist(SearchItem item) {
         String baseUrl = "http://10.0.2.2:8080/addToWishlist?"; // Replace with your actual API URL
 
@@ -133,10 +143,12 @@ public class ProductResults extends AppCompatActivity  {
 
         String urlWithParams = builder.build().toString();
         Log.d("wishlistttttttttttttttttttttt", "URL: " + urlWithParams);
+        Toast.makeText(this, trimmedTitle(item.getTitle())+"was added to wishlist", Toast.LENGTH_SHORT).show();
         RequestQueue queue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, urlWithParams, null,
                 response -> {
                     // Handle response
+
                     Log.d("ProductResults", "Item added to wishlist");
                     item.setInWishlist(true);
                     adapter.notifyItemChanged(searchItemList.indexOf(item));
@@ -167,6 +179,7 @@ public class ProductResults extends AppCompatActivity  {
                     // Handle successful response
                     item.setInWishlist(false);
                     int position = searchItemList.indexOf(item);
+                    Toast.makeText(this, trimmedTitle(item.getTitle())+"was removed from wishlist", Toast.LENGTH_SHORT).show();
                     adapter.notifyItemChanged(position);
                     Log.d("ProductResults", "Item removed from wishlist");
                 },

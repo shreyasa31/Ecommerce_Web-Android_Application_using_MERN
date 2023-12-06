@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -208,13 +209,20 @@ public class DetailActivity extends AppCompatActivity {
 
                 } else {
                     Log.d("if its falseeeeeeeeeee","wefgw"+isInWishlist);
-                    removeFromWishlist(itemId); // You'll need to implement this
+                    removeFromWishlist(itemId,title); // You'll need to implement this
 
                 }
             }
         });
     }
-
+    private String trimmedTitle(String title) {
+        int maxLength = 20; // Define the maximum length of the title
+        if (title.length() > maxLength) {
+            return title.substring(0, maxLength) + "...";
+        } else {
+            return title;
+        }
+    }
     private void addToWishlist(String itemId, String title, String image, String price, String zipcode, String condition, String shippingType) {
         String baseUrl = "http://10.0.2.2:8080/addToWishlist?"; // Replace with your actual API URL
         //... rest of your method
@@ -231,6 +239,7 @@ public class DetailActivity extends AppCompatActivity {
         RequestQueue queue = Volley.newRequestQueue(this);
         isInWishlist = true;
         updateCartIcon();
+        Toast.makeText(this, trimmedTitle(title)+"was added to wishlist", Toast.LENGTH_SHORT).show();
         StringRequest stringRequest = new StringRequest(Request.Method.GET, urlWithParams,
                 new Response.Listener<String>() {
                     @Override
@@ -252,7 +261,7 @@ public class DetailActivity extends AppCompatActivity {
         queue.add(stringRequest);
     }
 
-    private void removeFromWishlist(String itemId) {
+    private void removeFromWishlist(String itemId,String title) {
         String removeFromWishlistUrl = "http://10.0.2.2:8080/deleteWishlist?"; // Replace with your actual API endpoint
         //... rest of your method
         Uri.Builder builder = Uri.parse(removeFromWishlistUrl).buildUpon();
@@ -265,7 +274,9 @@ public class DetailActivity extends AppCompatActivity {
         StringRequest stringRequest = new StringRequest(Request.Method.DELETE, urlWithParams,
                 response -> {
                     isInWishlist = false;
+
                     runOnUiThread(() -> updateCartIcon());
+                    Toast.makeText(this, trimmedTitle(title)+"was removed from wishlist", Toast.LENGTH_SHORT).show();
                 },
                 error -> {
                     Log.e("ProductResults", "Error removing item from wishlist: " + error.getMessage());
