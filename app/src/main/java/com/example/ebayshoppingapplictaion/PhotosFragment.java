@@ -1,5 +1,6 @@
 package com.example.ebayshoppingapplictaion;
 
+import android.app.Activity;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 
@@ -7,6 +8,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Call;
@@ -82,6 +86,13 @@ public class PhotosFragment extends Fragment {
                                 imageUrls.add(imageUrl);
                             }
                             imageCardAdapter.notifyDataSetChanged();
+                            Activity activity = getActivity();
+                            if (activity != null) {
+                                ProgressBar progressBar = activity.findViewById(R.id.progressBar);
+                                TextView loadingText = activity.findViewById(R.id.searchProductsText);
+                                progressBar.setVisibility(View.GONE);
+                                loadingText.setVisibility(View.GONE);
+                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                                                             // Handle JSON parsing error

@@ -1,5 +1,6 @@
 package com.example.ebayshoppingapplictaion;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +32,7 @@ import java.util.ArrayList;
 public class ProductFragment extends Fragment {
     private static final String ARG_ITEM_ID = "itemId";
     private String itemId;
+
     private String ShippingType;
     private ViewPager2 imageViewPager;
     private RecyclerView specificationsRecyclerView;
@@ -59,7 +62,6 @@ public class ProductFragment extends Fragment {
         imageViewPager = view.findViewById(R.id.imageViewPager);
         specificationsRecyclerView = view.findViewById(R.id.specificationsRecyclerView);
 
-        // Other view bindings...
 
         if (itemId != null) {
             fetchEbayItem(itemId, getContext(), this::onItemsFetched, this::onError);
@@ -74,6 +76,7 @@ public class ProductFragment extends Fragment {
                 response -> {
                     ProductItem item = parseEbayItem(response);
                     listener.onResponse(item);
+
                 },
                 error -> {
                     errorListener.onErrorResponse(error);
@@ -116,6 +119,24 @@ public class ProductFragment extends Fragment {
     private void onItemsFetched(ProductItem item) {
         // Handle fetched item, update UI
         // Set up ViewPager for images
+//        Activity activity = getActivity();
+//        if (activity != null) {
+//            ProgressBar progressBar = activity.findViewById(R.id.progressBar);
+//            TextView loadingText = activity.findViewById(R.id.searchProductsText);
+//            progressBar.setVisibility(View.GONE);
+//            loadingText.setVisibility(View.GONE);
+//        }
+        Activity activity = getActivity();
+        if (activity != null) {
+            activity.runOnUiThread(() -> {
+                ProgressBar progressBar = activity.findViewById(R.id.progressBar);
+                TextView loadingText = activity.findViewById(R.id.searchProductsText);
+                if (progressBar != null && loadingText != null) {
+                    progressBar.setVisibility(View.GONE);
+                    loadingText.setVisibility(View.GONE);
+                }
+            });
+        }
         ImageAdapter imageAdapter = new ImageAdapter(getContext(), item.getPhotos());
         imageViewPager.setAdapter(imageAdapter);
 

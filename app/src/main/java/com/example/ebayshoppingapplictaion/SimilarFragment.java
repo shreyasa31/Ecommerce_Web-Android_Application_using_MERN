@@ -1,5 +1,6 @@
 package com.example.ebayshoppingapplictaion;
 
+import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -123,6 +125,7 @@ public class SimilarFragment extends Fragment {
 
     }
     private void fetchSimilarItems() {
+
         String url = "http://10.0.2.2:8080/getSimilarItems?itemID=" + itemId; // Replace with your actual API URL
         Log.d("SimilarFragmenttttt", "Sendingggggggg SimilarProduct request to URL: " + url);
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null,
@@ -145,10 +148,11 @@ public class SimilarFragment extends Fragment {
 
     private void parseItems(JSONArray itemsArray) {
         try {
+
             Log.d("SimilarFragment", "Parsing items");
             similarItems.clear();
             originalItems.clear();
-
+            hideProgressBar();
             for (int i = 0; i < itemsArray.length(); i++) {
                 JSONObject itemObject = itemsArray.getJSONObject(i);
                 String itemId = itemObject.getString("itemId");
@@ -166,7 +170,10 @@ public class SimilarFragment extends Fragment {
                 Log.d("SimilarFragment", "Item " + i + ": " + title + ", " + price);
             }
 
+
             adapter.notifyDataSetChanged();
+//            hideProgressBar();
+
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -177,6 +184,17 @@ public class SimilarFragment extends Fragment {
             noRecordsTextView.setVisibility(View.VISIBLE);
         } else {
             noRecordsTextView.setVisibility(View.GONE);
+        }
+    }
+    private void hideProgressBar() {
+        Activity activity = getActivity();
+        if (activity != null && isAdded()) {
+            ProgressBar progressBar = activity.findViewById(R.id.progressBar);
+            TextView loadingText = activity.findViewById(R.id.searchProductsText);
+            if (progressBar != null && loadingText != null) {
+                progressBar.setVisibility(View.GONE);
+                loadingText.setVisibility(View.GONE);
+            }
         }
     }
     private void sortItems() {

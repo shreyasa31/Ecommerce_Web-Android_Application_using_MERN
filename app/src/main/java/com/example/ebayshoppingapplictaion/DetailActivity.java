@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.facebook.CallbackManager;
@@ -37,7 +38,8 @@ public class DetailActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager2 viewPager;
     private TabsViewAdapter tabsViewAdapter;
-
+    private ProgressBar progressBar;
+    private TextView loadingText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +50,8 @@ public class DetailActivity extends AppCompatActivity {
         String keyword = getIntent().getStringExtra("keyword");
         String itemId=getIntent().getStringExtra("itemId");
         String ShippingType=getIntent().getStringExtra("ShippingType");
-
+        progressBar = findViewById(R.id.progressBar);
+        loadingText = findViewById(R.id.searchProductsText);
         Log.d("DetailActivity", "Keywordddddddddddddddddd: " + itemId);
 
 //        // Create a new instance of PhotosFragment with the keyword
@@ -137,6 +140,8 @@ public class DetailActivity extends AppCompatActivity {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+//                progressBar.setVisibility(View.VISIBLE);
+//                loadingText.setVisibility(View.VISIBLE);
                 View customView = tab.getCustomView();
                 if (customView != null) {
                     TextView tabText = customView.findViewById(R.id.tab_text);
@@ -149,6 +154,7 @@ public class DetailActivity extends AppCompatActivity {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
+
                 View customView = tab.getCustomView();
                 if (customView != null) {
                     TextView tabText = customView.findViewById(R.id.tab_text);
@@ -169,6 +175,8 @@ public class DetailActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
                 tabLayout.getTabAt(position).select();
+                progressBar.setVisibility(View.VISIBLE);
+                loadingText.setVisibility(View.VISIBLE);
             }
         });
 
