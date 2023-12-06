@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
@@ -146,10 +147,33 @@ public class ProductResults extends AppCompatActivity  {
     }
 
     private void removeFromWishlist(SearchItem item) {
-        // API call to remove item from wishlist
-        item.setInWishlist(false);
-        adapter.notifyItemChanged(searchItemList.indexOf(item));
+        String removeFromWishlistUrl = "http://10.0.2.2:8080/deleteWishlist?"; // Replace with your actual API endpoint
+
+        // Construct the request URL with query parameters
+        Uri.Builder builder = Uri.parse(removeFromWishlistUrl).buildUpon();
+        builder.appendQueryParameter("itemID", item.getItemId());
+
+        String urlWithParams = builder.build().toString();
+        Log.d("deletewishlistttttttt", "URL: " + urlWithParams);
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        // Using StringRequest instead of JsonObjectRequest
+        StringRequest stringRequest = new StringRequest(Request.Method.DELETE, urlWithParams,
+                response -> {
+                    // Handle successful response
+                    item.setInWishlist(false);
+                    int position = searchItemList.indexOf(item);
+                    adapter.notifyItemChanged(position);
+                    Log.d("ProductResults", "Item removed from wishlist");
+                },
+                error -> {
+                    // Handle error
+                    Log.e("ProductResults", "Error removing item from wishlist: " + error.getMessage());
+                });
+
+        queue.add(stringRequest);
     }
+
 
 
     private String constructURL(String keyword, String category, String[] condition, boolean localpickuponly, boolean freeshipping, int distance, String buyerPostalCode) {
