@@ -11,6 +11,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -200,7 +202,13 @@ public class ShippingFragment extends Fragment {
         feedbackProgress.setProgress(progressValue);
         // Set the percentage text
         popularity.setText(String.format(Locale.getDefault(), "%.1f%%", item.getPositiveFeedbackPercent()));
-        storename.setText(item.getStoreName());
+//        storename.setText(item.getStoreName());
+
+        String storeNameText = item.getStoreName();
+        SpannableString content = new SpannableString(storeNameText);
+        content.setSpan(new UnderlineSpan(), 0, storeNameText.length(), 0);
+        storename.setText(content);
+
         feedbackscore.setText(String.valueOf(item.getFeedbackScore()));
         popularity.setText(String.format(Locale.getDefault(),"%.1f%%", item.getPositiveFeedbackPercent()));
         setFeedbackStarColor(feedbackstar, item.getFeedbackRatingStar());

@@ -64,6 +64,7 @@
                 android:scrollHorizontally="true"
                 android:singleLine="true"
                 android:text="sh"
+                android:textColor="@color/navy_blue"
                 android:textSize="18sp" />
         </TableRow>
         <!-- Feedback Score Row -->

@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,12 +35,14 @@ import java.util.List;
 
 
 public class SimilarFragment extends Fragment {
+
     private RecyclerView recyclerView;
     private Spinner myspinner1,myspinner2;
     private SimilarItemAdapter adapter;
     private List<SimilarItem> similarItems = new ArrayList<>();
     private List<SimilarItem> originalItems = new ArrayList<>();
-
+    private ProgressBar progressBar;
+    private TextView loadingText;
 
 
     // Required empty public constructor
@@ -75,6 +78,7 @@ public class SimilarFragment extends Fragment {
         myspinner1=view.findViewById(R.id.spinner1);
         myspinner2=view.findViewById(R.id.spinner2);
         noRecordsTextView = view.findViewById(R.id.noRecordsTextView);
+
         // Initialize the adapter with the empty list
         adapter = new SimilarItemAdapter(getContext(), similarItems);
         recyclerView.setAdapter(adapter); // Attach the adapter to RecyclerView
@@ -186,17 +190,42 @@ public class SimilarFragment extends Fragment {
             noRecordsTextView.setVisibility(View.GONE);
         }
     }
+
     private void hideProgressBar() {
         Activity activity = getActivity();
+
         if (activity != null && isAdded()) {
-            ProgressBar progressBar = activity.findViewById(R.id.progressBar);
-            TextView loadingText = activity.findViewById(R.id.searchProductsText);
+             progressBar = activity.findViewById(R.id.progressBar);
+            loadingText = activity.findViewById(R.id.searchProductsText);
             if (progressBar != null && loadingText != null) {
                 progressBar.setVisibility(View.GONE);
                 loadingText.setVisibility(View.GONE);
             }
         }
     }
+//private void hideProgressBar() {
+//    Activity activity = getActivity();
+//    if (activity != null && isAdded()) {
+//        ProgressBar progressBar = activity.findViewById(R.id.progressBar);
+//        TextView loadingText = activity.findViewById(R.id.searchProductsText);
+//
+//        if (progressBar != null && loadingText != null) {
+//            // Set the progress bar and loading text visible for few seconds
+//            progressBar.setVisibility(View.VISIBLE);
+//            loadingText.setVisibility(View.VISIBLE);
+//
+//            // Handler to add delay
+//            new Handler().postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    // Hide the progress bar and loading text after delay
+//                    progressBar.setVisibility(View.GONE);
+//                    loadingText.setVisibility(View.GONE);
+//                }
+//            }, 1000); // 3000 milliseconds = 3 seconds delay
+//        }
+//    }
+//}
     private void sortItems() {
         String criteria = myspinner1.getSelectedItem().toString();
         String order = myspinner2.getSelectedItem().toString();

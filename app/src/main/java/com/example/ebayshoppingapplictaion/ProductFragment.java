@@ -28,6 +28,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ProductFragment extends Fragment {
     private static final String ARG_ITEM_ID = "itemId";
@@ -137,8 +138,25 @@ public class ProductFragment extends Fragment {
                 }
             });
         }
-        ImageAdapter imageAdapter = new ImageAdapter(getContext(), item.getPhotos());
-        imageViewPager.setAdapter(imageAdapter);
+//        String[] photoUrls = item.getPhotos().toArray(new String[0]);
+//        ImageAdapter imageAdapter = new ImageAdapter(getContext(),photoUrls);
+//        imageViewPager.setAdapter(imageAdapter);
+
+        if (item.getPhotos() != null && !item.getPhotos().isEmpty()) {
+            String[] photoUrls = item.getPhotos().toArray(new String[0]);
+
+            ImageAdapter imageAdapter = new ImageAdapter(getContext(),photoUrls);
+            imageViewPager.setAdapter(imageAdapter);
+            Log.d("MainActivityyyyyyyyyyyyyyyy", "Number of images: " + photoUrls.length);
+            for (String url : photoUrls) {
+                Log.d("MainActivity", "Image URL: " + url);
+            }
+            // Rest of your code
+        } else {
+            Log.d("MainActivity", "Photo list is null or empty");
+        }
+
+
 
         // Set up RecyclerView for item specifics
         ItemSpecificsAdapter specificsAdapter = new ItemSpecificsAdapter(item.getItemSpecifics());
@@ -157,9 +175,12 @@ public class ProductFragment extends Fragment {
 
     }
 
+
+
     private void onError(VolleyError error) {
         // Handle error
         Log.e("ProductFragment", "Error fetching item: " + error.getMessage());
         Toast.makeText(getContext(), "Error fetching data", Toast.LENGTH_SHORT).show();
     }
+
 }

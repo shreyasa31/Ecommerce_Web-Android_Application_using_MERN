@@ -25,7 +25,8 @@ public class ItemSpecificsAdapter extends RecyclerView.Adapter<ItemSpecificsAdap
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ProductItem.ItemSpecific specific = specifics.get(position);
-        holder.valueTextView.setText(specific.getValue());
+        String bulletPointText = "\u2022 " + specific.getValue();
+        holder.valueTextView.setText(bulletPointText);
     }
 
     @Override
