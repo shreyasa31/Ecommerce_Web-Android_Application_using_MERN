@@ -53,20 +53,12 @@ public class SimilarItemAdapter extends RecyclerView.Adapter<SimilarItemAdapter.
         holder.itemView.setOnClickListener(v -> {
             try {
 //                Uri itemUri = Uri.parse(item.getViewItemURL());
-//                Uri itemUri= Uri.parse("https://www.google.com");
-//                Log.d("URL Checkkkkkkkkkkkkk", String.valueOf(itemUri));
-//                Intent intent = new Intent(Intent.ACTION_VIEW, itemUri);
-//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                context.startActivity(intent);
-                String productUrl = item.getViewItemURL();
-                String googleSearchUrl = "https://www.google.com/search?q=" + Uri.encode(productUrl);
-                Log.d("Google Search URL", googleSearchUrl);
-
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(googleSearchUrl));
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                Intent intent = new Intent(context, ShippingFragment.class); // Replace ShippingFragment.class with your destination class
-//                intent.putExtra("shippingCost", item.getShippingCost());
-                context.startActivity(intent);
+//            Log.d("URL Check", item.getViewItemURL());
+//            Intent intent = new Intent(Intent.ACTION_VIEW, itemUri);
+//
+//            context.startActivity(intent);
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(item.getViewItemURL()));
+                context.startActivity(browserIntent);
 
 
             } catch (Exception e) {
