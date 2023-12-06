@@ -16,11 +16,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.facebook.CallbackManager;
 import com.facebook.share.model.ShareHashtag;
 import com.facebook.share.model.ShareLinkContent;
@@ -32,6 +40,8 @@ import com.facebook.FacebookSdk;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.util.concurrent.locks.Condition;
+
 public class DetailActivity extends AppCompatActivity {
     private TextView toolbarTitle;
     private ImageView toolbarImage;
@@ -40,16 +50,23 @@ public class DetailActivity extends AppCompatActivity {
     private TabsViewAdapter tabsViewAdapter;
     private ProgressBar progressBar;
     private TextView loadingText;
+    private ImageButton cart;
+    private boolean isInWishlist = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         clearPicassoCache(this);
         setContentView(R.layout.activity_detail);
         viewPager = findViewById(R.id.viewPager1);
-
+        cart=findViewById(R.id.cartButton);
         String keyword = getIntent().getStringExtra("keyword");
         String itemId=getIntent().getStringExtra("itemId");
         String ShippingType=getIntent().getStringExtra("ShippingType");
+        String price=getIntent().getStringExtra("price");
+        String condition=getIntent().getStringExtra("condition");
+        String title=getIntent().getStringExtra("title");
+        String image=getIntent().getStringExtra("image");
+        String zipcode=getIntent().getStringExtra("zipcode");
         progressBar = findViewById(R.id.progressBar);
         loadingText = findViewById(R.id.searchProductsText);
         Log.d("DetailActivity", "Keywordddddddddddddddddd: " + itemId);
@@ -179,10 +196,93 @@ public class DetailActivity extends AppCompatActivity {
                 loadingText.setVisibility(View.VISIBLE);
             }
         });
+        cart.setOnClickListener(new View.OnClickListener() {
 
+            @Override
+
+            public void onClick(View v) {
+                Log.d("cehcllkkkkkkkkkkkS","wefgw"+isInWishlist);
+                if(!isInWishlist) {
+                    Log.d("if its trueeeeeeeeeeeeeeeeeee","wefgw"+isInWishlist);
+                    addToWishlist(itemId, title, image, price, zipcode, condition, ShippingType);
+
+                } else {
+                    Log.d("if its falseeeeeeeeeee","wefgw"+isInWishlist);
+                    removeFromWishlist(itemId); // You'll need to implement this
+
+                }
+            }
+        });
     }
 
-    //
+    private void addToWishlist(String itemId, String title, String image, String price, String zipcode, String condition, String shippingType) {
+        String baseUrl = "http://10.0.2.2:8080/addToWishlist?"; // Replace with your actual API URL
+        //... rest of your method
+        Uri.Builder builder = Uri.parse(baseUrl).buildUpon();
+        builder.appendQueryParameter("ItemID", itemId);
+        builder.appendQueryParameter("image", image);
+        builder.appendQueryParameter("title", title);
+        builder.appendQueryParameter("location", zipcode);
+        builder.appendQueryParameter("shipping", shippingType);
+        builder.appendQueryParameter("condition",condition );
+        builder.appendQueryParameter("price", price);
+        String urlWithParams = builder.build().toString();
+        Log.d("wishlistttttttttttttttttttttt", "URL: " + urlWithParams);
+        RequestQueue queue = Volley.newRequestQueue(this);
+        isInWishlist = true;
+        updateCartIcon();
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, urlWithParams,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Handle the response (assuming it's a string)
+                        Log.d("dwgfehqdjksldjf","eyfgywefhwjf");
+                        isInWishlist = true;
+                        Log.d("inside addwishlisttttttttt", "wefgw" + isInWishlist);
+                        runOnUiThread(() -> updateCartIcon());
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // Handle error
+                Log.e("ProductResults", "Error: " + error.getMessage());
+            }
+        });
+
+        queue.add(stringRequest);
+    }
+
+    private void removeFromWishlist(String itemId) {
+        String removeFromWishlistUrl = "http://10.0.2.2:8080/deleteWishlist?"; // Replace with your actual API endpoint
+        //... rest of your method
+        Uri.Builder builder = Uri.parse(removeFromWishlistUrl).buildUpon();
+        builder.appendQueryParameter("itemID", itemId);
+
+        String urlWithParams = builder.build().toString();
+        Log.d("deletewishlistttttttt", "URL: " + urlWithParams);
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        StringRequest stringRequest = new StringRequest(Request.Method.DELETE, urlWithParams,
+                response -> {
+                    isInWishlist = false;
+                    runOnUiThread(() -> updateCartIcon());
+                },
+                error -> {
+                    Log.e("ProductResults", "Error removing item from wishlist: " + error.getMessage());
+                });
+
+        queue.add(stringRequest);
+    }
+
+    private void updateCartIcon() {
+        if(isInWishlist) {
+            cart.setImageResource(R.drawable.cart_remove1); // set your cart_remove icon here
+        } else {
+            cart.setImageResource(R.drawable.cart_plus1); // set your cart_add icon here
+        }
+    }
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {

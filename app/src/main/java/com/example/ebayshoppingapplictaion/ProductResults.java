@@ -68,6 +68,10 @@ public class ProductResults extends AppCompatActivity  {
                 intent.putExtra("productUrl", item.getProductUrl());
                 intent.putExtra("itemId",item.getItemId());
                 intent.putExtra("ShippingType",item.getShippingType());
+                intent.putExtra("zipcode",item.getZipcode());
+                intent.putExtra("price",item.getPrice());
+                intent.putExtra("image",item.getImage());
+                intent.putExtra("condition",item.getCondition());
                 startActivity(intent);
             }
 
