@@ -37,6 +37,7 @@ import java.util.List;
 
 public class ProductResults extends AppCompatActivity  {
     private TextView noResultsTextView;
+
     private RecyclerView recyclerView;
     private  ProgressBar progressBar;
     private SearchAdapter adapter;
@@ -74,6 +75,8 @@ public class ProductResults extends AppCompatActivity  {
                 intent.putExtra("price",item.getPrice());
                 intent.putExtra("image",item.getImage());
                 intent.putExtra("condition",item.getCondition());
+
+
                 startActivity(intent);
             }
 
@@ -154,6 +157,7 @@ public class ProductResults extends AppCompatActivity  {
 
                     Log.d("ProductResults", "Item added to wishlist");
                     item.setInWishlist(true);
+
                     adapter.notifyItemChanged(searchItemList.indexOf(item));
                 },
                 error -> {
@@ -181,6 +185,7 @@ public class ProductResults extends AppCompatActivity  {
                 response -> {
                     // Handle successful response
                     item.setInWishlist(false);
+
                     int position = searchItemList.indexOf(item);
                     Toast.makeText(this, trimmedTitle(item.getTitle())+"was removed from wishlist", Toast.LENGTH_SHORT).show();
                     adapter.notifyItemChanged(position);

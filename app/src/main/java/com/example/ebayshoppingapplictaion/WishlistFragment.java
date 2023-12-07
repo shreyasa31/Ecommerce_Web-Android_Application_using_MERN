@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +33,8 @@ import java.util.List;
 public class WishlistFragment extends Fragment implements WishlistAdapter.OnItemClickListener {
 
     private RecyclerView recyclerView;
+    private TextView text1,text2;
+    private LinearLayout linearLayout;
 //    private ProgressBar progressBar;
     private TextView noResultsTextView;
 //    private TextView searchProductsText;
@@ -45,12 +48,27 @@ public class WishlistFragment extends Fragment implements WishlistAdapter.OnItem
 //        progressBar = view.findViewById(R.id.progressBar);
 //        searchProductsText = view.findViewById(R.id.searchProductsText);
         noResultsTextView=view.findViewById(R.id.noResultsTextView);
+        linearLayout=view.findViewById(R.id.linearlayout);
+        text1=view.findViewById(R.id.text1);
+        text2=view.findViewById(R.id.text2);
+
         // Initially, show the progress bar and hide the text view
 //        progressBar.setVisibility(View.VISIBLE);
 //        searchProductsText.setVisibility(View.VISIBLE);
         setupRecyclerView(); // Initialize the RecyclerView and adapter here
         fetchWishlistItems(); // Then fetch the wishlist items
         return view;
+    }
+    private void updateWishlistSummary() {
+        int totalCount = wishlistItems.size();
+        double totalPrice = 0;
+        for (WishlistItem item : wishlistItems) {
+            totalPrice += Double.parseDouble(item.getPrice());
+        }
+
+        // Update the TextViews
+        text1.setText("Total items: " + totalCount);
+        text2.setText("Total price: $" + String.format("%.2f", totalPrice));
     }
     public void onResume() {
         super.onResume();
@@ -91,11 +109,15 @@ public class WishlistFragment extends Fragment implements WishlistAdapter.OnItem
                             if (wishlistItems.isEmpty()) {
                                 noResultsTextView.setVisibility(View.VISIBLE); // Show no results text
                                 recyclerView.setVisibility(View.GONE); // Hide RecyclerView
+                                linearLayout.setVisibility(View.GONE);
                             } else {
                                 recyclerView.setVisibility(View.VISIBLE); // Show RecyclerView
+                                linearLayout.setVisibility(View.VISIBLE);
                                 noResultsTextView.setVisibility(View.GONE); // Hide no results text
                                 adapter.notifyDataSetChanged(); // Notify the adapter
                             }
+
+
                         } catch (Exception e) {
                             e.printStackTrace();
                             // Handle the error
@@ -235,11 +257,13 @@ public class WishlistFragment extends Fragment implements WishlistAdapter.OnItem
 
         // Remove the items from the list
         wishlistItems.removeAll(itemsToRemove);
+
         adapter.notifyDataSetChanged();
 
         // Check if wishlistItems is empty
         if (wishlistItems.isEmpty()) {
             noResultsTextView.setVisibility(View.VISIBLE); // Show no results text
+            linearLayout.setVisibility(View.GONE);
             recyclerView.setVisibility(View.GONE); // Hide RecyclerView
         }
     }

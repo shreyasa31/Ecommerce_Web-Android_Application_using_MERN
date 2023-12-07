@@ -54,9 +54,11 @@ public class DetailActivity extends AppCompatActivity {
     private TextView loadingText;
     private ImageButton cart;
     private boolean isInWishlist = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         clearPicassoCache(this);
         setContentView(R.layout.activity_detail);
         viewPager = findViewById(R.id.viewPager1);
