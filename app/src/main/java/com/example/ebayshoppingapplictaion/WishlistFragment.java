@@ -52,7 +52,10 @@ public class WishlistFragment extends Fragment implements WishlistAdapter.OnItem
         fetchWishlistItems(); // Then fetch the wishlist items
         return view;
     }
-
+    public void onResume() {
+        super.onResume();
+        fetchWishlistItems(); // Refresh wishlist data when returning to the fragment
+    }
     private void fetchWishlistItems() {
         String url = "http://10.0.2.2:8080/getWishlist";
         Log.d("wishlistgetapi", "apiiiiiiiii" + url);
