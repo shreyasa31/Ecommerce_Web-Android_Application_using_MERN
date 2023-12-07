@@ -10,12 +10,18 @@ public class TabsViewAdapter extends FragmentStateAdapter {
     private  String itemId;
     private String keyword;
     private String ShippingType;
+//    private OnContentLoadedListener contentLoadedListener;
+
+//    public interface OnContentLoadedListener {
+//        void onContentLoaded();
+//    }
 
     public TabsViewAdapter(FragmentActivity fa,String keyword,String itemId,String SHippingType) {
         super(fa);
         this.keyword = keyword;
         this.itemId=itemId;
         this.ShippingType=SHippingType;
+//        this.contentLoadedListener = listener;
 
     }
 
@@ -24,6 +30,12 @@ public class TabsViewAdapter extends FragmentStateAdapter {
         switch (position) {
             case 0:
                 return ProductFragment.newInstance(itemId,ShippingType);
+//            case 0:
+//                Fragment productFragment = ProductFragment.newInstance(itemId, ShippingType);
+//                if (contentLoadedListener != null) {
+//                    contentLoadedListener.onContentLoaded(); // Call the callback when the first fragment is loaded
+//                }
+//                return productFragment;
             case 1:
                 return ShippingFragment.newInstance(itemId,ShippingType);
             case 2:

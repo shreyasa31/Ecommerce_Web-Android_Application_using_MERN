@@ -45,7 +45,8 @@ import org.json.JSONException;
 
 import java.util.concurrent.locks.Condition;
 
-public class DetailActivity extends AppCompatActivity  {
+public class DetailActivity extends AppCompatActivity   {
+//    implements TabsViewAdapter.OnContentLoadedListener
     private TextView toolbarTitle;
     private ImageView toolbarImage;
     private TabLayout tabLayout;
@@ -55,15 +56,7 @@ public class DetailActivity extends AppCompatActivity  {
     private TextView loadingText;
     private ImageButton cart;
     private boolean isInWishlist = false;
-    public void onContentLoaded() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-//                progressBar.setVisibility(View.GONE);
-//                loadingText.setVisibility(View.GONE);
-            }
-        });
-    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +75,9 @@ public class DetailActivity extends AppCompatActivity  {
         String zipcode=getIntent().getStringExtra("zipcode");
         progressBar = findViewById(R.id.progressBar);
         loadingText = findViewById(R.id.searchProductsText);
+        progressBar.setVisibility(View.VISIBLE);
+        loadingText.setVisibility(View.VISIBLE);
+        loadData();
         Log.d("DetailActivity", "Keywordddddddddddddddddd: " + itemId);
 
 //        // Create a new instance of PhotosFragment with the keyword
@@ -171,8 +167,7 @@ public class DetailActivity extends AppCompatActivity  {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-//                progressBar.setVisibility(View.VISIBLE);
-//                loadingText.setVisibility(View.VISIBLE);
+
                 View customView = tab.getCustomView();
                 if (customView != null) {
                     TextView tabText = customView.findViewById(R.id.tab_text);
@@ -222,6 +217,38 @@ public class DetailActivity extends AppCompatActivity  {
         });
 
     }
+//    public void onContentLoaded() {
+//        runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                progressBar.setVisibility(View.GONE);
+//                loadingText.setVisibility(View.GONE);
+//            }
+//        });
+//    }
+private void loadData() {
+    // Replace this with your actual data loading logic
+    new Thread(new Runnable() {
+        @Override
+        public void run() {
+            // Simulate a task by sleeping for 3 seconds
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            // Once data loading is complete, hide the ProgressBar
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    progressBar.setVisibility(View.GONE);
+                    loadingText.setVisibility(View.GONE);
+                }
+            });
+        }
+    }).start();
+}
 
     private String trimmedTitle(String title) {
         int maxLength = 20; // Define the maximum length of the title
