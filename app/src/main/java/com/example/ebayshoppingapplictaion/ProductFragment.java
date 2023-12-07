@@ -12,6 +12,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.HorizontalScrollView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +25,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,7 +37,7 @@ import java.util.List;
 public class ProductFragment extends Fragment {
     private static final String ARG_ITEM_ID = "itemId";
     private String itemId;
-
+private LinearLayout imageContainer;
     private String ShippingType;
     private ViewPager2 imageViewPager;
     private RecyclerView specificationsRecyclerView;
@@ -60,7 +64,8 @@ public class ProductFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_product, container, false);
-        imageViewPager = view.findViewById(R.id.imageViewPager);
+//        imageViewPager = view.findViewById(R.id.imageViewPager);
+//        LinearLayout imageContainer = view.findViewById(R.id.imageContainer);
         specificationsRecyclerView = view.findViewById(R.id.specificationsRecyclerView);
 
 
@@ -142,21 +147,51 @@ public class ProductFragment extends Fragment {
 //        ImageAdapter imageAdapter = new ImageAdapter(getContext(),photoUrls);
 //        imageViewPager.setAdapter(imageAdapter);
 
-        if (item.getPhotos() != null && !item.getPhotos().isEmpty()) {
-            String[] photoUrls = item.getPhotos().toArray(new String[0]);
+//        if (item.getPhotos() != null && !item.getPhotos().isEmpty()) {
+//            String[] photoUrls = item.getPhotos().toArray(new String[0]);
+//
+//            ImageAdapter imageAdapter = new ImageAdapter(getContext(),photoUrls);
+//            imageViewPager.setAdapter(imageAdapter);
+//            Log.d("MainActivityyyyyyyyyyyyyyyy", "Number of images: " + photoUrls.length);
+//            for (String url : photoUrls) {
+//                Log.d("MainActivity", "Image URL: " + url);
+//            }
+//            // Rest of your code
+//        } else {
+//            Log.d("MainActivity", "Photo list is null or empty");
+//        }
 
-            ImageAdapter imageAdapter = new ImageAdapter(getContext(),photoUrls);
-            imageViewPager.setAdapter(imageAdapter);
-            Log.d("MainActivityyyyyyyyyyyyyyyy", "Number of images: " + photoUrls.length);
-            for (String url : photoUrls) {
-                Log.d("MainActivity", "Image URL: " + url);
+//image container swiping.......
+        if (activity != null) {
+
+            if (activity != null) {
+                activity.runOnUiThread(() -> {
+                    LinearLayout imageContainer = getView().findViewById(R.id.imageContainer);
+                    if (imageContainer != null) {
+                        // Add images to the LinearLayout
+                        for (String imageUrl : item.getPhotos()) {
+                            ImageView imageView = new ImageView(getContext());
+                            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                                    LinearLayout.LayoutParams.MATCH_PARENT
+                            );
+                            params.setMargins(10, 10, 10, 10); // Adjust margins as needed
+                            imageView.setLayoutParams(params);
+                            imageView.setAdjustViewBounds(true);
+                            Glide.with(this)
+                                    .load(imageUrl)
+                                    .fitCenter()
+                                    .into(imageView);
+
+                            imageContainer.addView(imageView);
+                        }
+                    } else {
+                        Log.e("ProductFragment", "imageContainer is null");
+                    }
+                });
             }
-            // Rest of your code
-        } else {
-            Log.d("MainActivity", "Photo list is null or empty");
+
         }
-
-
 
         // Set up RecyclerView for item specifics
         ItemSpecificsAdapter specificsAdapter = new ItemSpecificsAdapter(item.getItemSpecifics());

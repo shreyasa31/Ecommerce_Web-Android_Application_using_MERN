@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.net.Uri;
@@ -103,6 +104,7 @@ public class DetailActivity extends AppCompatActivity {
                 }
             }
         });
+
         // Hide the default title to use the custom one
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
@@ -214,7 +216,9 @@ public class DetailActivity extends AppCompatActivity {
                 }
             }
         });
+
     }
+
     private String trimmedTitle(String title) {
         int maxLength = 20; // Define the maximum length of the title
         if (title.length() > maxLength) {
@@ -337,5 +341,6 @@ public class DetailActivity extends AppCompatActivity {
 
 
     }
+   
 }
 

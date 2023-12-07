@@ -3,6 +3,7 @@ package com.example.ebayshoppingapplictaion;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -119,7 +120,9 @@ public class ProductResults extends AppCompatActivity  {
 
           }
       });
+
     }
+
     private String trimmedTitle(String title) {
         int maxLength = 20; // Define the maximum length of the title
         if (title.length() > maxLength) {
@@ -281,5 +284,6 @@ public class ProductResults extends AppCompatActivity  {
 
         adapter.notifyDataSetChanged();
     }
+
 
 }
