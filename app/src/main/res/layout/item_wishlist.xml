@@ -47,7 +47,7 @@
                 android:id="@+id/wishlistIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/cart_plus"
+                android:src="@drawable/cart_remove"
                 android:layout_gravity="end"/>
         </LinearLayout>
         <TextView

@@ -1,64 +1,106 @@
 package com.example.ebayshoppingapplictaion;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link WishlistFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class WishlistFragment extends Fragment {
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+import org.json.JSONArray;
+import org.json.JSONObject;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+import java.util.ArrayList;
+import java.util.List;
 
-    public WishlistFragment() {
-        // Required empty public constructor
+public class WishlistFragment extends Fragment implements WishlistAdapter.OnItemClickListener {
+
+    private RecyclerView recyclerView;
+    private WishlistAdapter adapter;
+    private List<WishlistItem> wishlistItems = new ArrayList<>();
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_wishlist, container, false);
+        recyclerView = view.findViewById(R.id.recyclerView);
+        setupRecyclerView(); // Initialize the RecyclerView and adapter here
+        fetchWishlistItems(); // Then fetch the wishlist items
+        return view;
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment WishlistFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static WishlistFragment newInstance(String param1, String param2) {
-        WishlistFragment fragment = new WishlistFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    private void fetchWishlistItems() {
+        String url = "http://10.0.2.2:8080/getWishlist";
+        Log.d("wishlistgetapi", "apiiiiiiiii" + url);
+
+        StringRequest request = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("APIResponseeeeeeee", "Response: " + response);
+                        try {
+                            JSONArray jsonArray = new JSONArray(response);
+                            wishlistItems.clear(); // Clear the list before adding new items
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                WishlistItem newItem = new WishlistItem(
+                                        jsonObject.getString("image"),
+                                        jsonObject.getString("title"),
+                                        jsonObject.getString("location"), // Assuming this is the zipcode
+                                        jsonObject.getString("shipping"), // Assuming this is the shippingType
+                                        jsonObject.getString("condition"),
+                                        jsonObject.getString("price"),
+                                        jsonObject.getString("productId") // Assuming this is the itemId
+                                );
+
+                                wishlistItems.add(newItem);
+                                Log.d("responseeeee","thijgdw"+wishlistItems);
+                            }
+                            adapter.notifyDataSetChanged(); // Notify the adapter
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            // Handle the error
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // Handle the error
+            }
+        });
+
+        Volley.newRequestQueue(requireContext()).add(request);
+
+
+}
+
+    private void setupRecyclerView() {
+//        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+//        adapter = new WishlistAdapter(wishlistItems, this);
+//        recyclerView.setAdapter(adapter);
+        int numberOfColumns = 2; // Number of grid columns
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), numberOfColumns));
+        adapter = new WishlistAdapter(wishlistItems, this);
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    public void onItemDelete(int position, WishlistItem item) {
+        // Remove the item from MongoDB
+        // Example: MongoDB.deleteItem(item.getItemId());
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_wishlist, container, false);
+        // Remove from the adapter's data source
+        wishlistItems.remove(position);
+        adapter.notifyItemRemoved(position);
     }
 }
