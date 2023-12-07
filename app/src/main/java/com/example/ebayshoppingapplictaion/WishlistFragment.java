@@ -60,16 +60,25 @@ public class WishlistFragment extends Fragment implements WishlistAdapter.OnItem
         return view;
     }
     private void updateWishlistSummary() {
+        Log.d("WishlistFragmenttttttttt", "Updating wishlist summary");
         int totalCount = wishlistItems.size();
         double totalPrice = 0;
         for (WishlistItem item : wishlistItems) {
-            totalPrice += Double.parseDouble(item.getPrice());
+            try {
+                // Remove any currency symbols or commas before parsing
+                String priceString = item.getPrice().replaceAll("[^\\d.]+", "");
+                totalPrice += Double.parseDouble(priceString);
+            } catch (NumberFormatException e) {
+                Log.e("WishlistFragment", "Error parsing price for item: " + item.getTitle(), e);
+            }
         }
-
+     Log.d("counttttt","bhbhb"+totalCount);
+        Log.d("price","bhbhb"+totalPrice);
         // Update the TextViews
-        text1.setText("Total items: " + totalCount);
-        text2.setText("Total price: $" + String.format("%.2f", totalPrice));
+        text1.setText("Wishlist Total(" + totalCount+"items)");
+        text2.setText("$" + String.format("%.2f", totalPrice));
     }
+
     public void onResume() {
         super.onResume();
         fetchWishlistItems(); // Refresh wishlist data when returning to the fragment
@@ -104,6 +113,8 @@ public class WishlistFragment extends Fragment implements WishlistAdapter.OnItem
                                 wishlistItems.add(newItem);
                                 Log.d("responseeeee","thijgdw"+wishlistItems);
                             }
+
+
 //                            recyclerView.setVisibility(View.VISIBLE);
 //                            adapter.notifyDataSetChanged(); // Notify the adapter
                             if (wishlistItems.isEmpty()) {
@@ -115,6 +126,7 @@ public class WishlistFragment extends Fragment implements WishlistAdapter.OnItem
                                 linearLayout.setVisibility(View.VISIBLE);
                                 noResultsTextView.setVisibility(View.GONE); // Hide no results text
                                 adapter.notifyDataSetChanged(); // Notify the adapter
+                                updateWishlistSummary();
                             }
 
 
@@ -259,6 +271,7 @@ public class WishlistFragment extends Fragment implements WishlistAdapter.OnItem
         wishlistItems.removeAll(itemsToRemove);
 
         adapter.notifyDataSetChanged();
+        updateWishlistSummary();
 
         // Check if wishlistItems is empty
         if (wishlistItems.isEmpty()) {
