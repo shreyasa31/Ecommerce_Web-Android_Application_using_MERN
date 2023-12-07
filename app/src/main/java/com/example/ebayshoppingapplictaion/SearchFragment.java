@@ -105,6 +105,8 @@ public class SearchFragment extends Fragment {
         mySpinner = view.findViewById(R.id.spinner);
         current=view.findViewById(R.id.radioButton1);
         current.setChecked(true);
+
+
 //autocomplete
         listViewPostalCodes = view.findViewById(R.id.listView);
         postalCodeList = new ArrayList<>();
@@ -366,6 +368,13 @@ public class SearchFragment extends Fragment {
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (requestCode == 1 && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            requestLocationUpdates();
+        }
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (current.isChecked() && ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             requestLocationUpdates();
         }
     }
