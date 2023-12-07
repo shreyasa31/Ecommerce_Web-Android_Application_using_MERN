@@ -1,5 +1,6 @@
 package com.example.ebayshoppingapplictaion;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -15,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
@@ -121,13 +124,122 @@ public class WishlistFragment extends Fragment implements WishlistAdapter.OnItem
         recyclerView.setAdapter(adapter);
     }
 
-    @Override
-    public void onItemDelete(int position, WishlistItem item) {
-        // Remove the item from MongoDB
-        // Example: MongoDB.deleteItem(item.getItemId());
 
-        // Remove from the adapter's data source
-        wishlistItems.remove(position);
-        adapter.notifyItemRemoved(position);
+//    public void onItemDelete(int position, WishlistItem item) {
+//        // Remove the item from MongoDB
+//        // Example: MongoDB.deleteItem(item.getItemId());
+//        String removeFromWishlistUrl = "http://10.0.2.2:8080/deleteWishlist?"; // Replace with your actual API endpoint
+//
+//        // Construct the request URL with query parameters
+//        Uri.Builder builder = Uri.parse(removeFromWishlistUrl).buildUpon();
+//        builder.appendQueryParameter("itemID", item.getProductUrl());
+//
+//        String urlWithParams = builder.build().toString();
+//        Log.d("deletewishlistttttttt", "URL: " + urlWithParams);
+//        RequestQueue queue = Volley.newRequestQueue(this);
+//
+//        // Using StringRequest instead of JsonObjectRequest
+//        StringRequest stringRequest = new StringRequest(Request.Method.DELETE, urlWithParams,
+//                response -> {
+//                    // Handle successful response
+//                    item.setInWishlist(false);
+//                    position = wishlistItems.indexOf(item);
+//                    Toast.makeText(this, trimmedTitle(item.getTitle())+"was removed from wishlist", Toast.LENGTH_SHORT).show();
+//                    adapter.notifyItemChanged(position);
+//                    Log.d("ProductResults", "Item removed from wishlist");
+//                },
+//                error -> {
+//                    // Handle error
+//                    Log.e("ProductResults", "Error removing item from wishlist: " + error.getMessage());
+//                });
+//
+//        queue.add(stringRequest);
+//        // Remove from the adapter's data source
+//        wishlistItems.remove(position);
+//        adapter.notifyItemRemoved(position);
+//    }
+    private String trimmedTitle(String title) {
+        int maxLength = 20; // Define the maximum length of the title
+        if (title.length() > maxLength) {
+            return title.substring(0, maxLength) + "...";
+        } else {
+            return title;
+        }
     }
+    @Override
+//    public void onItemDelete(int position, WishlistItem item) {
+//        String removeFromWishlistUrl = "http://10.0.2.2:8080/deleteWishlist"; // Your API endpoint
+//
+//        // Construct the request URL with query parameters
+//        Uri.Builder builder = Uri.parse(removeFromWishlistUrl).buildUpon();
+//        builder.appendQueryParameter("itemID", item.getProductUrl());
+//
+//        String urlWithParams = builder.build().toString();
+//        Log.d("DeleteWishlistttttttttttttttt", "URL: " + urlWithParams);
+//
+//        RequestQueue queue = Volley.newRequestQueue(getActivity()); // Use getActivity() in Fragment
+//
+//        StringRequest stringRequest = new StringRequest(Request.Method.DELETE, urlWithParams,
+//                response -> {
+//                    // Handle successful response
+//                    Log.d("DeleteWishlist", "Item removed from wishlist: " + item.getTitle());
+//                    Toast.makeText(getActivity(), trimmedTitle(item.getTitle()) + " was removed from wishlist", Toast.LENGTH_SHORT).show();
+//
+//                    // Update list and adapter
+//                    wishlistItems.remove(position);
+//                    adapter.notifyItemRemoved(position);
+//
+//
+//                },
+//                error -> {
+//                    // Handle error
+//                    Log.e("DeleteWishlist", "Error removing item from wishlist: " + error.getMessage());
+//                    Toast.makeText(getActivity(), "Error removing item from wishlist", Toast.LENGTH_SHORT).show();
+//                });
+//
+//        queue.add(stringRequest);
+//    }
+
+    public void onItemDelete(int position, WishlistItem item) {
+        String removeFromWishlistUrl = "http://10.0.2.2:8080/deleteWishlist"; // Your API endpoint
+
+        // Construct the request URL with query parameters
+        Uri.Builder builder = Uri.parse(removeFromWishlistUrl).buildUpon();
+        builder.appendQueryParameter("itemID", item.getProductUrl());
+
+        String urlWithParams = builder.build().toString();
+        Log.d("DeleteWishlistttttttttttttttt", "URL: " + urlWithParams);
+
+        RequestQueue queue = Volley.newRequestQueue(getActivity()); // Use getActivity() in Fragment
+
+        StringRequest stringRequest = new StringRequest(Request.Method.DELETE, urlWithParams,
+                response -> {
+                    // Handle successful response
+                    Log.d("DeleteWishlist", "Item removed from wishlist: " + item.getTitle());
+                    Toast.makeText(getActivity(), trimmedTitle(item.getTitle()) + " was removed from wishlist", Toast.LENGTH_SHORT).show();
+                },
+                error -> {
+                    // Handle error
+                    Log.e("DeleteWishlist", "Error removing item from wishlist: " + error.getMessage());
+                    Toast.makeText(getActivity(), "Error removing item from wishlist", Toast.LENGTH_SHORT).show();
+                });
+
+        queue.add(stringRequest);
+
+        // Create a list of items to be removed
+        List<WishlistItem> itemsToRemove = new ArrayList<>();
+        itemsToRemove.add(item);
+
+        // Remove the items from the list
+        wishlistItems.removeAll(itemsToRemove);
+        adapter.notifyDataSetChanged();
+
+        // Check if wishlistItems is empty
+        if (wishlistItems.isEmpty()) {
+            noResultsTextView.setVisibility(View.VISIBLE); // Show no results text
+            recyclerView.setVisibility(View.GONE); // Hide RecyclerView
+        }
+    }
+
+
 }

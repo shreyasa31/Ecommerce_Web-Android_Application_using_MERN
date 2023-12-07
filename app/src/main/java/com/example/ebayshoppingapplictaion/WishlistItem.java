@@ -30,6 +30,7 @@ public class WishlistItem {
     public String getShipping() { return shipping; }
     public String getCondition() { return condition; }
     public String getPrice() { return price; }
+
 //    public String getProductUrl() { return productUrl; }
     public String getProductUrl(){return productId;}
     public boolean isInWishlist() {
