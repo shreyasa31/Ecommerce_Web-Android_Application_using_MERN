@@ -37,6 +37,7 @@ import java.util.List;
 public class SimilarFragment extends Fragment {
 
     private RecyclerView recyclerView;
+
     private Spinner myspinner1,myspinner2;
     private SimilarItemAdapter adapter;
     private List<SimilarItem> similarItems = new ArrayList<>();
@@ -123,6 +124,7 @@ public class SimilarFragment extends Fragment {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
         });
+
         fetchSimilarItems();
 
         return view;
@@ -137,7 +139,10 @@ public class SimilarFragment extends Fragment {
                     @Override
                     public void onResponse(JSONArray response) {
                         Log.d("SimilarFragment", "Response received");
+//                        hideProgressBar();
+
                         parseItems(response);
+
                         checkForEmptyList();
                     }
                 }, new Response.ErrorListener() {
@@ -151,12 +156,13 @@ public class SimilarFragment extends Fragment {
     }
 
     private void parseItems(JSONArray itemsArray) {
+
         try {
 
             Log.d("SimilarFragment", "Parsing items");
             similarItems.clear();
             originalItems.clear();
-            hideProgressBar();
+
             for (int i = 0; i < itemsArray.length(); i++) {
                 JSONObject itemObject = itemsArray.getJSONObject(i);
                 String itemId = itemObject.getString("itemId");
@@ -176,7 +182,10 @@ public class SimilarFragment extends Fragment {
 
 
             adapter.notifyDataSetChanged();
+
 //            hideProgressBar();
+
+
 
 
         } catch (Exception e) {
@@ -185,47 +194,27 @@ public class SimilarFragment extends Fragment {
         }}
     private void checkForEmptyList() {
         if (similarItems.isEmpty()) {
+//
             noRecordsTextView.setVisibility(View.VISIBLE);
         } else {
+//
             noRecordsTextView.setVisibility(View.GONE);
         }
     }
 
-    private void hideProgressBar() {
-        Activity activity = getActivity();
-
-        if (activity != null && isAdded()) {
-             progressBar = activity.findViewById(R.id.progressBar);
-            loadingText = activity.findViewById(R.id.searchProductsText);
-            if (progressBar != null && loadingText != null) {
-                progressBar.setVisibility(View.GONE);
-                loadingText.setVisibility(View.GONE);
-            }
-        }
-    }
-//private void hideProgressBar() {
-//    Activity activity = getActivity();
-//    if (activity != null && isAdded()) {
-//        ProgressBar progressBar = activity.findViewById(R.id.progressBar);
-//        TextView loadingText = activity.findViewById(R.id.searchProductsText);
+//    private void hideProgressBar() {
+//        Activity activity = getActivity();
 //
-//        if (progressBar != null && loadingText != null) {
-//            // Set the progress bar and loading text visible for few seconds
-//            progressBar.setVisibility(View.VISIBLE);
-//            loadingText.setVisibility(View.VISIBLE);
-//
-//            // Handler to add delay
-//            new Handler().postDelayed(new Runnable() {
-//                @Override
-//                public void run() {
-//                    // Hide the progress bar and loading text after delay
-//                    progressBar.setVisibility(View.GONE);
-//                    loadingText.setVisibility(View.GONE);
-//                }
-//            }, 1000); // 3000 milliseconds = 3 seconds delay
+//        if (activity != null && isAdded()) {
+//             progressBar = activity.findViewById(R.id.progressBar);
+//            loadingText = activity.findViewById(R.id.searchProductsText);
+//            if (progressBar != null && loadingText != null) {
+//                progressBar.setVisibility(View.GONE);
+//                loadingText.setVisibility(View.GONE);
+//            }
 //        }
 //    }
-//}
+
     private void sortItems() {
         String criteria = myspinner1.getSelectedItem().toString();
         String order = myspinner2.getSelectedItem().toString();

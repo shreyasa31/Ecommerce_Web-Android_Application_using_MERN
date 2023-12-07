@@ -86,13 +86,13 @@ public class PhotosFragment extends Fragment {
                                 imageUrls.add(imageUrl);
                             }
                             imageCardAdapter.notifyDataSetChanged();
-                            Activity activity = getActivity();
-                            if (activity != null) {
-                                ProgressBar progressBar = activity.findViewById(R.id.progressBar);
-                                TextView loadingText = activity.findViewById(R.id.searchProductsText);
-                                progressBar.setVisibility(View.GONE);
-                                loadingText.setVisibility(View.GONE);
-                            }
+//                            Activity activity = getActivity();
+//                            if (activity != null) {
+//                                ProgressBar progressBar = activity.findViewById(R.id.progressBar);
+//                                TextView loadingText = activity.findViewById(R.id.searchProductsText);
+//                                progressBar.setVisibility(View.GONE);
+//                                loadingText.setVisibility(View.GONE);
+//                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                                                             // Handle JSON parsing error

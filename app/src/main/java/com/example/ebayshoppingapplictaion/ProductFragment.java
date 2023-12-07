@@ -37,13 +37,14 @@ import java.util.List;
 public class ProductFragment extends Fragment {
     private static final String ARG_ITEM_ID = "itemId";
     private String itemId;
-private LinearLayout imageContainer;
+    private LinearLayout imageContainer;
     private String ShippingType;
     private ViewPager2 imageViewPager;
     private RecyclerView specificationsRecyclerView;
 
+
     // Static factory method to create a new instance of the fragment
-    public static ProductFragment newInstance(String itemId,String ShippingType) {
+    public static ProductFragment newInstance(String itemId, String ShippingType) {
         ProductFragment fragment = new ProductFragment();
         Bundle args = new Bundle();
         args.putString(ARG_ITEM_ID, itemId);
@@ -59,7 +60,9 @@ private LinearLayout imageContainer;
             itemId = getArguments().getString(ARG_ITEM_ID);
             ShippingType = getArguments().getString("ARG_SHIPPING_TYPE");
         }
-    }
+
+}
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -103,7 +106,10 @@ private LinearLayout imageContainer;
                 Log.d("imagesssssssssss","gdhwgjhfw"+photo);
             }
             String price = response.getString("price");
-            String brand = response.getString("brand");
+            String brand = null;
+            if(response.has("brand")) {
+                brand = response.getString("brand");
+            }
             Log.d("imagesssssssssss","gdhwgjhfw"+photo);
             JSONArray specificsJson = response.getJSONArray("itemSpecifics");
             ArrayList<ProductItem.ItemSpecific> itemSpecifics = new ArrayList<>();
@@ -133,16 +139,16 @@ private LinearLayout imageContainer;
 //            loadingText.setVisibility(View.GONE);
 //        }
         Activity activity = getActivity();
-        if (activity != null) {
-            activity.runOnUiThread(() -> {
-                ProgressBar progressBar = activity.findViewById(R.id.progressBar);
-                TextView loadingText = activity.findViewById(R.id.searchProductsText);
-                if (progressBar != null && loadingText != null) {
-                    progressBar.setVisibility(View.GONE);
-                    loadingText.setVisibility(View.GONE);
-                }
-            });
-        }
+//        if (activity != null) {
+//            activity.runOnUiThread(() -> {
+//                ProgressBar progressBar = activity.findViewById(R.id.progressBar);
+//                TextView loadingText = activity.findViewById(R.id.searchProductsText);
+//                if (progressBar != null && loadingText != null) {
+//                    progressBar.setVisibility(View.GONE);
+//                    loadingText.setVisibility(View.GONE);
+//                }
+//            });
+//        }
 //        String[] photoUrls = item.getPhotos().toArray(new String[0]);
 //        ImageAdapter imageAdapter = new ImageAdapter(getContext(),photoUrls);
 //        imageViewPager.setAdapter(imageAdapter);
@@ -162,8 +168,8 @@ private LinearLayout imageContainer;
 //        }
 
 //image container swiping.......
-        if (activity != null) {
 
+//codeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
             if (activity != null) {
                 activity.runOnUiThread(() -> {
                     LinearLayout imageContainer = getView().findViewById(R.id.imageContainer);
@@ -189,9 +195,13 @@ private LinearLayout imageContainer;
                         Log.e("ProductFragment", "imageContainer is null");
                     }
                 });
+
             }
 
-        }
+
+
+
+
 
         // Set up RecyclerView for item specifics
         ItemSpecificsAdapter specificsAdapter = new ItemSpecificsAdapter(item.getItemSpecifics());
@@ -205,7 +215,9 @@ private LinearLayout imageContainer;
         TextView priceTextView2 = getView().findViewById(R.id.highlight1TextView);
         TextView brandTextView = getView().findViewById(R.id.highlight2TextView); // Make sure this ID exists in your layout
         priceTextView.setText(item.getPrice()+" "+"with"+" "+ShippingType+" "+"shipping");
-        brandTextView.setText("Brand"+"\t\t"+item.getBrand());
+        if(item.getBrand()!=null) {
+            brandTextView.setText("Brand" + "\t\t" + item.getBrand());
+        }
         priceTextView2.setText("Price"+"\t\t"+item.getPrice());
 
     }

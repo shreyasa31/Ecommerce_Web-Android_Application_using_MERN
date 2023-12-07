@@ -177,13 +177,13 @@ public class ShippingFragment extends Fragment {
                         String returnsAccepted=jsonObject.optString("returnsAccepted","N/A");
                         Item item = new Item(storeName, storeURL, feedbackScore, positiveFeedbackPercent, feedbackRatingStar, globalShipping, handlingTime, refund, returnsWithin, shippingCostPaidBy,returnsAccepted);
                         updateUI(item);
-                        Activity activity = getActivity();
-                        if (activity != null) {
-                            ProgressBar progressBar = activity.findViewById(R.id.progressBar);
-                            TextView loadingText = activity.findViewById(R.id.searchProductsText);
-                            progressBar.setVisibility(View.GONE);
-                            loadingText.setVisibility(View.GONE);
-                        }
+//                        Activity activity = getActivity();
+//                        if (activity != null) {
+//                            ProgressBar progressBar = activity.findViewById(R.id.progressBar);
+//                            TextView loadingText = activity.findViewById(R.id.searchProductsText);
+//                            progressBar.setVisibility(View.GONE);
+//                            loadingText.setVisibility(View.GONE);
+//                        }
 
                     } catch (JSONException e) {
                         e.printStackTrace();

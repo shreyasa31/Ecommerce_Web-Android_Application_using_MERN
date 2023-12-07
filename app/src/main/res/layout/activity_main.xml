@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ProductSearch"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="800dp"
     tools:context=".MainActivity">
 
     <androidx.appcompat.widget.Toolbar
@@ -94,14 +94,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Wishlist"
+
             tools:layout_editor_absoluteX="182dp"
             tools:layout_editor_absoluteY="53dp" />
     </com.google.android.material.tabs.TabLayout>
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/view_pager"
-        android:layout_width="390dp"
-        android:layout_height="589dp"
+        android:layout_width="391dp"
+        android:layout_height="640dp"
         android:layout_below="@id/tab1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -5,6 +5,7 @@ import static com.example.ebayshoppingapplictaion.SimilarItemAdapter.clearPicass
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
@@ -44,7 +45,7 @@ import org.json.JSONException;
 
 import java.util.concurrent.locks.Condition;
 
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends AppCompatActivity  {
     private TextView toolbarTitle;
     private ImageView toolbarImage;
     private TabLayout tabLayout;
@@ -54,7 +55,15 @@ public class DetailActivity extends AppCompatActivity {
     private TextView loadingText;
     private ImageButton cart;
     private boolean isInWishlist = false;
-
+    public void onContentLoaded() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+//                progressBar.setVisibility(View.GONE);
+//                loadingText.setVisibility(View.GONE);
+            }
+        });
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -191,16 +200,9 @@ public class DetailActivity extends AppCompatActivity {
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
-        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback()
-        {
-            @Override
-            public void onPageSelected(int position) {
-                super.onPageSelected(position);
-                tabLayout.getTabAt(position).select();
-                progressBar.setVisibility(View.VISIBLE);
-                loadingText.setVisibility(View.VISIBLE);
-            }
-        });
+
+//here u insert progress old code
+
         cart.setOnClickListener(new View.OnClickListener() {
 
             @Override
