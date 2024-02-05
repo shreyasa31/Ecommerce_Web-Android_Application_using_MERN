@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+
+        <Spinner
+            android:id="@+id/spinner1"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1" />
+
+
+        <Spinner
+            android:id="@+id/spinner2"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <!-- RecyclerView within FrameLayout -->
+    <FrameLayout
+        android:id="@+id/fragment_container5"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+<!--        <ProgressBar-->
+<!--            android:id="@+id/progressBar"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:visibility="gone"-->
+<!--            android:layout_gravity="center"-->
+<!--           />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/searchProductsText"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:layout_marginTop="30dp"-->
+<!--            android:text="Fetching Products..."-->
+<!--            android:textAppearance="@style/TextAppearance.AppCompat.Medium"-->
+<!--            android:textColor="@color/navy_blue"-->
+
+<!--            android:visibility="gone" />-->
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewSimilar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </FrameLayout>
+    <TextView
+        android:id="@+id/noRecordsTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="No Records"
+        android:gravity="center"
+        android:visibility="gone"
+        android:textSize="18sp"
+        android:layout_marginTop="16dp"/>
+</LinearLayout>
+

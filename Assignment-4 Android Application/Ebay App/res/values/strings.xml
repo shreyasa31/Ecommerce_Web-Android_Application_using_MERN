@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">eBay Shopping Applictaion</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="validation1">Enter a keyword</string>
+    <string-array name="spinner_items">
+        <item>All</item>
+        <item>Art</item>
+        <item>Baby</item>
+        <item>Books</item>
+        <item>Clothing,Shoes and Accessories</item>
+        <item>Computer,Tablets and Network</item>
+        <item>Health and Beauty</item>
+        <item>Music</item>
+        <item>Video,Games and Consoles</item>
+    </string-array>
+    <string-array name="spinner_items1">
+        <item>Default</item>
+        <item>Name</item>
+        <item>Price</item>
+        <item>Days</item>
+    </string-array>
+    <string-array name="spinner_items2">
+        <item>Ascending</item>
+        <item>Descending</item>
+    </string-array>
+    <string name="facebook_app_id">3245885425558259</string>
+    <string name="facebook_client_token">3hSXcAoql5tJjv3IkUFvhyOzhHQ</string>
+</resources>

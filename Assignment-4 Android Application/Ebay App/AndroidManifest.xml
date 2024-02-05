@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <uses-feature android:glEsVersion="0x00020000" android:required="true"/>
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID" tools:node="remove"/>
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.EBayShoppingApplictaion"
+        tools:targetApi="31">
+
+        <activity
+            android:name=".DetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SearchItem"
+            android:exported="false" />
+        <activity
+            android:name=".ProductResults"
+            android:exported="false" />
+        <activity
+            android:name=".SplashScreen"
+            android:theme="@style/Theme.SplashScreen"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:exported="true" />
+
+        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+        <meta-data android:name="com.facebook.sdk.ClientToken" android:value="@string/facebook_client_token"/>
+        <provider android:authorities="com.facebook.app.FacebookContentProvider3245885425558259"
+            android:name="com.facebook.FacebookContentProvider"
+            android:exported="true" />
+
+
+
+    </application>
+<!--    <queries>-->
+<!--        <provider android:authorities="com.facebook.katana.provider.PlatformProvider" /> &lt;!&ndash; allows app to access Facebook app features &ndash;&gt;-->
+<!--        <provider android:authorities="com.facebook.orca.provider.PlatformProvider" /> &lt;!&ndash; allows sharing to Messenger app &ndash;&gt;-->
+<!--    </queries>-->
+    <queries>
+        <!-- If your app opens Facebook URLs -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="https" android:host="www.facebook.com" />
+        </intent>
+        <!-- If your app interacts with the Facebook app directly -->
+        <package android:name="com.facebook.katana" />
+    </queries>
+
+</manifest>
