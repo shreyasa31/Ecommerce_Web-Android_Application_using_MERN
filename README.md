@@ -48,19 +48,19 @@ This project is a **full-stack e-commerce web and Android application** that all
 ## **Screenshots**
 ### **🔹 Web Application**
 #### **Product Search Page**
-![Search Page](images/Product Search.png)  
+![Search Page](images/ProductSearch.png)  
 
 #### **Product Listings**
-![Product Listings](images/Product Listings.png)  
+![Product Listings](images/ProductListings.png)  
 
 #### **Wishlist Management**
 ![Wishlist](images/Wishlist.png)  
 
 #### **Product Details View**
-![Product Details](images/Product Details- Seller.png)  
-![Product Details](images/Product Details- Photos.png)  
-![Product Details](images/Product Details- Shipping.png)  
-![Product Details](images/Product Details- Similar Items.png)  
+![Product Details](images/ProductDetails-Seller.png)  
+![Product Details](images/ProductDetails-Photos.png)  
+![Product Details](images/ProductDetails-Shipping.png)  
+![Product Details](images/ProductDetails-SimilarItems.png)  
 
 ---
 
