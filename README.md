@@ -57,10 +57,10 @@ This project is a **full-stack e-commerce web and Android application** that all
 ![Wishlist](images/Wishlist.png)  
 
 #### **Product Details View**
-![Product Details](images/ProductDetails-Seller.png)  
-![Product Details](images/ProductDetails-Photos.png)  
-![Product Details](images/ProductDetails-Shipping.png)  
-![Product Details](images/ProductDetails-SimilarItems.png)  
+![Product Details- Seller](images/ProductDetails-Seller.png)  
+![Product Details- Photos](images/ProductDetails-Photos.png)  
+![Product Details- Shipping](images/ProductDetails-Shipping.png)  
+![Product Details- Similar Items](images/ProductDetails-SimilarItems.png)  
 
 ---
 
